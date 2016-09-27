@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "dinnerAppPrototype",
+    "style": "scss",
+    "postcss": true
+  }
+}

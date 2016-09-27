@@ -1,0 +1,221 @@
+@import "./variable_overrides";
+@import "./../../node_modules/bootstrap/scss/bootstrap.scss";
+
+fieldset {
+  border: none;
+  margin-top: 1rem;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0 !important;
+}
+
+label {
+  margin-bottom: 0 !important;
+}
+
+.container-component {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.price-container label {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.panel-container {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.panel-component {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.geosuggest__input {
+  margin: 0.5rem auto;
+  @extend .form-control
+}
+
+.geosuggest {
+  font-size: 18px;
+  font-size: 1rem;
+  position: relative;
+}
+
+.geosuggest__input:focus {
+  border-color: #267dc0;
+  box-shadow: 0 0 0 transparent;
+}
+
+.geosuggest__suggests {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 25em;
+  padding: 0;
+  margin-top: -1px;
+  background: #fff;
+  border-top-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  list-style: none;
+  z-index: 5;
+  -webkit-transition: max-height 0.2s, border 0.2s;
+  transition: max-height 0.2s, border 0.2s;
+}
+
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+/**
+ * A geosuggest item
+ */
+.geosuggest-item {
+  font-size: 18px;
+  font-size: 1rem;
+  padding: 0.5em 0.65em;
+  cursor: pointer;
+}
+
+.geosuggest-item:focus,
+.geosuggest-item:hover {
+  background: #f5f5f5;
+}
+
+.geosuggest-item--active {
+  background: #267dc0;
+  color: #fff;
+}
+
+.geosuggest-item--active:focus,
+.geosuggest-item--active:hover {
+  background: #ccc;
+}
+
+label {
+  display: block;
+}
+/* Example Styles for React Tags*/
+div.ReactTags__tags {
+  position: relative;
+}
+/* Styles for the input */
+div.ReactTags__tagInput input {
+  @extend .form-control;
+  margin: 0.5rem auto;
+}
+/* Styles for selected tags */
+div.ReactTags__selected span.ReactTags__tag {
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px 5px 0;
+  border: 1px solid $gray-lighter;
+  background: $gray-lightest;
+}
+
+div.ReactTags__selected a.ReactTags__remove {
+  color: $gray-light;
+  margin-left: 5px;
+  cursor: pointer;
+}
+/* Styles for suggestions */
+div.ReactTags__suggestions {
+  position: absolute;
+  z-index: 1;
+}
+
+div.ReactTags__suggestions ul {
+  list-style-type: none;
+  box-shadow: 0.05em 0.01em 0.5em rgba(0,0,0,.2);
+  background: white;
+  width: 200px;
+  padding-left: 0;
+}
+
+div.ReactTags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0;
+}
+
+div.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+
+div.ReactTags__suggestions ul li.active {
+  background: #b7cfe0;
+  cursor: pointer;
+}
+
+.results-container {
+  display: flex;
+  padding-top: 20px,;
+}
+
+.results-container > * {
+  width: 50%;
+}
+
+.resultsmap-component .map {
+  height: 500px;
+  width: 500px;
+}
+
+.resultslist-component {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.map-tooltip__header {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.start-form {
+  max-width: 400px;
+  margin: 18vh auto;
+  width: 100%;
+  text-align: center;
+}
+
+.start-form .btn-group > .btn {
+  width: 50%;
+}
+
+.start-form > div {
+  margin-bottom: 2.2rem;
+  width: 100%;
+}
+
+.start-form h2 {
+  margin-bottom: 1rem;
+}
+
+footer {
+  text-align: right;
+}
+
+.btn.secondary-darker {
+  @include button-variant($btn-secondary-color, darken($btn-secondary-bg, 7%), darken($btn-secondary-border, 7%));
+}
+
+.home-link {
+  color : $body-color;
+  padding: 1.5rem;
+}
+
+.home-link h1 {
+  font-size: 1rem;
+}

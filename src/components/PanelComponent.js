@@ -6,9 +6,6 @@ import {WithContext as ReactTags} from 'react-tag-input';
 import Geosuggest from 'react-geosuggest';
 import _ from 'lodash';
 
-var yelpNames = YelpCategories.map(function(d) {
-  return d.title;
-});
 
 class PanelComponent extends React.Component {
   constructor() {
@@ -79,7 +76,7 @@ class PanelComponent extends React.Component {
             price = _.without(price, num);
           }
           this.props.updatePreferences({price: _.uniq(price)});
-        }}/>{'$'.repeat(num)}</label>
+        }}/>&nbsp;{'$'.repeat(num)}</label>
     });
   }
 
@@ -117,6 +114,22 @@ class PanelComponent extends React.Component {
   }
 
   render() {
+
+    //show only restaurants or bars in autocomplete
+    var yelpNames = YelpCategories.filter(function(d) {
+      if (this.props.meal === 'Dinner'){
+          return (d.parents.indexOf('restaurants') > -1)
+      } else if (this.props.meal === 'Drinks'){
+        return (d.parents.indexOf('bars') > -1)
+      } else {
+        console.error('I cant handle this meal name : ', this.props.meal);
+      }
+    }, this).map(function(d){
+        return d.title;
+    });
+
+    var yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine'
+
     return (
       <div className='panel-component'>
         <h2 style={{
@@ -126,36 +139,6 @@ class PanelComponent extends React.Component {
         </h2>
         <hr/>
         <form action=''>
-          <fieldset>
-            <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
-            <span className='price-container'>
-              {this.renderPriceOptions()}
-            </span>
-          </fieldset>
-          <fieldset className="cuisine-yes">
-            <legend>I'm hungry for: </legend>
-              <ReactTags
-                tags={this.props.data.cuisine.yes}
-                suggestions={yelpNames}
-                minQueryLength={1}
-                handleDelete={this.handleDelete.bind(this, 'yes')}
-                handleAddition={this.handleAddition.bind(this, 'yes')}
-                placeholder='Add a cuisine'
-                inputTop={true}
-                />
-          </fieldset>
-          <fieldset className="cuisine-no">
-            <legend>I don't want:</legend>
-              <ReactTags
-                tags={this.props.data.cuisine.no}
-                suggestions={yelpNames}
-                minQueryLength={1}
-                handleDelete={this.handleDelete.bind(this, 'no')}
-                handleAddition={this.handleAddition.bind(this, 'no')}
-                placeholder='Add a cuisine'
-                inputTop={true}
-                />
-          </fieldset>
           <fieldset>
             <legend>I'm coming from:</legend>
               <Geosuggest
@@ -167,7 +150,38 @@ class PanelComponent extends React.Component {
               {this.renderTransportOptions('from')}
             </div>
           </fieldset>
-
+          <fieldset>
+            <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
+            <span className='price-container'>
+              {this.renderPriceOptions()}
+            </span>
+          </fieldset>
+          <fieldset className="cuisine-yes">
+            <legend>
+              {this.props.meal === 'Drinks' ? 'I\'m thirsty for:' : 'I\'m hungry for:'}
+            </legend>
+              <ReactTags
+                tags={this.props.data.cuisine.yes}
+                suggestions={yelpNames}
+                minQueryLength={1}
+                handleDelete={this.handleDelete.bind(this, 'yes')}
+                handleAddition={this.handleAddition.bind(this, 'yes')}
+                placeholder={yelpPlaceholder}
+                inputTop={true}
+                />
+          </fieldset>
+          <fieldset className="cuisine-no">
+            <legend>I don't want:</legend>
+              <ReactTags
+                tags={this.props.data.cuisine.no}
+                suggestions={yelpNames}
+                minQueryLength={1}
+                handleDelete={this.handleDelete.bind(this, 'no')}
+                handleAddition={this.handleAddition.bind(this, 'no')}
+                placeholder={yelpPlaceholder}
+                inputTop={true}
+                />
+          </fieldset>
         </form>
       </div>
     );

@@ -7,17 +7,25 @@ class ResultsListComponent extends React.Component {
 
   renderListItem(l, i) {
     return (
-      <li>
+      <li className="clearfix">
         <div>
+          <div className="pull-left" style={{marginRight: '1rem', width: '90px', height: '90px'}}>
+            { l.image_url ?
+              <img src={l.image_url.replace('/o.jpg', '/90s.jpg')}
+                alt="an image for this establishment"
+                className="img-rounded"
+                /> : ''
+            }
+          </div>
           <b>
-            <a href={l.url} target="_blank">{l.name}</a>
+            <a href={l.url} target="_blank">{i + 1}.&nbsp;{l.name}</a>
           </b>
         </div>
         <div>
           {l.price}&nbsp;&nbsp;<RatingComponent rating = {l.rating}/>
         </div>
         <div>
-          total travel minutes: { l.time.total }
+          total travel: <b>{ l.time.total } minutes</b>
         </div>
         <div>{
             l.categories.map(function(c, i) {
@@ -41,8 +49,8 @@ class ResultsListComponent extends React.Component {
       return (
         <ol className="resultslist-component">
           {
-            this.props.data.map(function(l) {
-            return this.renderListItem(l)
+            this.props.data.map(function(l, i) {
+            return this.renderListItem(l, i)
           }, this)
         }
         </ol>
@@ -50,8 +58,6 @@ class ResultsListComponent extends React.Component {
     }
   }
 }
-
-ResultsListComponent.displayName = 'ResultsListComponent';
 
 // Uncomment properties you need
 // ResultsListComponent.propTypes = {};

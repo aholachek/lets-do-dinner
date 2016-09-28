@@ -2,19 +2,48 @@
 
 import React from 'react';
 import _ from 'lodash';
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { reset } from 'actions/index'
 
+function mapStateToProps(state){
+  return {
+    meal : state.meal
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    resetAppData : function(){
+      dispatch(reset());
+    }
+  }
+}
 
 class ContainerComponent extends React.Component {
 
+  //take care of clearing out the state every time someone navigate to home
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname === '/' &&
+        this.props.location.pathname !== '/'
+   ){
+      this.props.resetAppData();
+    }
+  }
 
   render() {
     return (
       <div className="container-component">
-        <div><a href="/" className="home-link">
-          <h1>
-            <i className="fa fa-cutlery text-primary"/>&nbsp;&nbsp;Let's Do Dinner
-          </h1>
-        </a>
+        <div>
+            <Link to="/" className="home-link">
+            <h1>
+              <i className={this.props.meal === 'Dinner' ?
+                "fa fa-cutlery text-primary" :
+                "fa fa-glass text-primary"
+              }/>
+              &nbsp;&nbsp;{'Let\'s Do ' + this.props.meal}
+            </h1>
+          </Link>
         </div>
         {this.props.children}
         <footer className="footer">
@@ -28,10 +57,11 @@ class ContainerComponent extends React.Component {
   }
 }
 
-ContainerComponent.displayName = 'ContainerComponent';
-
 // Uncomment properties you need
 // ContainerComponent.propTypes = {};
 // ContainerComponent.defaultProps = {};
 
-export default ContainerComponent;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContainerComponent);

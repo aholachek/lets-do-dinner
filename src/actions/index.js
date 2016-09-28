@@ -1,9 +1,17 @@
 import { hashHistory } from 'react-router'
+import config from 'config';
+
 
 export function updateMeal(meal) {
   return {
     type: 'UPDATE_MEAL',
     meal
+  }
+}
+
+export function reset() {
+  return {
+    type: 'RESET'
   }
 }
 
@@ -61,17 +69,26 @@ export function fetchMatches() {
     });
 
     //remove ui information
-    state.preferences = _.forEach(state.preferences, function(v,k){
-      v.cuisine.yes = v.cuisine.yes.map((obj)=> obj.id);
-      v.cuisine.no = v.cuisine.no.map((obj)=> obj.id);
+    state.preferences.forEach(function(p){
+      p.cuisine.yes = p.cuisine.yes.map((obj)=> obj.id);
+      p.cuisine.no = p.cuisine.no.map((obj)=> obj.id);
     });
+
+    //use a better search term
+    if (state.meal === 'Drinks') {
+      state.meal = 'Bars';
+      //not sure why this is necessary but yelp api is returning non-bar results
+      state.preferences.forEach(function(p){
+        p.cuisine.yes.push('bars')
+      });
+    }
 
     const dataObj = {
       term : state.meal,
       userData : state.preferences
     }
 
-    fetch('http://localhost:4000', {
+    fetch(config.api_endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -90,6 +107,8 @@ export function fetchMatches() {
       dispatch(receiveMatches(data));
       //navigate to matches page
       hashHistory.push('results');
+    }).catch(()=>{
+      hashHistory.push('error');
     });
 
   }

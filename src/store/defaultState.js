@@ -5,16 +5,8 @@ const defaultPreferences =  { price: [
   ],
   cuisine: {
     yes: [
-      {
-        id: 'tradamerican',
-        text: 'American'
-      }
     ],
     no: [
-      {
-        id: 'pizza',
-        text: 'pizza'
-      }
     ]
   },
   locations: {
@@ -35,9 +27,9 @@ const defaultState = {
 
 visibleUsers : 2,
 
-preferences : {},
+preferences : [],
 
-//one of Dinner/Drinks/Brunch
+//one of Dinner/Drinks
 meal : 'Dinner',
 
 matches : {
@@ -46,11 +38,12 @@ matches : {
   data : []
 },
 
-
 }
 
 _.range(1,6).forEach(function(num){
-  defaultState.preferences['Person ' + num] = _.cloneDeep(defaultPreferences);
+  defaultState.preferences.push(
+  Object.assign({}, _.cloneDeep(defaultPreferences), { userId : 'Person ' + num })
+  )
 });
 
 

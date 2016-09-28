@@ -11,7 +11,9 @@ function mapStateToProps(state){
   return {
     preferences : state.preferences,
     visibleUsers : state.visibleUsers,
-    requestState : state.matches.requestState
+    requestState : state.matches.requestState,
+    //dinner or drinks
+    meal : state.meal
   }
 
 }
@@ -34,14 +36,16 @@ class PreferencesContainerComponent extends React.Component {
       <div className="preferencescontainer-component">
         <div className="panel-container">
           {
-            _.map(this.props.preferences, function(v,k){
-              var num = parseInt(k.split(' ')[1]);
+            this.props.preferences.map(function(obj){
+              var name = obj.userId;
+              var num = parseInt(name.split(' ')[1]);
               if (num <= this.props.visibleUsers){
                 return <PreferencesPanel
-                  key={k + '-preferencepanel'}
-                  userId = { k }
-                  data = {v}
-                  updatePreferences = {_.partial(this.props.updatePreferences, k)}
+                  key={name + '-preferencepanel'}
+                  userId = { name }
+                  data = {obj }
+                  meal = { this.props.meal }
+                  updatePreferences = {_.partial(this.props.updatePreferences, name)}
                   />
               } else {
                 return ''
@@ -55,10 +59,10 @@ class PreferencesContainerComponent extends React.Component {
             style={{display: 'block', margin : 'auto'}}
             onClick={this.props.fetchMatches}
             >
-            <i className={ this.props.requestState ?
+            <i className={ this.props.requestState === 'loading'?
                 "fa fa-refresh fa-spin" :
                 "fa fa-search" }/>&nbsp;
-             Find Restaurants
+             Find {this.props.meal === 'Dinner' ? 'Restaurants' : 'Bars'}
           </button>
         </div>
       </div>

@@ -16,7 +16,7 @@ var iconDict = {
 }
 
 //template for map tooltip
-function Tooltip(props) {
+function EstablishmentTooltip(props) {
   return <div>
     <div><span className="map-tooltip__header">{props.name}</span></div>
     <div>{_.map(props.time.individual, function(v,k){
@@ -28,6 +28,15 @@ function Tooltip(props) {
            minutes</div>
       })}</div>
   </div>;
+}
+
+function PersonTooltip(props) {
+  return <div>
+    <div><span className="map-tooltip__header">{props.userId}</span></div>
+    <div>
+    <i className={iconDict[props.locations.to.mode]} /> {props.locations.to.mode}
+    </div>
+  </div>
 }
 
 
@@ -45,16 +54,18 @@ class ResultsMapComponent extends React.Component {
 
     var bounds = new google.maps.LatLngBounds();
 
-    _.forEach(newProps.userData, function(v, k){
+    newProps.userData.forEach(function(d){
 
       var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(v.locations.from.latitude, v.locations.from.longitude),
+          position: new google.maps.LatLng(d.locations.from.latitude, d.locations.from.longitude),
           map: map,
           icon: userIcon,
       });
 
+      var contentString = ReactDOMServer.renderToString(PersonTooltip(d));
+
       var infowindow = new google.maps.InfoWindow({
-            content: k
+            content: contentString
           });
 
       marker.addListener('mouseover', function() {
@@ -77,7 +88,7 @@ class ResultsMapComponent extends React.Component {
         label : (i + 1) + '',
     });
 
-    var contentString = ReactDOMServer.renderToString(Tooltip(d));
+    var contentString = ReactDOMServer.renderToString(EstablishmentTooltip(d));
 
     var infowindow = new google.maps.InfoWindow({
           content: contentString

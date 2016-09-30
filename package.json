@@ -79,7 +79,7 @@
     "react-geosuggest": "^1.25.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "react-tag-input": "https://github.com/aholachek/react-tags#14634cfa8ac8de50bef00aa42a6c19d36c57c3b9",
+    "react-tag-input": "https://github.com/aholachek/react-tags#252b3d6041c13d23647367291367b3115bce15c3",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "whatwg-fetch": "^1.0.0"

@@ -49,7 +49,7 @@ class ContainerComponent extends React.Component {
         <footer className="footer">
             <hr/>
             <span className="text-muted"> A work in progress by&nbsp;
-              <a href="https://github.com/aholachek">Alex Holachek</a>
+              <a href="https://github.com/aholachek" target="_blank">Alex Holachek</a>
             .</span>
       </footer>
       </div>

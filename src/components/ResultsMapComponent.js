@@ -19,12 +19,12 @@ var iconDict = {
 function EstablishmentTooltip(props) {
   return <div>
     <div><span className="map-tooltip__header">{props.name}</span></div>
-    <div>{_.map(props.time.individual, function(v,k){
+    <div>{_.map(props.time.origins, function(v,k){
         return <div>
           <b>{k}</b>:&nbsp;&nbsp;
           <i className={iconDict[v.mode]} />
           &nbsp;&nbsp;
-          <b>{v.time}</b>&nbsp;
+          <b>{Math.ceil(v/60)}</b>&nbsp;
            minutes</div>
       })}</div>
   </div>;

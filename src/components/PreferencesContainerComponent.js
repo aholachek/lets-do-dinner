@@ -31,7 +31,14 @@ function mapDispatchToProps(dispatch){
 
 
 class PreferencesContainerComponent extends React.Component {
+
   render() {
+    //disable submit until all visible users have a location
+    var btnClass = "btn btn-primary";
+    const incomplete = this.props.preferences.slice(0, this.props.visibleUsers).filter(function(u){
+      return u.locations.from.latitude === undefined
+    }).length > 0;
+    if (incomplete) btnClass += " disabled";
     return (
       <div className="preferencescontainer-component">
         <div className="panel-container">
@@ -55,9 +62,11 @@ class PreferencesContainerComponent extends React.Component {
         </div>
         <div>
           <button
-            className="btn btn-primary"
+            className={btnClass}
             style={{display: 'block', margin : 'auto'}}
-            onClick={this.props.fetchMatches}
+            onClick={function(){
+              if (!incomplete) this.props.fetchMatches()
+            }.bind(this)}
             >
             <i className={ this.props.requestState === 'loading'?
                 "fa fa-refresh fa-spin" :

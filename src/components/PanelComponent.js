@@ -140,17 +140,6 @@ class PanelComponent extends React.Component {
         <hr/>
         <form action=''>
           <fieldset>
-            <legend>I'm coming from:</legend>
-              <Geosuggest
-                country='us'
-                placeholder='Select a location'
-                onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
-                />
-            <div className='form-check'>
-              {this.renderTransportOptions('from')}
-            </div>
-          </fieldset>
-          <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
             <span className='price-container'>
               {this.renderPriceOptions()}
@@ -181,6 +170,17 @@ class PanelComponent extends React.Component {
                 placeholder={yelpPlaceholder}
                 inputTop={true}
                 />
+          </fieldset>
+          <fieldset>
+            <legend>I'm coming from:</legend>
+              <Geosuggest
+                country='us'
+                placeholder='Select a location'
+                onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
+                />
+            <div className='form-check'>
+              {this.renderTransportOptions('from')}
+            </div>
           </fieldset>
         </form>
       </div>

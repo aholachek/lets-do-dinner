@@ -25,7 +25,7 @@ class ResultsListComponent extends React.Component {
           {l.price}&nbsp;&nbsp;<RatingComponent rating = {l.rating}/>
         </div>
         <div>
-          total travel: <b>{ l.time.total } minutes</b>
+          total travel: <b>{ Math.ceil(l.time.total/60) } minutes</b>
         </div>
         <div>{
             l.categories.map(function(c, i) {

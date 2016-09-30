@@ -5,7 +5,7 @@ import baseConfig from './base';
 
 let config = {
   appEnv: 'dist', // feel free to remove the appEnv property here
-  api_endpoint : 'http://localhost:4000'
+  api_endpoint : 'http://lets-do-dinner.herokuapp.com'
 
 };
 

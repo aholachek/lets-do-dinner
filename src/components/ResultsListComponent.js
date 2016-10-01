@@ -2,6 +2,14 @@
 
 import React from 'react';
 import RatingComponent from 'components/RatingComponent';
+import _ from 'lodash';
+
+var iconDict = {
+  transit: 'fa fa-fw fa-subway',
+  driving: 'fa fa-fw fa-car',
+  bicycling: 'fa fa-fw fa-bicycle',
+  walking: 'fa fa-fw fa-male'
+};
 
 class ResultsListComponent extends React.Component {
 
@@ -25,7 +33,16 @@ class ResultsListComponent extends React.Component {
           {l.price}&nbsp;&nbsp;<RatingComponent rating = {l.rating}/>
         </div>
         <div>
-          total travel: <b>{ Math.ceil(l.time.total/60) } minutes</b>
+          {_.map(l.time.origins, function(v,k){
+            var mode = _.findWhere(this.props.userData, { userId : k}).locations.from.mode;
+              return <div>
+                {k}:&nbsp;&nbsp;
+                <i className={iconDict[mode]} />
+                &nbsp;&nbsp;
+                {Math.ceil(v/60)} minutes
+              </div>
+             }, this)
+           }
         </div>
         <div>{
             l.categories.map(function(c, i) {

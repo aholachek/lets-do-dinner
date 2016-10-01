@@ -3,9 +3,18 @@ import config from 'config';
 
 
 export function updateMeal(meal) {
-  return {
-    type: 'UPDATE_MEAL',
-    meal
+  return function(dispatch, getState){
+    
+    const cachedVis = getState().visibleUsers;
+
+    //hack
+    dispatch(reset());
+
+    dispatch({
+      type: 'UPDATE_MEAL',
+      meal
+    });
+   dispatch(updateVisible(cachedVis))
   }
 }
 

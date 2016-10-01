@@ -21,9 +21,8 @@ outline: 2px dotted fade-out($brand-primary, .5) !important;
 }
 
 mark {
-  padding : .1rem;
+  padding : 0;
 }
-
 
 .container-component {
   max-width: 1100px;
@@ -67,7 +66,7 @@ mark {
   right: 0;
   max-height: 25em;
   padding: 0;
-  margin-top: -1px;
+  margin-top: 8px;
   background: #fff;
   border-top-width: 0;
   overflow-x: hidden;
@@ -76,6 +75,7 @@ mark {
   z-index: 5;
   -webkit-transition: max-height 0.2s, border 0.2s;
   transition: max-height 0.2s, border 0.2s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .geosuggest__suggests--hidden {
@@ -154,7 +154,6 @@ div.ReactTags__suggestions ul {
 }
 
 div.ReactTags__suggestions li {
-  border-bottom: 1px solid #ddd;
   padding: 5px 10px;
   margin: 0;
 }
@@ -166,7 +165,7 @@ div.ReactTags__suggestions li mark {
 }
 
 div.ReactTags__suggestions ul li.active {
-  background: fade-out($brand-primary, .9);
+  background: $gray-lightest;
   cursor: pointer;
 }
 
@@ -180,7 +179,7 @@ div.ReactTags__suggestions ul li.active {
 
 .resultsmap-component .map {
   height: 500px;
-  width: 500px;
+  width: 100%;
 }
 
 .resultslist-component {
@@ -242,5 +241,5 @@ footer {
 }
 
 .results-ranking {
-  padding: 1.5rem 0;
+  padding: 0 0 1.5rem 0;
 }

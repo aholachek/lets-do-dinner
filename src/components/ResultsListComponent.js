@@ -46,14 +46,17 @@ class ResultsListComponent extends React.Component {
     if (!this.props.data) {
       return (<p>Submit 2 or more user preference profiles to see recommendations</p>)
     } else {
+
       return (
-        <ol className="resultslist-component">
-          {
-            this.props.data.map(function(l, i) {
-            return this.renderListItem(l, i)
-          }, this)
-        }
-        </ol>
+        <div>
+          <ol className="resultslist-component">
+            {
+              this.props.data.map(function(l, i) {
+              return this.renderListItem(l, i)
+            }, this)
+          }
+          </ol>
+        </div>
       );
     }
   }

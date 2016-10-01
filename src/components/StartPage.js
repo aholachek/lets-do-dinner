@@ -62,7 +62,6 @@ class StartPage extends React.Component {
     }, this)
   }
 
-
   renderMealType(){
     var iconDict = {
       Dinner : 'fa fa-cutlery',

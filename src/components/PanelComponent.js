@@ -8,12 +8,15 @@ import _ from 'lodash';
 
 
 class PanelComponent extends React.Component {
+
   constructor() {
     super();
 
     this.getFormValues = this.getFormValues.bind(this);
     this.renderPriceOptions = this.renderPriceOptions.bind(this);
     this.renderTransportOptions = this.renderTransportOptions.bind(this);
+
+    this.placeDict = {};
   }
 
   handleDelete(arr, i) {
@@ -40,6 +43,7 @@ class PanelComponent extends React.Component {
     var locations = this.props.data.locations;
     locations[direction].latitude = data.location.lat;
     locations[direction].longitude = data.location.lng;
+    locations[direction].label = data.label;
     this.props.updatePreferences({locations: locations});
   }
 
@@ -113,6 +117,17 @@ class PanelComponent extends React.Component {
     });
   }
 
+  componentDidMount(){
+    //focus the location input IF this is for person 1
+    //doesnt work without a setTimeout
+    if (this.props.userId === 'Person 1') {
+      var that = this;
+      setTimeout(function(){
+        that.comingFrom.focus();
+      }, 100);
+    }
+  }
+
   render() {
 
     //show only restaurants or bars in autocomplete
@@ -128,7 +143,9 @@ class PanelComponent extends React.Component {
         return d.title;
     });
 
-    var yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine'
+    var yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine';
+
+    const geoValue = this.props.data.locations.from.label;
 
     return (
       <div className='panel-component'>
@@ -179,6 +196,8 @@ class PanelComponent extends React.Component {
                 country='us'
                 placeholder='Select a location'
                 onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
+                ref={ (d)=> this.comingFrom = d }
+                initialValue={geoValue}
                 />
             <div className='form-check'>
               {this.renderTransportOptions('from')}

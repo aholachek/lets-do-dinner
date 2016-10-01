@@ -4,7 +4,6 @@ import React from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { reset } from 'actions/index'
 
 function mapStateToProps(state){
   return {
@@ -12,24 +11,7 @@ function mapStateToProps(state){
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return {
-    resetAppData : function(){
-      dispatch(reset());
-    }
-  }
-}
-
 class ContainerComponent extends React.Component {
-
-  //take care of clearing out the state every time someone navigate to home
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname === '/' &&
-        this.props.location.pathname !== '/'
-   ){
-      this.props.resetAppData();
-    }
-  }
 
   render() {
     return (
@@ -62,6 +44,5 @@ class ContainerComponent extends React.Component {
 // ContainerComponent.defaultProps = {};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(ContainerComponent);

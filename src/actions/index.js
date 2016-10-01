@@ -55,6 +55,29 @@ export function matchesFailed() {
 
 }
 
+//how much does each restaurant match users' preferences?
+function addPreferenceScores( matches, preferences ){
+
+  var preferenceDict = _.countBy(
+    _.flatten(preferences.map(function(p){
+      return p.cuisine.yes.map(function(p){
+        return p.id;
+      })
+    })
+  )
+);
+
+matches.forEach(function(m){
+  var categories = m.categories.map(function(c){ return c.alias });
+  var score = _.sum(categories.map(function(c){
+    if (preferenceDict[c]) return preferenceDict[c];
+    else return 0
+  }));
+  m.preferenceScore = score;
+});
+
+}
+
 export function fetchMatches() {
 
   return function(dispatch, getState) {
@@ -103,6 +126,8 @@ export function fetchMatches() {
         throw new Error()
       }
     }).then((data)=> {
+
+      addPreferenceScores(data, getState().preferences);
 
       dispatch(receiveMatches(data));
       //navigate to matches page

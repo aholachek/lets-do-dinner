@@ -13,12 +13,15 @@ const defaultPreferences =  { price: [
     from: {
       mode: 'transit',
       latitude: undefined,
-      longitude: undefined
+      longitude: undefined,
+      //just for autocomplete
+      label : undefined
     },
     to: {
       mode: 'transit',
       latitude: undefined,
-      longitude: undefined
+      longitude: undefined,
+      label : undefined
     }
   }
 };

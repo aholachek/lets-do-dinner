@@ -23,7 +23,7 @@ class MatchesContainerComponent extends React.Component {
     super();
     this.state = {
       //one of 'preferences'/'location'
-      sort : location
+      sort : preference
     }
     this.renderFilterButtons = this.renderFilterButtons.bind(this);
   }
@@ -60,7 +60,7 @@ class MatchesContainerComponent extends React.Component {
       } else if (this.state.sort === preference ){
         return -m.preferenceScore;
       }
-    }, this).slice(0,9);
+    }, this);
 
     return  (
       <div className="matchescontainer-component">
@@ -78,7 +78,7 @@ class MatchesContainerComponent extends React.Component {
                 data={recordsToShow}
                 userData={this.props.preferences} />
               <ResultsMap
-                data={recordsToShow}
+                data={recordsToShow.slice(0,9)}
                 userData={this.props.preferences} />
           </div>
     </div>

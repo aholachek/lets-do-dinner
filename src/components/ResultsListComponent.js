@@ -49,7 +49,7 @@ class ResultsListComponent extends React.Component {
 
   renderListItem(l, i) {
     return (
-      <li className="clearfix">
+      <li className="clearfix" key={ 'result-list-item-' + i}>
         <div style={{display: 'flex'}}>
           <div style={{marginRight: '1rem', width: '90px', height: '90px'}}>
             { l.image_url ?

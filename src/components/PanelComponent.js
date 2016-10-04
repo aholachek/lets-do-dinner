@@ -68,7 +68,7 @@ class PanelComponent extends React.Component {
   renderPriceOptions() {
     var price = this.props.data.price;
     return _.range(1, 5).map((num) => {
-      return <label>
+      return <label key={'price-indicator-' + num}>
         <input type='checkbox'
           name='price'
           value={num}

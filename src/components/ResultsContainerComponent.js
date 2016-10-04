@@ -56,7 +56,7 @@ class MatchesContainerComponent extends React.Component {
 
     var recordsToShow = _.sortBy(this.props.matches,function(m){
       if (this.state.sort === location){
-        return m.time.total;
+        return -m.time.score;
       } else if (this.state.sort === preference ){
         return -m.preferenceScore;
       }

@@ -18,7 +18,7 @@
     "start": "node server.js --env=dev",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
-    "deploy" : "npm run dist && cp lets-do-dinner/ ~/desktop/aholachek.github.io/projects/lets-do-dinner"
+    "deploy": "npm run dist && cp lets-do-dinner/ ~/desktop/aholachek.github.io/projects/lets-do-dinner"
   },
   "repository": "",
   "keywords": [],
@@ -82,6 +82,7 @@
     "react-tag-input": "https://github.com/aholachek/react-tags#252b3d6041c13d23647367291367b3115bce15c3",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
+    "velocity-react": "^1.1.6",
     "whatwg-fetch": "^1.0.0"
   }
 }

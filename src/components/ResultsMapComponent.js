@@ -1,13 +1,14 @@
 'use strict';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/dist/react-dom-server';
-import _ from 'lodash';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import ReactDOMServer from 'react-dom/dist/react-dom-server'
+import _ from 'lodash'
+import mapStyles from 'data/map_styles.json'
 
-import userIcon from './../images/user.png';
+import userIcon from './../images/user.png'
 
-var iconDict = {
+let iconDict = {
   transit: 'fa fa-fw fa-subway',
   driving: 'fa fa-fw fa-car',
   bicycling: 'fa fa-fw fa-bicycle',
@@ -43,188 +44,48 @@ function PersonTooltip(props) {
 
 class ResultsMapComponent extends React.Component {
 
-  componentWillReceiveProps(newProps) {
+  componentDidMount() {
+    //cope with velocity transitiongroup enter animation
+    // wait until animation is complete
+    //very brittle
+    var that = this;
+    let callMapFunc = function(){
+      this.buildMap.call(this, this.props);
+    }.bind(this);
+    setTimeout(callMapFunc, 500);
+  }
 
+  componentWillReceiveProps(newProps) {
     if (!newProps || !newProps.data || newProps === this.props)
       return;
 
-    var mapDiv = ReactDOM.findDOMNode(this).querySelector('.map');
-    var map = new google.maps.Map(mapDiv, {
-      styles: [
-        {
-          "featureType": "water",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#d3d3d3"
-            }
-          ]
-        }, {
-          "featureType": "transit",
-          "stylers": [
-            {
-              "color": "#808080"
-            }, {
-              "visibility": "off"
-            }
-          ]
-        }, {
-          "featureType": "road.highway",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "visibility": "on"
-            }, {
-              "color": "#b3b3b3"
-            }
-          ]
-        }, {
-          "featureType": "road.highway",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        }, {
-          "featureType": "road.local",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "visibility": "on"
-            }, {
-              "color": "#ffffff"
-            }, {
-              "weight": 1.8
-            }
-          ]
-        }, {
-          "featureType": "road.local",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#d7d7d7"
-            }
-          ]
-        }, {
-          "featureType": "poi",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "visibility": "on"
-            }, {
-              "color": "#ebebeb"
-            }
-          ]
-        }, {
-          "featureType": "administrative",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#a7a7a7"
-            }
-          ]
-        }, {
-          "featureType": "road.arterial",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        }, {
-          "featureType": "road.arterial",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#ffffff"
-            }
-          ]
-        }, {
-          "featureType": "landscape",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "visibility": "on"
-            }, {
-              "color": "#efefef"
-            }
-          ]
-        }, {
-          "featureType": "road",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#696969"
-            }
-          ]
-        }, {
-          "featureType": "administrative",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "visibility": "on"
-            }, {
-              "color": "#737373"
-            }
-          ]
-        }, {
-          "featureType": "poi",
-          "elementType": "labels.icon",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        }, {
-          "featureType": "poi",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        }, {
-          "featureType": "road.arterial",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#d6d6d6"
-            }
-          ]
-        }, {
-          "featureType": "road",
-          "elementType": "labels.icon",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        }, {}, {
-          "featureType": "poi",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#dadada"
-            }
-          ]
-        }
-      ]
+    this.buildMap.call(this, newProps);
+  }
+
+  buildMap(props) {
+    let mapDiv = ReactDOM.findDOMNode(this).querySelector('.map');
+    let map = new google.maps.Map(mapDiv, {
+      styles: mapStyles
     });
 
-    var bounds = new google.maps.LatLngBounds();
+    let bounds = new google.maps.LatLngBounds();
 
-    newProps.userData.forEach(function(d) {
+    props.userData.forEach(function(d) {
 
-      var marker = new google.maps.Marker({
+      //might be a person with no data (bc only 2 people were selected e.g.)
+      if (!d.locations.from.latitude || !d.locations.from.longitude) {
+        return;
+      }
+
+      let marker = new google.maps.Marker({
         position: new google.maps.LatLng(d.locations.from.latitude, d.locations.from.longitude),
         map: map,
         icon: userIcon
       });
 
-      var contentString = ReactDOMServer.renderToString(PersonTooltip(d));
+      let contentString = ReactDOMServer.renderToString(PersonTooltip(d));
 
-      var infowindow = new google.maps.InfoWindow({content: contentString});
+      let infowindow = new google.maps.InfoWindow({content: contentString});
 
       marker.addListener('mouseover', function() {
         infowindow.open(map, marker);
@@ -238,20 +99,23 @@ class ResultsMapComponent extends React.Component {
 
     });
 
-    newProps.data.forEach(function(d, i) {
+    props.data.forEach(function(d, i) {
 
       //there is some kind of unknown bug messing with fitbounds very occasionally
-      if (!d.coordinates.latitude || !d.coordinates.longitude) return;
+      if (!d.coordinates.latitude || !d.coordinates.longitude) {
+        console.error("missing location data for ", d);
+        return;
+      }
 
-      var marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: new google.maps.LatLng(d.coordinates.latitude, d.coordinates.longitude),
         map: map,
         label: (i + 1) + ''
       });
 
-      var contentString = ReactDOMServer.renderToString(EstablishmentTooltip(d));
+      let contentString = ReactDOMServer.renderToString(EstablishmentTooltip(d));
 
-      var infowindow = new google.maps.InfoWindow({content: contentString});
+      let infowindow = new google.maps.InfoWindow({content: contentString});
 
       marker.addListener('mouseover', function() {
         infowindow.open(map, marker);

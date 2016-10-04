@@ -65,7 +65,7 @@ class MatchesContainerComponent extends React.Component {
     return  (
       <div className="matchescontainer-component">
         <h2>Suggestions</h2>
-        <p>Ranked by distance, user preferences, and Yelp star rating</p>
+        <p>Ranked by travel time, preferences, and Yelp star rating</p>
         <hr/>
           <div className="results-ranking">
               <span>Rank matches by:&nbsp;&nbsp;</span>

@@ -5,7 +5,7 @@ import config from 'config';
 
 export function updateMeal(meal) {
   return function(dispatch, getState) {
-
+    
     const cachedVis = getState().visibleUsers;
     //hack
     dispatch(reset());
@@ -108,7 +108,7 @@ export function fetchMatches() {
       } else {
         console.error("request failed", response);
         dispatch(matchesFailed());
-        throw new Error()
+        throw new Error();
       }
     }).then((data) => {
       dispatch(receiveMatches(data));

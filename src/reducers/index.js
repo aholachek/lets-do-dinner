@@ -15,10 +15,7 @@ var appReducer = combineReducers({
   matches
 });
 
-
 export default (state, action) => {
-  if (action.type === 'RESET') {
-    state = _.cloneDeep(defaultState);
-  }
+  if (action.type === 'RESET')   state = _.cloneDeep(defaultState);
   return appReducer(state, action);
 }

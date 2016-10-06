@@ -25,6 +25,11 @@ mark {
   padding: 0;
 }
 
+
+.weight-300 {
+  font-weight: 300 !important;
+}
+
 .responsive-flex {
   display: block;
   @media(min-width:$sm-bp) {

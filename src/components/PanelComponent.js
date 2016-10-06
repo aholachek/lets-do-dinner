@@ -35,7 +35,12 @@ class PanelComponent extends React.Component {
         id: id,
         text: val
       }
-    ])
+    ]);
+    //remove from no if added to yes and vice versa
+    var otherArr = arr === 'yes' ? 'no' : 'yes';
+    cuisine[otherArr] = cuisine[otherArr].filter((c)=>{
+      return c.id !== id;
+    });
     this.props.updatePreferences({cuisine: cuisine});
   }
 
@@ -194,7 +199,7 @@ class PanelComponent extends React.Component {
             <legend>I'm coming from:</legend>
               <Geosuggest
                 country='us'
-                placeholder='Select a location'
+                placeholder='select an address'
                 onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
                 ref={ (d)=> this.comingFrom = d }
                 initialValue={geoValue}

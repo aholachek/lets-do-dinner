@@ -26,6 +26,18 @@ mark {
 }
 
 
+body.landing-page-background {
+  background-image : radial-gradient(fade-out(black, .15), fade-out(black, .25)), url('./../images/restaurant.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.landing-page-background .home-link {
+  color: $gray-lighter;
+  -webkit-font-smoothing: antialiased;
+}
+
 .weight-300 {
   font-weight: 300 !important;
 }
@@ -217,10 +229,14 @@ div.ReactTags__suggestions ul li.active {
 
 .start-form {
   max-width: 450px;
-  margin: 10vh auto 20vh;
+  margin: 10vh auto 15vh;
   width: 100%;
   text-align: center;
-  padding: 0 1rem;
+  padding: 2.5rem;
+  h2 {
+    color : $gray-lighter;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 .start-form .btn-group.meal-type > .btn {
@@ -245,12 +261,13 @@ footer {
 }
 
 .btn-secondary-darker {
-  @include button-variant($btn-secondary-color, darken($btn-secondary-bg, 14%), darken($btn-secondary-border, 14%));
+  @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 20%), darken($btn-secondary-border, 20%));
 }
 
 .home-link {
   color: $body-color;
   padding: 1.2rem;
+  display:block;
 }
 
 .home-link h1 {

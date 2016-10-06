@@ -20,11 +20,13 @@ class ContainerComponent extends React.Component {
     //https://github.com/twitter-fabric/velocity-react/issues/29
     const { pathname } = this.props.location;
     const key = pathname.split('/')[1] || 'root';
-    const element = this.props.children || <div/>;
-    const elementToAnimate = React.cloneElement(element, { key });
 
     return (
-      <div className="container-component">
+      <VelocityTransitionGroup
+       enter={{animation: 'transition.fadeIn', delay : '200', duration : '300'}}
+       leave={{animation : 'transition.fadeOut', duration : '200'}}
+        >
+      <div className="container-component" key={key}>
         <div>
             <Link to="/" className="home-link">
             <h1>
@@ -36,12 +38,7 @@ class ContainerComponent extends React.Component {
             </h1>
           </Link>
         </div>
-        <VelocityTransitionGroup
-         enter={{animation: 'transition.slideDownIn', delay : '100', duration : '300'}}
-         leave={{animation : 'transition.slideDownOut', duration : '100'}}
-          >
-         {elementToAnimate}
-       </VelocityTransitionGroup>
+         {this.props.children}
         <footer className="footer">
             <hr/>
             <span className="text-muted"> A work in progress by&nbsp;
@@ -49,6 +46,7 @@ class ContainerComponent extends React.Component {
             .</span>
       </footer>
       </div>
+    </VelocityTransitionGroup>
     );
   }
 }

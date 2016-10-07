@@ -4,9 +4,6 @@ import React from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { VelocityTransitionGroup } from 'velocity-react'
-require('velocity-animate/velocity.ui');
-
 
 function mapStateToProps(state){
   return {
@@ -17,16 +14,9 @@ function mapStateToProps(state){
 class ContainerComponent extends React.Component {
 
   render() {
-    //https://github.com/twitter-fabric/velocity-react/issues/29
-    const { pathname } = this.props.location;
-    const key = pathname.split('/')[1] || 'root';
 
     return (
-      <VelocityTransitionGroup
-       enter={{animation: 'transition.fadeIn', delay : '200', duration : '300'}}
-       leave={{animation : 'transition.fadeOut', duration : '200'}}
-        >
-      <div className="container-component" key={key}>
+      <div className="container-component">
         <div>
             <Link to="/" className="home-link">
             <h1>
@@ -46,7 +36,6 @@ class ContainerComponent extends React.Component {
             .</span>
       </footer>
       </div>
-    </VelocityTransitionGroup>
     );
   }
 }

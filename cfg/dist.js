@@ -5,7 +5,7 @@ var _ = require('lodash');
 var baseConfig = require('./base');
 
 //remove publicPath so dist can use relative paths
-delete baseConfig.output.publicPath;
+baseConfig.output.publicPath = 'assets/';
 
 // Add needed plugins here
 var BowerWebpackPlugin = require('bower-webpack-plugin');

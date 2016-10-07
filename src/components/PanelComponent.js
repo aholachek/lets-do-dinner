@@ -123,14 +123,11 @@ class PanelComponent extends React.Component {
   }
 
   componentDidMount(){
-    //focus the location input IF this is for person 1
-    //doesnt work without a setTimeout
-    if (this.props.userId === 'Person 1') {
-      var that = this;
-      setTimeout(function(){
-        that.comingFrom.focus();
-      }, 100);
-    }
+    //get rid of focus
+    [].slice.apply(ReactDOM.findDOMNode(this).querySelectorAll('input'))
+    .forEach(function(input){
+      input.blur();
+    });
   }
 
   render() {
@@ -180,6 +177,7 @@ class PanelComponent extends React.Component {
                 placeholder={yelpPlaceholder}
                 inputTop={true}
                 showSuggestionsOnFocus={true}
+                ref={ (d)=> this.cuisineYes = d }
                 />
           </fieldset>
           <fieldset className="cuisine-no">
@@ -201,7 +199,6 @@ class PanelComponent extends React.Component {
                 country='us'
                 placeholder='select an address'
                 onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
-                ref={ (d)=> this.comingFrom = d }
                 initialValue={geoValue}
                 />
             <div className='form-check'>

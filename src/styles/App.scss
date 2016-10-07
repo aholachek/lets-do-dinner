@@ -27,7 +27,7 @@ mark {
 
 
 body.landing-page-background {
-  background-image : radial-gradient(fade-out(black, .1), fade-out(black, .2)), url('./../images/restaurant.jpg');
+  background-image : radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -266,7 +266,7 @@ footer {
 
 .home-link {
   color: $body-color;
-  padding: 1.2rem;
+  padding: 1rem 0;
   display:block;
 }
 

@@ -31,9 +31,9 @@ class ContainerComponent extends React.Component {
          {this.props.children}
         <footer className="footer">
             <hr/>
-            <span className="text-muted"> A work in progress by&nbsp;
-              <a href="https://github.com/aholachek" target="_blank">Alex Holachek</a>
-            .</span>
+            <span className="text-muted">
+              Find the best place to meet up with friends.
+            </span>
       </footer>
       </div>
     );

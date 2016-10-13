@@ -68,6 +68,7 @@
     "bootstrap": "^4.0.0-alpha.4",
     "core-js": "^1.2.6",
     "file-loader": "^0.8.5",
+    "firebase": "^3.4.1",
     "json-loader": "^0.5.4",
     "less-loader": "^2.2.3",
     "lodash": "^3.10.1",
@@ -82,6 +83,7 @@
     "react-tag-input": "https://github.com/aholachek/react-tags#252b3d6041c13d23647367291367b3115bce15c3",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
+    "shortid": "^2.2.6",
     "velocity-react": "^1.1.6",
     "whatwg-fetch": "^1.0.0"
   }

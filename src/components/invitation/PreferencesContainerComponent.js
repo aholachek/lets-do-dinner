@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 
 import { fetchMatches, updatePreferences } from 'actions/index'
 
-
 function mapStateToProps(state){
   return {
     preferences : state.preferences,

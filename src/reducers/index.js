@@ -1,16 +1,16 @@
 
 import { combineReducers } from 'redux'
 import matches from './matches'
-import meal from './meal'
 import preferences from './preferences'
-import visibleUsers from './visibleUsers'
+import inviteUrl from './inviteUrl'
+import meal from './meal'
 
 import defaultState from 'store/defaultState'
 import _ from 'lodash'
 
 var appReducer = combineReducers({
-  visibleUsers,
   meal,
+  inviteUrl,
   preferences,
   matches
 });

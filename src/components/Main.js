@@ -10,6 +10,8 @@ import StartPage from './StartPage'
 import PreferencesContainer from './PreferencesContainerComponent'
 import ResultsContainer from './ResultsContainerComponent'
 import ErrorPage from './ErrorPage'
+import InvitationUrl from './InvitationUrl'
+import InvitationStartPage from './InvitationStartPage'
 
 hashHistory.listen( location =>  {
  if (location.pathname === '/') {
@@ -28,11 +30,15 @@ class AppComponent extends React.Component {
   render() {
     return (
             <Router history={hashHistory} onChange={this.onRouteChange}>
-              <Route path="/" component={AppContainer}>
+              <Route path='/' component={AppContainer}>
                 <IndexRoute component={StartPage}></IndexRoute>
-                <Route path="/preferences" component={PreferencesContainer}/>
-                <Route path="/results" component={ResultsContainer}/>
-                <Route path="/error" component={ErrorPage}/>
+                <Route path='/get-invite-url' component={InvitationUrl}/>
+                <Route path='/invitation/**/'>
+                  <IndexRoute component={InvitationStartPage}></IndexRoute>
+                  <Route path='/preferences' component={PreferencesContainer}/>
+                  <Route path='/results' component={ResultsContainer}/>
+                </Route>
+                <Route path='/error' component={ErrorPage}/>
               </Route>
             </Router>
         )

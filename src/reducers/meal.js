@@ -1,14 +1,12 @@
 
 
-
-
-export default function reducer(state = 'dinner', action){
+export default function reducer(meal = 'dinner', action){
 
   switch (action.type) {
     case 'UPDATE_MEAL':
       return action.meal
     default:
-      return state
+      return meal
   }
 
 }

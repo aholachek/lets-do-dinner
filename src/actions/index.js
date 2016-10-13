@@ -1,11 +1,36 @@
-import {
-  hashHistory
-} from 'react-router'
-import config from 'config';
+import { hashHistory } from 'react-router'
+import config from 'config'
+import firebase from './initializeFirebase'
+import shortid from 'shortid'
+import getDefaultDataStructure from 'data/defaultFirebaseData'
+
+const database = firebase.database();
+
+export function createInvitation(meal){
+
+  return function (dispatch, getState){
+    var inviteId = shortid.generate();
+    firebase.database()
+    .ref(inviteId)
+    .set(getDefaultDataStructure(getState().meal))
+    .then(function(){
+      dispatch(setInviteUrl(document.location.origin + '#/invitation/' + inviteId));
+      hashHistory.push('/get-invite-url');
+    });
+  }
+
+}
+
+export function setInviteUrl(url) {
+  return {
+    type: 'SET_URL',
+    url
+  }
+}
 
 export function updateMeal(meal) {
   return function(dispatch, getState) {
-    
+
     const cachedVis = getState().visibleUsers;
     //hack
     dispatch(reset());

@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch){
 
 
 
-class StartPage extends React.Component {
+class InvitationStartPage extends React.Component {
 
   constructor(){
     super();
@@ -91,10 +91,10 @@ class StartPage extends React.Component {
 
 
 // Uncomment properties you need
-// StartPage.propTypes = {};
-// StartPage.defaultProps = {};
+// InvitationStartPage.propTypes = {};
+// InvitationStartPage.defaultProps = {};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(StartPage);
+)(InvitationStartPage);

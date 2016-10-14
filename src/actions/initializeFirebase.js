@@ -1,5 +1,8 @@
 import firebase from 'firebase';
 
+import { setUserId } from './index';
+import store from 'store/index';
+
 const config = {
    apiKey: "AIzaSyAPRgOdJjGdFkrefZC2rUuJ9Ht5D3iLtoM",
    authDomain: "letsgetdinnerfrontend.firebaseapp.com",
@@ -19,8 +22,7 @@ const config = {
      // User is signed in.
      var isAnonymous = user.isAnonymous;
      var uid = user.uid;
-     firebase.database().ref('users/' + uid).set('baz');
-
+     store.dispatch(setUserId(uid));
    } else {
      // User is signed out.
      // ...

@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/dist/react-dom-server'
 import _ from 'lodash'
 import mapStyles from 'data/map_styles.json'
 
-import userIcon from './../images/user.png'
+import userIcon from 'images/user.png'
 
 let iconDict = {
   transit: 'fa fa-fw fa-subway',

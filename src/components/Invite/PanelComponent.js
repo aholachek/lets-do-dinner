@@ -15,6 +15,7 @@ class PanelComponent extends React.Component {
     this.getFormValues = this.getFormValues.bind(this);
     this.renderPriceOptions = this.renderPriceOptions.bind(this);
     this.renderTransportOptions = this.renderTransportOptions.bind(this);
+    this.submitPreferencesToFirebase = this.submitPreferencesToFirebase.bind(this);
 
     this.placeDict = {};
   }
@@ -130,6 +131,11 @@ class PanelComponent extends React.Component {
     });
   }
 
+  submitPreferencesToFirebase (e){
+    e.preventDefault();
+    this.props.submitPreferencesToFirebase();
+  }
+
   render() {
 
     //show only restaurants or bars in autocomplete
@@ -150,14 +156,8 @@ class PanelComponent extends React.Component {
     const geoValue = this.props.data.locations.from.label;
 
     return (
-      <div className='panel-component'>
-        <h2 style={{
-          fontSize: '1.2rem'
-        }}>
-          { this.props.userId }
-        </h2>
-        <hr/>
-        <form action=''>
+        <form className='preferences-panel-component'
+              onSubmit={this.submitPreferencesToFirebase}>
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
             <span className='price-container'>
@@ -197,7 +197,7 @@ class PanelComponent extends React.Component {
             <legend>I'm coming from:</legend>
               <Geosuggest
                 country='us'
-                placeholder='select an address'
+                placeholder='Select an address'
                 onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
                 initialValue={geoValue}
                 />
@@ -205,8 +205,13 @@ class PanelComponent extends React.Component {
               {this.renderTransportOptions('from')}
             </div>
           </fieldset>
+          <br/>
+          <button
+          className="btn btn-primary btn-block"
+          >
+          submit my preferences
+          </button>
         </form>
-      </div>
     );
   }
 }

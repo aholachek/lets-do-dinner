@@ -8,12 +8,9 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import _ from 'lodash'
 
-
-export default function() {
-  return createStore(reducers, _.cloneDeep(defaultState),
+export default createStore(reducers, _.cloneDeep(defaultState),
     applyMiddleware(
       thunkMiddleware,
       createLogger()
     )
   )
-}

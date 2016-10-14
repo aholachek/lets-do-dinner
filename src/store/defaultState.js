@@ -12,42 +12,31 @@ const defaultPreferences =  { price: [
   locations: {
     from: {
       mode: 'transit',
-      latitude: undefined,
-      longitude: undefined,
+      latitude: null,
+      longitude: null,
       //just for autocomplete
-      label : undefined
+      label : null
     },
     to: {
       mode: 'transit',
-      latitude: undefined,
-      longitude: undefined,
-      label : undefined
+      latitude: null,
+      longitude: null,
+      label : null
     }
   }
 };
 
 const defaultState = {
-
-visibleUsers : 2,
-
-preferences : [],
-
 //one of Dinner/Drinks
 meal : 'Dinner',
-
-matches : {
-  //one of loading/error/success
-  requestState : undefined,
-  data : []
-},
-
+numGuests : 2,
+userId : undefined,
+name : undefined,
+preferences : defaultPreferences,
+votes : undefined,
+firebaseData : {},
+inviteId : undefined,
+inviteUrl : undefined
 }
-
-_.range(1,6).forEach(function(num){
-  defaultState.preferences.push(
-  Object.assign({}, _.cloneDeep(defaultPreferences), { userId : 'Person ' + num })
-  )
-});
-
 
 export default defaultState

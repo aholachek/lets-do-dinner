@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import RatingComponent from 'components/RatingComponent';
+import RatingComponent from './RatingComponent';
 import _ from 'lodash';
 
 let iconDict = {

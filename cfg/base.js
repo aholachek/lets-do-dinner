@@ -30,6 +30,7 @@ module.exports = {
       components: srcPath + '/components/',
       data : srcPath + '/data/',
       sources: srcPath + '/sources/',
+      images : srcPath + '/images/',
       store: srcPath + '/store/',
       styles: srcPath + '/styles/',
       config: srcPath + '/config/' + process.env.REACT_WEBPACK_ENV

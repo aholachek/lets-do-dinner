@@ -12,7 +12,6 @@ function mapStateToProps(state){
   return {
     inviteUrl : state.inviteUrl
   }
-
 }
 
 function mapDispatchToProps(dispatch){
@@ -27,21 +26,28 @@ function mapDispatchToProps(dispatch){
 }
 
 
-
 class inviteURLPage extends React.Component {
 
   render() {
 
-    debugger
+   const relativeLink = this.props.inviteUrl.replace(document.location.origin +'#', '');
 
     return (
       <div className="invite-url">
-        {this.props.inviteUrl}
+        <div>
+          First, send this link to up to 4 friends to get started:
+          {this.props.inviteUrl}
+        </div>
+        <div>
+          Then <Link to={relativeLink}>
+          get started entering in your preferences
+        </Link>
+        </div>
+
       </div>
     );
   }
 }
-
 
 // Uncomment properties you need
 // inviteURLPage.propTypes = {};

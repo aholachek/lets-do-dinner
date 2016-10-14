@@ -25,6 +25,10 @@ mark {
   padding: 0;
 }
 
+.centered {
+  display:block;
+  margin: auto;
+}
 
 body.landing-page-background {
   background-image : radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
@@ -60,14 +64,11 @@ body.landing-page-background {
   margin-right: 5px;
 }
 
-.panel-container {
-  @extend .responsive-flex;
-  justify-content: center;
-}
 
-.panel-component {
-  padding: 1rem;
-  flex-grow: 1;
+
+.preferences-panel-component {
+  max-width: 500px;
+  margin: auto;
 }
 
 .geosuggest__input {
@@ -174,7 +175,7 @@ div.ReactTags__suggestions ul {
   list-style-type: none;
   box-shadow: 0.05em 0.01em 0.5em rgba(0,0,0,.2);
   background: white;
-  min-width: 270px;
+  min-width: 500px;
   padding-left: 0;
   margin: 0;
 }

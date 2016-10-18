@@ -3,6 +3,8 @@
 import React from 'react';
 import RatingComponent from './RatingComponent';
 import _ from 'lodash';
+import FlipMove from 'react-flip-move';
+
 
 let iconDict = {
   transit: 'fa fa-fw fa-subway',
@@ -16,10 +18,14 @@ class ResultsListComponent extends React.Component {
   constructor(){
     super();
     this.renderDirections = this.renderDirections.bind(this);
+    this.renderVotingButtons = this.renderVotingButtons.bind(this);
   }
 
+  //only show directions for current user
   renderDirections(l){
-    var origins = _.sortBy(_.pairs(l.time.origins), function(p){return p[0]});
+    let userId = this.props.userId;
+    let origins = _.sortBy(_.pairs(l.time.origins), function(p){return p[0]});
+    origins = origins.filter((p)=> {return p[0] === userId }, this);
     return _.map(origins, function(p){
       var k = p[0];
       var v = p[1];
@@ -36,21 +42,21 @@ class ResultsListComponent extends React.Component {
       let googleURL = `http://maps.google.com?saddr=${from}&daddr=${to}&dirflg=${modeLetter}`;
 
         return <div>
-          {k}:&nbsp;&nbsp;
           <a href={ googleURL } target="_blank">
             <i className={iconDict[mode]} />
             &nbsp;&nbsp;
-            {Math.ceil(v/60)}&nbsp;min
+            {Math.ceil(v/60)}&nbsp;minutes
            </a>
         </div>
-       }, this)
-
+      }, this);
   }
 
   renderListItem(l, i) {
+    let cl = "clearfix card result-card";
+    if (this.props.votes.indexOf(l.id) > -1) cl+=" result-card--active"
     return (
-      <li className="clearfix" key={ 'result-list-item-' + i}>
-        <div style={{display: 'flex'}}>
+      <li className={cl} key={ l.id }>
+        <div style={{display: 'flex'}} className="result-card__content">
           <div style={{marginRight: '1rem', width: '90px', height: '90px'}}>
             { l.image_url ?
               <img src={l.image_url.replace('/o.jpg', '/90s.jpg')}
@@ -60,7 +66,10 @@ class ResultsListComponent extends React.Component {
             }
           </div>
           <div style={{width: '100%'}}>
-            <b> <a href={l.url} target="_blank">{i + 1}.&nbsp;{l.name}</a> </b>
+            <b> <a href={l.url} target="_blank">
+            {i + 1}.&nbsp;
+            {l.name}
+            </a> </b>
               <div className="pull-right">{l.price}&nbsp;&nbsp;<RatingComponent rating = {l.rating}/></div>
           <div>
             <div><b>{
@@ -77,9 +86,39 @@ class ResultsListComponent extends React.Component {
           </div>
         </div>
         </div>
+      { this.renderVotingButtons(l) }
       </li>
     )
   }
+
+  renderVotingButtons (l){
+
+    const updateVote = this.props.updateVote.bind(this, l.id);
+    //it's not selected
+    if (this.props.votes.indexOf(l.id) == -1){
+      return (
+        <div className="result-card__voting-buttons">
+        <button className="btn btn-sm btn-secondary" onClick={updateVote}>
+        <i className="fa fa-check"></i> I'd Go Here
+        </button>
+        <button className="btn btn-sm btn-danger" onClick={updateVote}>
+        <i className="fa fa-times"></i> No Thanks
+        </button>
+        </div>
+      )
+     } else {
+        return (
+          <div className="result-card__voting-buttons">
+          <button className="btn btn-sm btn-primary" onClick={updateVote}>
+          <i className="fa fa-check"></i> I'd Go Here
+          </button>
+          <button className="btn btn-sm btn-secondary" onClick={updateVote}>
+          <i className="fa fa-times"></i> No Thanks
+          </button>
+          </div>
+        )
+      }
+}
 
   render() {
     if (!this.props.data) {
@@ -88,13 +127,13 @@ class ResultsListComponent extends React.Component {
 
       return (
         <div>
-          <ol className="resultslist-component">
+         <FlipMove typeName="ol" className="resultslist-component">
             {
               this.props.data.map(function(l, i) {
-              return this.renderListItem(l, i)
-            }, this)
-          }
-          </ol>
+                return this.renderListItem(l, i)
+              }, this)
+            }
+          </FlipMove>
         </div>
       );
     }

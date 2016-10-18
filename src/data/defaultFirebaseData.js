@@ -28,22 +28,22 @@ const defaultPreferences = {
 };
 
 
-export default function getDefaultDataStructure(meal, numGuests) {
+export default function getDefaultDataStructure(meal, numGuests, hash) {
   return {
+    //duplicated to make server interaction with firebase data easier
+    inviteId: hash,
     //one of dinner/drinks
     meal: meal,
     //2-5
     numGuests : numGuests,
     //preferences,voting,done
     stage: 'preferences',
-    //array of user ids
-    invitees : [],
-    //array of user ids
-    submittedPreferences : [],
-    //array of user ids
-    submittedVotes : [],
+    //object with preferences
+    preferences : {},
     matches: [],
-    selectedMatch: null
+    //dict of { restaurantIDs : [userid1, userid2] }
+    submittedVotes : {},
+    finalRecommendation : null
   }
 
 }

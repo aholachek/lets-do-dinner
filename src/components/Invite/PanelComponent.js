@@ -6,7 +6,6 @@ import {WithContext as ReactTags} from 'react-tag-input';
 import Geosuggest from 'react-geosuggest';
 import _ from 'lodash';
 
-
 class PanelComponent extends React.Component {
 
   constructor() {
@@ -74,6 +73,26 @@ class PanelComponent extends React.Component {
   renderPriceOptions() {
     var price = this.props.data.price;
     return _.range(1, 5).map((num) => {
+      let cl = 'btn';
+      if (price.indexOf(num) > -1) {
+        cl += ' btn-secondary-darker'
+      } else {
+        cl += ' btn-secondary'
+      }
+      return (
+        <button type="button" className={cl}
+        onClick={(e) => {
+        if (price.indexOf(num) > -1) {
+          price = _.without(price, num);
+        } else {
+          price.push(num);
+        }
+        this.props.updatePreferences({price:price});
+      }}
+        >
+          {'$'.repeat(num)}
+        </button>
+      )
       return <label key={'price-indicator-' + num}>
         <input type='checkbox'
           name='price'
@@ -92,7 +111,7 @@ class PanelComponent extends React.Component {
 
   renderTransportOptions(direction) {
     var transportDict = {
-      transit: 'public transport',
+      transit: 'transit',
       driving: 'driving',
       bicycling: 'biking',
       walking: 'walking'
@@ -106,19 +125,23 @@ class PanelComponent extends React.Component {
     };
 
     return _.pairs(transportDict).map((p) => {
+      let cl = 'btn';
+      if (this.props.data.locations[direction].mode === p[0]) {
+        cl += ' btn-secondary-darker'
+      } else {
+        cl += ' btn-secondary'
+      }
       return (
-        <label className='form-check-label'>
-          <input type='radio'
-            className='form-check-input'
-            name={'transport-' + direction}
-            value={p[0]}
-            checked={(this.props.data.locations[direction].mode === p[0])}
-            onChange={() => {
-            var location = this.props.data.locations;
-            location[direction].mode = p[0];
-            this.props.updatePreferences({location: location});
-          }}/> <i className={iconDict[p[0]]}/> { p[1] }
-        </label>
+        <button type="button"
+         className={cl}
+         onClick = {() => {
+         var location = this.props.data.locations;
+         location[direction].mode = p[0];
+         this.props.updatePreferences({location: location});
+       }}
+         >
+          <i className={iconDict[p[0]]}/> { p[1] }
+        </button>
       )
     });
   }
@@ -153,20 +176,25 @@ class PanelComponent extends React.Component {
 
     var yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine';
 
-    const geoValue = this.props.data.locations.from.label;
+    const geoValue = this.props.data.locations.from.label || '';
+
+    debugger
 
     return (
-        <form className='preferences-panel-component'
+        <form className='centered-component'
               onSubmit={this.submitPreferencesToFirebase}>
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
-            <span className='price-container'>
+            <div className="btn-group btn-group--equal-width"
+                 role="group"
+                 aria-label="Pick mode of transport">
               {this.renderPriceOptions()}
-            </span>
+            </div>
           </fieldset>
           <fieldset className="cuisine-yes">
             <legend>
               {this.props.meal === 'Drinks' ? 'I\'m thirsty for:' : 'I\'m hungry for:'}
+              &nbsp;<span className="weight-300 pull-right text-muted">optional</span>
             </legend>
               <ReactTags
                 tags={this.props.data.cuisine.yes}
@@ -181,7 +209,7 @@ class PanelComponent extends React.Component {
                 />
           </fieldset>
           <fieldset className="cuisine-no">
-            <legend>I don't want:</legend>
+            <legend>I don't want: <span className="weight-300 pull-right text-muted">optional</span></legend>
               <ReactTags
                 tags={this.props.data.cuisine.no}
                 suggestions={yelpNames}
@@ -202,8 +230,25 @@ class PanelComponent extends React.Component {
                 initialValue={geoValue}
                 />
             <div className='form-check'>
-              {this.renderTransportOptions('from')}
+            <div className="btn-group btn-group--equal-width"
+                 role="group"
+                 aria-label="Pick mode of transport">
+              { this.renderTransportOptions('from') }
             </div>
+            </div>
+          </fieldset>
+          <fieldset>
+          <div className="form-check">
+              <label className="form-check-label">
+                <input
+                className="form-check-input"
+                type="checkbox"
+                checked={this.props.notificationsOn ? true : false}
+                onChange={ (e)=> {debugger;this.props.setNotifications(!this.props.notificationsOn)}  }
+                />
+                  Notify me when it's time to vote, and when results are in
+              </label>
+          </div>
           </fieldset>
           <br/>
           <button

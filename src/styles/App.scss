@@ -2,6 +2,10 @@
 @import "./../../node_modules/bootstrap/scss/bootstrap.scss";
 $sm-bp: 520px;
 
+h1,h2,h3,h4,h5,h6 {
+  -webkit-font-smoothing: antialiased;
+}
+
 fieldset {
   border: none;
   margin-top: 1rem;
@@ -19,6 +23,7 @@ label {
 
 button:focus {
   outline: 2px dotted fade-out($brand-primary, .5) !important;
+  outline: none !important;
 }
 
 mark {
@@ -29,6 +34,18 @@ mark {
   display:block;
   margin: auto;
 }
+
+//used for layout on multiple pages
+.centered-component {
+  max-width: 500px;
+  margin: 3rem auto;
+}
+
+.centered-text-container {
+  text-align: center;
+  margin: 3rem auto;
+}
+
 
 body.landing-page-background {
   background-image : radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
@@ -53,6 +70,12 @@ body.landing-page-background {
   }
 }
 
+.btn-active-secondary {
+  color: $brand-primary;
+  font-weight:bold;
+  background: $gray-lighter;
+}
+
 .container-component {
   max-width: 1100px;
   margin: auto;
@@ -62,13 +85,6 @@ body.landing-page-background {
 .price-container label {
   display: inline-block;
   margin-right: 5px;
-}
-
-
-
-.preferences-panel-component {
-  max-width: 500px;
-  margin: auto;
 }
 
 .geosuggest__input {
@@ -165,7 +181,7 @@ div.ReactTags__selected a.ReactTags__remove {
 /* Styles for suggestions */
 div.ReactTags__suggestions {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   max-height: 250px;
   overflow: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -262,7 +278,9 @@ footer {
 }
 
 .btn-secondary-darker {
-  @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 20%), darken($btn-secondary-border, 20%));
+  @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 18%), darken($btn-secondary-border, 18%));
+  border: 1px solid darken($btn-secondary-bg, 26%);
+  z-index: 1;
 }
 
 .home-link {
@@ -272,10 +290,80 @@ footer {
 }
 
 .home-link h1 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0;
 }
 
 .results-ranking {
-  padding: 0 0 1.5rem;
+  padding: 0 3rem 1.5rem 0;
+  width: 50%;
+  &>.btn-group {
+    width: 100%;
+  }
+  &>.btn-group .btn {
+    width: 33.3%;
+  }
+}
+
+.result-card__content {
+  padding: .8rem;
+}
+
+.select-button-container {
+  padding: .5rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+  position:fixed;
+  bottom: 0;
+  left:0;
+  right:0;
+}
+
+.stage-container {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.stage {
+  flex-grow: 1;
+  text-align: center;
+  padding: .4rem 0;
+  color: $gray-light;
+
+  &>h2 {
+    font-size:1.2rem;
+    display:inline;
+  }
+}
+
+.stage--active {
+  color: $body-color;
+  background: white;
+  &>h2 {
+    position: relative;
+    &:after {
+      content: "";
+      background: #4a25e2;
+      height: .5rem;
+      position: absolute;
+      bottom: .3rem;
+      left: 0;
+      right: 0;
+      z-index: 0;
+      opacity: .2;
+    }
+  }
+}
+
+.result-card__voting-buttons {
+  &>button {
+    width:50%;
+  }
+}
+
+.btn-group--equal-width {
+  display : flex;
+  &>* {
+    flex-grow : 1;
+  }
+
 }

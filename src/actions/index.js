@@ -5,16 +5,27 @@ import config from 'config'
 import firebase from './initializeFirebase'
 import shortid from 'shortid'
 import getDefaultDataStructure from 'data/defaultFirebaseData'
+import notifications from 'html5-desktop-notifications';
+
 
 const database = firebase.database();
+
+function getInviteUrl(hash) {
+  return 'invites/' + hash;
+}
+
+function transformMeal(meal) {
+  if (meal === 'Drinks') meal = 'Bars';
+  return meal;
+}
 
 export function createInvitation() {
 
   return function(dispatch, getState) {
     var inviteId = shortid.generate();
     firebase.database()
-      .ref(inviteId)
-      .set(getDefaultDataStructure(getState().meal, getState().numGuests))
+      .ref(getInviteUrl(inviteId))
+      .set(getDefaultDataStructure(transformMeal(getState().meal), getState().numGuests, inviteId))
       .then(function() {
         dispatch(setInviteUrl(document.location.origin + '#/invite/' + inviteId));
         hashHistory.push('/get-invite-url');
@@ -57,6 +68,14 @@ export function setName(name) {
   }
 }
 
+export function setNotifications(bool) {
+
+  return {
+    type: 'SET_NOTIFICATIONS',
+    notificationsOn : bool
+  }
+}
+
 export function updateNumGuests(numGuests) {
   return {
     type: 'UPDATE_NUM_GUESTS',
@@ -64,33 +83,62 @@ export function updateNumGuests(numGuests) {
   }
 }
 
-
 export function subscribeToFirebase(hash) {
   return function(dispatch, getState) {
 
     //set the hash into redux for later firebase actions
     dispatch(setInviteId(hash));
 
-    const inviteRef = firebase.database().ref(hash);
+    const inviteRef = firebase.database().ref(getInviteUrl(hash));
     inviteRef.on('value', function(snapshot) {
-      dispatch(setFirebaseData(snapshot.val()));
+      const data = snapshot.val();
+      // when matches are added,
+      // add them all to votes so they are preselected
+      // also notify user 1x if notifications are enabled
+      if (!getState().firebaseData.matches && data.matches) {
+        data.matches.forEach(function(m) {
+          dispatch(updateVote(m.id));
+        });
+
+        if (Notification.permission === 'granted'){
+          const n = new Notification('Lets Do Dinner', {
+            body : 'It\'s time to vote!'
+          });
+        }
+
+      }
+      //when final result is added, notify user if notifications are enabled
+      if (Notification.permission === 'granted'){
+        const n = new Notification('Lets Do Dinner', {
+          body : 'The votes have been tallied! Check out where you\'re going.'
+        });
+      }
+
+      dispatch(setFirebaseData(data));
     });
+
+    //subscribe to user added
+    firebase.database().ref(getInviteUrl(hash) + '/preferences')
+      .on('child_added', function(child) {
+        //get the name, and add it to a local dict of id : name hashes
+        const val = child.val();
+        const id = val.userId;
+        firebase.database().ref(`/users/${id}`).once('value', function(x) {
+          dispatch(updateUserDict({
+            [id]: x.val().name
+          }));
+        });
+      });
 
     //update ref with my user id
     firebase.database()
-      .ref(hash + '/invitees')
+      .ref(getInviteUrl(hash) + '/invitees')
       .push(getState().userId);
-    //create an entry in my user account
-    firebase.database()
-      .ref('users/' + getState().userId + '/' + getState().inviteId)
-      .set({
-        preferences: null,
-        name: null
-      });
   }
 }
 
 export function updateMeal(meal) {
+
   return function(dispatch, getState) {
 
     const cachedVis = getState().visibleUsers;
@@ -111,7 +159,6 @@ export function reset() {
   }
 }
 
-
 export function updatePreferences(data) {
   return {
     type: 'UPDATE_PREFERENCES',
@@ -119,18 +166,41 @@ export function updatePreferences(data) {
   }
 }
 
+function transformPreferences(preferences) {
+  //remove ui information (text value of cuisine tags)
+  preferences.cuisine.yes = preferences.cuisine.yes.map((obj) => obj.id);
+  preferences.cuisine.no = preferences.cuisine.no.map((obj) => obj.id);
+  return preferences;
+}
+
 export function submitPreferencesToFirebase() {
   return function(dispatch, getState) {
-    const preferencesPath = 'users/' + getState().userId + '/' + getState().inviteId + '/preferences';
-    firebase.database()
-      .ref(preferencesPath)
-      .set(getState().preferences);
+    const userPath = 'users/' + getState().userId + '/';
+    const userRef = firebase.database().ref(userPath);
 
-    //and duplicate the data by adding a user key for easy retrieval
-    firebase.database()
-      .ref(getState().inviteId + '/submittedPreferences')
-      .push(getState().userId);
+    let preferences = transformPreferences(getState().preferences);
+    //convenience so later can use firebase's child_added
+    preferences.userId = getState().userId;
 
+    //stash preferences to autofill the next time
+    userRef.set({
+      name: getState().name,
+      preferences: preferences
+    })
+
+    firebase.database()
+      .ref(getInviteUrl(getState().inviteId) + '/preferences')
+      .update({
+        [getState().userId]: preferences
+      });
+
+      //finally, if notifications are enabled, request permission for app
+      if (getState().notificationsOn){
+
+        Notification.requestPermission().then(function(permission){
+        });
+
+      }
   }
 }
 
@@ -138,79 +208,57 @@ export function requestMatches() {
   return {
     type: 'REQUEST_MATCHES'
   }
-
 }
 
 export function receiveMatches(data) {
-
   return {
     type: 'RECEIVE_MATCHES',
     data
   }
-
 }
 
 export function matchesFailed() {
-
   return {
     type: 'MATCHES_FAILED',
   }
-
 }
 
-export function fetchMatches() {
+export function updateVote(id) {
+  return {
+    type: 'UPDATE_VOTE',
+    id
+  }
+}
 
+export function submitVotesToFirebase() {
   return function(dispatch, getState) {
+    const submittedVotesRef = firebase.database()
+      .ref(`${getInviteUrl(getState().inviteId)}/submittedVotes`);
 
-    dispatch(requestMatches());
+    submittedVotesRef
+      .once('value')
+      .then(function(snapshot) {
+        const voteObj = snapshot.val() || {};
+        const userVotes = getState().votes;
+        const userId = getState().userId;
 
-    const state = _.cloneDeep(getState());
+        //add my user id to arrays of votes
+        userVotes.forEach(function(placeId) {
+          if (voteObj[placeId]) voteObj[placeId].push(userId);
+          else {
+            voteObj[placeId] = [userId]
+          }
+        });
 
-    //need a better way to make sure everyone at least gets a location
-    state.preferences = _.filter(state.preferences, function(p) {
-      if (p.locations.from.latitude) return true
-    });
-
-    //remove ui information
-    state.preferences.forEach(function(p) {
-      p.cuisine.yes = p.cuisine.yes.map((obj) => obj.id);
-      p.cuisine.no = p.cuisine.no.map((obj) => obj.id);
-    });
-
-    //use a better search term
-    if (state.meal === 'Drinks') {
-      state.meal = 'Bars';
-      //not sure why this is necessary but yelp api is returning non-bar results
-      state.preferences.forEach(function(p) {
-        p.cuisine.yes.push('bars')
+        //set new object back into firebase
+        submittedVotesRef.set(voteObj);
       });
-    }
+  }
+}
 
-    const dataObj = {
-      term: state.meal,
-      userData: state.preferences
-    }
-
-    fetch(config.api_endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataObj)
-    }).then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        console.error("request failed", response);
-        dispatch(matchesFailed());
-        throw new Error();
-      }
-    }).then((data) => {
-      dispatch(receiveMatches(data));
-      //navigate to matches page
-      hashHistory.push('results');
-    }).catch(() => {
-      hashHistory.push('error');
-    });
+export function updateUserDict(dict) {
+  return {
+    type: 'UPDATE_USER_DICT',
+    dict
   }
 }

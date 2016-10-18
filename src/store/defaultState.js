@@ -29,11 +29,14 @@ const defaultPreferences =  { price: [
 const defaultState = {
 //one of Dinner/Drinks
 meal : 'Dinner',
+notificationsOn : true,
 numGuests : 2,
 userId : undefined,
 name : undefined,
+//name-id pairs for other people
+userDict : {},
 preferences : defaultPreferences,
-votes : undefined,
+votes : [],
 firebaseData : {},
 inviteId : undefined,
 inviteUrl : undefined

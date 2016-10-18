@@ -13,24 +13,23 @@ export default class NameForm extends React.Component {
   }
 
   render() {
-    return (<form onSubmit={this.setName} className="form-inline">
+    return (
+      <form onSubmit={this.setName} className="centered-component">
       <div className="input-group">
       <label>
-      Enter your name: <br/>
-      <input type="text"
-      minLength="1"
-      required
-      ref={(i)=>this.input = i}
-      className='form-control'
-      />
+      <b>First, enter your name</b> (it will be visible to the other invitees)
+        <input type="text"
+        minLength="1"
+        required
+        ref={(i)=>this.input = i}
+        className='form-control'
+        style={{margin: '1rem 0'}}
+        />
       </label>
-      <span className="input-group-button">
-      <button className="btn btn-primary">submit</button>
-      </span>
       </div>
-
-
-    </form>);
+      <button className="btn btn-primary btn-block">submit</button>
+    </form>
+  );
   }
 }
 

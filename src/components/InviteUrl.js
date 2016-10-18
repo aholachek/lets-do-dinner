@@ -10,21 +10,10 @@ import { updateMeal, updateVisible, reset,  createInvitation } from 'actions/ind
 
 function mapStateToProps(state){
   return {
-    inviteUrl : state.inviteUrl
+    inviteUrl : state.inviteUrl,
+    numGuests : state.numGuests
   }
 }
-
-function mapDispatchToProps(dispatch){
-  return {
-    createInvitation(meal){
-      dispatch(createInvitation(meal))
-    },
-    updateMeal: function(meal){
-      dispatch(updateMeal(meal))
-    }
-  }
-}
-
 
 class inviteURLPage extends React.Component {
 
@@ -33,15 +22,17 @@ class inviteURLPage extends React.Component {
    const relativeLink = this.props.inviteUrl.replace(document.location.origin +'#', '');
 
     return (
-      <div className="invite-url">
+      <div className="invite-url centered-text-container">
         <div>
-          First, send this link to up to 4 friends to get started:
-          {this.props.inviteUrl}
+          First, send this link to { this.props.numGuests -1 } {this.props.numGuests > 2 ? 'friends' : 'friend'}:
+          <div>
+          <div style={{margin: '2rem 0'}}>
+            <b>{this.props.inviteUrl}</b>
+          </div>
+          </div>
         </div>
         <div>
-          Then <Link to={relativeLink}>
-          get started entering in your preferences
-        </Link>
+          Then <Link to={relativeLink}> enter your preferences to get started.</Link>
         </div>
 
       </div>
@@ -55,5 +46,8 @@ class inviteURLPage extends React.Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    createInvitation : createInvitation,
+    updateMeal : updateMeal
+    }
 )(inviteURLPage);

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
+import Progress from './Progress'
 
 import { Link } from 'react-router'
 
@@ -11,24 +12,28 @@ import { subscribeToFirebase } from 'actions/index'
 function mapStateToProps(state){
   return {
     meal : state.meal,
-    visibleUsers : state.visibleUsers
+    visibleUsers : state.visibleUsers,
+    userDict : state.userDict,
+    stage : state.firebaseData.stage
   }
-
 }
-
 
 class InviteContainer extends React.Component {
 
   componentDidMount (){
+    //the url tells firebase which invitation this is
     this.props.subscribeToFirebase(this.props.params.splat);
   }
 
   render() {
-
     return (
       <div className="invite-container">
-        invitation whooo
+        <Progress
+        userDict={this.props.userDict}
+        stage={this.props.stage}
+        />
           {this.props.children}
+          <hr/>
       </div>
     );
   }

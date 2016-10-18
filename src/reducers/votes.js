@@ -1,12 +1,16 @@
+import _ from 'lodash'
 
-
-export default function reducer(id= '', action){
+export default function reducer(votes=[], action){
 
   switch (action.type) {
-    case 'SET_USERID':
-      return action.id
+    case 'UPDATE_VOTE':
+    if (votes.indexOf(action.id) > -1){
+      return _.without(votes, action.id);
+    } else {
+      return votes.concat([action.id])
+    }
     default:
-      return id;
+      return votes;
   }
 
 }

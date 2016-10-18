@@ -16,14 +16,14 @@ let iconDict = {
 };
 
 //template for map tooltip
-function EstablishmentTooltip(props) {
+function EstablishmentTooltip(props, userDict) {
   return <div>
     <div>
       <span className="map-tooltip__header">{props.name}</span>
     </div>
     <div>{_.map(props.time.origins, function(v, k) {
         return <div>
-          <b>{k}</b>:&nbsp;&nbsp;
+          <b>{userDict[k]}</b>:&nbsp;&nbsp;
           <i className={iconDict[v.mode]}/>
           &nbsp;&nbsp;
           <b>{Math.ceil(v / 60)}</b>&nbsp; minutes</div>
@@ -31,10 +31,10 @@ function EstablishmentTooltip(props) {
   </div>;
 }
 
-function PersonTooltip(props) {
+function PersonTooltip(props, userDict) {
   return <div>
     <div>
-      <span className="map-tooltip__header">{props.userId}</span>
+      <span className="map-tooltip__header">{userDict[props.userId]}</span>
     </div>
     <div>
       <i className={iconDict[props.locations.to.mode]}/> {props.locations.to.mode}
@@ -45,21 +45,11 @@ function PersonTooltip(props) {
 class ResultsMapComponent extends React.Component {
 
   componentDidMount() {
-    //cope with velocity transitiongroup enter animation
-    // wait until animation is complete
-    //very brittle
-    var that = this;
-    let callMapFunc = function(){
       this.buildMap.call(this, this.props);
-    }.bind(this);
-    setTimeout(callMapFunc, 500);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (!newProps || !newProps.data || newProps === this.props)
-      return;
-
-    this.buildMap.call(this, newProps);
+  componentDidUpdate(){
+    this.buildMap.call(this, this.props);
   }
 
   buildMap(props) {
@@ -83,7 +73,7 @@ class ResultsMapComponent extends React.Component {
         icon: userIcon
       });
 
-      let contentString = ReactDOMServer.renderToString(PersonTooltip(d));
+      let contentString = ReactDOMServer.renderToString(PersonTooltip(d, props.userDict));
 
       let infowindow = new google.maps.InfoWindow({content: contentString});
 
@@ -107,13 +97,32 @@ class ResultsMapComponent extends React.Component {
         return;
       }
 
+      let iconImg, markerSize;
+
+      if (this.props.votes.indexOf(d.id) > -1) {
+         iconImg = 'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png';
+         markerSize = new google.maps.Size(38, 38)
+      } else {
+         iconImg = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+         markerSize = new google.maps.Size(33, 33)
+        }
+
+      //control the size
+      let icon = new google.maps.MarkerImage(
+        iconImg,
+         null, /* size is determined at runtime */
+         null, /* origin is 0,0 */
+         null, /* anchor is bottom center of the scaled image */
+         markerSize
+      );
+
       let marker = new google.maps.Marker({
         position: new google.maps.LatLng(d.coordinates.latitude, d.coordinates.longitude),
         map: map,
-        label: (i + 1) + ''
+        icon : icon
       });
 
-      let contentString = ReactDOMServer.renderToString(EstablishmentTooltip(d));
+      let contentString = ReactDOMServer.renderToString(EstablishmentTooltip(d, props.userDict));
 
       let infowindow = new google.maps.InfoWindow({content: contentString});
 
@@ -126,7 +135,8 @@ class ResultsMapComponent extends React.Component {
       });
 
       bounds.extend(marker.position);
-    });
+
+    }, this);
 
     map.fitBounds(bounds);
   }
@@ -139,8 +149,6 @@ class ResultsMapComponent extends React.Component {
     );
   }
 }
-
-ResultsMapComponent.displayName = 'ResultsMapComponent';
 
 // Uncomment properties you need
 // ResultsMapComponent.propTypes = {};

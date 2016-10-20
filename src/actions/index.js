@@ -18,7 +18,7 @@ export function createInvitation() {
 
   return function(dispatch, getState) {
     var inviteId = shortid.generate();
-    var inviteUrl = document.location.origin + '/#/invite/' + inviteId;
+    var inviteUrl = document.location.origin + document.location.pathname + '/#/invite/' + inviteId;
 
     var data = getDefaultDataStructure();
     data.meal = getState().meal;

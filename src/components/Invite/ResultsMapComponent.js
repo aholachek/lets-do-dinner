@@ -97,24 +97,23 @@ class ResultsMapComponent extends React.Component {
         return;
       }
 
-      let iconImg, markerSize;
+      let icon;
 
       if (this.props.votes.indexOf(d.id) > -1) {
-         iconImg = 'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png';
-         markerSize = new google.maps.Size(38, 38)
+         //control the size
+          icon = new google.maps.MarkerImage(
+           `http://maps.google.com/mapfiles/kml/paddle/${i+1}.png`,
+            null, /* size is determined at runtime */
+            null, /* origin is 0,0 */
+            null, /* anchor is bottom center of the scaled image */
+            new google.maps.Size(38, 38)
+         );
       } else {
-         iconImg = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-         markerSize = new google.maps.Size(33, 33)
+          icon  = 'http://labs.google.com/ridefinder/images/mm_20_gray.png';
         }
 
       //control the size
-      let icon = new google.maps.MarkerImage(
-        iconImg,
-         null, /* size is determined at runtime */
-         null, /* origin is 0,0 */
-         null, /* anchor is bottom center of the scaled image */
-         markerSize
-      );
+
 
       let marker = new google.maps.Marker({
         position: new google.maps.LatLng(d.coordinates.latitude, d.coordinates.longitude),

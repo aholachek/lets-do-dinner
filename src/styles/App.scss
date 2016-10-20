@@ -1,8 +1,16 @@
 @import "./variable_overrides";
 @import "./../../node_modules/bootstrap/scss/bootstrap.scss";
-$sm-bp: 520px;
 
-h1,h2,h3,h4,h5,h6 {
+b {
+  font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   -webkit-font-smoothing: antialiased;
 }
 
@@ -31,24 +39,31 @@ mark {
 }
 
 .centered {
-  display:block;
+  display: block;
   margin: auto;
 }
 
+.plain-header {
+  font-family: $font-family-sans-serif;
+}
 //used for layout on multiple pages
 .centered-component {
   max-width: 500px;
-  margin: 3rem auto;
+  margin: 2rem auto;
+  width: 100%;
 }
 
-.centered-text-container {
+.content-container {
+  min-height: calc(100vh - 200px);
+  overflow: hidden;
+}
+
+.centered-text {
   text-align: center;
-  margin: 3rem auto;
 }
-
 
 body.landing-page-background {
-  background-image : radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
+  background-image: radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -65,21 +80,27 @@ body.landing-page-background {
 
 .responsive-flex {
   display: block;
-  @media(min-width:$sm-bp) {
+  @include media-breakpoint-up(sm) {
     display: flex;
   }
 }
 
 .btn-active-secondary {
   color: $brand-primary;
-  font-weight:bold;
+  font-weight: bold;
   background: $gray-lighter;
 }
 
 .container-component {
   max-width: 1100px;
   margin: auto;
-  padding: 0.5rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.invite-url {
+  margin-top: 10vh;
+  overflow-x: auto;
 }
 
 .price-container label {
@@ -217,13 +238,19 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .results-container > * {
-  @media(min-width: $sm-bp) {
+  @include media-breakpoint-up(md) {
     width: 50%;
   }
 }
 
+.results-container--left-child {
+  @include media-breakpoint-up(md) {
+    margin-right: 1rem;
+  }
+}
+
 .resultsmap-component .map {
-  height: 500px;
+  height: 534px;
   width: 100%;
 }
 
@@ -232,7 +259,6 @@ div.ReactTags__suggestions ul li.active {
   overflow: auto;
   padding: 0;
   list-style-type: none;
-  padding-right: 3rem;
 }
 
 .resultslist-component > li {
@@ -244,14 +270,38 @@ div.ReactTags__suggestions ul li.active {
   font-size: 1.1rem;
 }
 
-.start-form {
-  max-width: 450px;
-  margin: 10vh auto 15vh;
-  width: 100%;
-  text-align: center;
-  padding: 2.5rem;
+.lead {
+    @include media-breakpoint-down(sm) {
+      font-size: 1rem;
+    }
+}
+
+.start-page {
+  color: $gray-lighter;
+  padding: 1rem;
+  margin: auto;
   h2 {
-    color : $gray-lighter;
+    font-size: 1.8rem;
+  }
+  @include media-breakpoint-up(sm) {
+    padding: 2.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+    p {
+      margin: 3rem 0;
+    }
+    h2 {
+      font-size: 2.1rem;
+    }
+  }
+}
+
+.start-form {
+  text-align: center;
+
+  h2 {
+    color: $gray-lighter;
+    margin-bottom: 2rem;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -260,17 +310,9 @@ div.ReactTags__suggestions ul li.active {
   width: 50%;
 }
 
-.start-form .btn-group.num-to-invite > .btn {
-  width: 25%;
-}
-
 .start-form > div {
   margin-bottom: 2.2rem;
   width: 100%;
-}
-
-.start-form h2 {
-  margin-bottom: 1rem;
 }
 
 footer {
@@ -279,91 +321,114 @@ footer {
 
 .btn-secondary-darker {
   @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 18%), darken($btn-secondary-border, 18%));
-  border: 1px solid darken($btn-secondary-bg, 26%);
   z-index: 1;
 }
 
 .home-link {
   color: $body-color;
-  padding: 1rem 0;
-  display:block;
+  display: block;
+  margin: 0 0 1rem 0;
 }
 
 .home-link h1 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0;
 }
 
 .results-ranking {
-  padding: 0 3rem 1.5rem 0;
   width: 50%;
-  &>.btn-group {
+
+  & > .btn-group {
     width: 100%;
   }
-  &>.btn-group .btn {
+
+  & > .btn-group .btn {
     width: 33.3%;
   }
 }
 
 .result-card__content {
-  padding: .8rem;
+  padding: 0.8rem;
+}
+
+.result-card img {
+  opacity: 0.2;
+}
+
+.result-card--active img {
+  opacity: 1;
 }
 
 .select-button-container {
-  padding: .5rem;
+  padding: 0.5rem;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
-  position:fixed;
+  position: fixed;
   bottom: 0;
-  left:0;
-  right:0;
+  left: 0;
+  right: 0;
 }
 
 .stage-container {
   display: flex;
   margin-bottom: 1rem;
 }
+
 .stage {
   flex-grow: 1;
-  text-align: center;
-  padding: .4rem 0;
+  padding: 0.4rem 1.5rem .4rem 0;
   color: $gray-light;
+  font-size: 0.9rem;
+  display: none;
+  @include media-breakpoint-up(sm) {
+    display: block;
+  }
 
-  &>h2 {
-    font-size:1.2rem;
-    display:inline;
+
+  & > h2 {
+    font-size: 1.3rem;
+    padding-bottom: .4rem;
+    padding-left: .2rem;
+    font-family: $font-family-sans-serif;
+    border-bottom: 2px solid $gray-lightest;
   }
 }
 
 .stage--active {
-  color: $body-color;
-  background: white;
-  &>h2 {
-    position: relative;
-    &:after {
-      content: "";
-      background: #4a25e2;
-      height: .5rem;
-      position: absolute;
-      bottom: .3rem;
-      left: 0;
-      right: 0;
-      z-index: 0;
-      opacity: .2;
-    }
+  color: lighten($body-color, 5%);
+  display: block;
+
+  & > h2 {
+    border-bottom: 2px solid lighten($brand-primary, 5%);
+    font-family : Bevan;
   }
 }
 
 .result-card__voting-buttons {
-  &>button {
-    width:50%;
+  & > button {
+    width: 50%;
   }
 }
 
 .btn-group--equal-width {
-  display : flex;
-  &>* {
-    flex-grow : 1;
-  }
+  display: flex;
+  flex-direction: column;
 
+  & > * {
+    flex-grow: 1;
+  }
+  @include media-breakpoint-up(sm) {
+    flex-direction: row;
+  }
+}
+
+.btn-group--equal-width.btn-group--single-row {
+    flex-direction: row;
+}
+
+.user-progress-container {
+  display: flex;
+  & > div {
+    margin: 0 0.2rem;
+  }
 }

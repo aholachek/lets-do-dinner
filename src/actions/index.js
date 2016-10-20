@@ -7,29 +7,34 @@ import shortid from 'shortid'
 import getDefaultDataStructure from 'data/defaultFirebaseData'
 import notifications from 'html5-desktop-notifications';
 
-
 const database = firebase.database();
 
 function getInviteUrl(hash) {
   return 'invites/' + hash;
 }
 
-function transformMeal(meal) {
-  if (meal === 'Drinks') meal = 'Bars';
-  return meal;
-}
 
 export function createInvitation() {
 
   return function(dispatch, getState) {
     var inviteId = shortid.generate();
+    var inviteUrl = document.location.origin + '/#/invite/' + inviteId;
+
+    var data = getDefaultDataStructure();
+    data.meal = getState().meal;
+    data.inviteId = inviteId;
+    data.admin = getState().userId;
+    data.inviteUrl = inviteUrl
+
     firebase.database()
       .ref(getInviteUrl(inviteId))
-      .set(getDefaultDataStructure(transformMeal(getState().meal), getState().numGuests, inviteId))
+      .set(data)
       .then(function() {
-        dispatch(setInviteUrl(document.location.origin + '#/invite/' + inviteId));
         hashHistory.push('/get-invite-url');
       });
+
+    //hack
+    dispatch(setFirebaseData({inviteUrl : inviteUrl}));
   }
 }
 
@@ -47,13 +52,6 @@ export function setInviteId(id) {
   }
 }
 
-export function setInviteUrl(url) {
-  return {
-    type: 'SET_URL',
-    url
-  }
-}
-
 export function setFirebaseData(data) {
   return {
     type: 'SET_FIREBASE_DATA',
@@ -61,10 +59,21 @@ export function setFirebaseData(data) {
   }
 }
 
-export function setName(name) {
-  return {
-    type: 'SET_NAME',
-    name
+export function submitNameToFirebase(name) {
+  return function(dispatch, getState) {
+    const userPath = 'users/' + getState().userId + '/';
+    const userRef = firebase.database().ref(userPath);
+
+    userRef.update({
+      name: name
+    });
+
+    //for now, just reproducing this data, maybe later allow override
+    firebase.database().ref(getInviteUrl(getState().inviteId) + '/nameDict')
+      .update({
+      [getState().userId]: name
+      });
+
   }
 }
 
@@ -72,24 +81,17 @@ export function setNotifications(bool) {
 
   return {
     type: 'SET_NOTIFICATIONS',
-    notificationsOn : bool
-  }
-}
-
-export function updateNumGuests(numGuests) {
-  return {
-    type: 'UPDATE_NUM_GUESTS',
-    numGuests
+    notificationsOn: bool
   }
 }
 
 export function subscribeToFirebase(hash) {
   return function(dispatch, getState) {
-
     //set the hash into redux for later firebase actions
     dispatch(setInviteId(hash));
 
     const inviteRef = firebase.database().ref(getInviteUrl(hash));
+    inviteRef.off();
     inviteRef.on('value', function(snapshot) {
       const data = snapshot.val();
       // when matches are added,
@@ -100,40 +102,44 @@ export function subscribeToFirebase(hash) {
           dispatch(updateVote(m.id));
         });
 
-        if (Notification.permission === 'granted'){
-          const n = new Notification('Lets Do Dinner', {
-            body : 'It\'s time to vote!'
-          });
-        }
+        if (Notification.permission === 'granted' && document.hidden) {
+          if (getState().meal === 'Dinner'){
+            const n = new Notification('Let\'s Do Dinner', {
+              body: 'It\'s time to vote!',
+              icon: './../images/app_icon.png'
+            });
+          } else if (getState().meal === 'Drinks') {
+            const n = new Notification('Let\'s Do Drinks', {
+              body: 'It\'s time to vote!',
+              icon: './../images/app_icon_drinks.png'
+            });
+          }
 
+        }
       }
-      //when final result is added, notify user if notifications are enabled
-      if (Notification.permission === 'granted'){
-        const n = new Notification('Lets Do Dinner', {
-          body : 'The votes have been tallied! Check out where you\'re going.'
-        });
+
+      if (!getState().firebaseData.finalRecommendation && data.finalRecommendation) {
+        //when final result is added, notify user if notifications are enabled
+        if (Notification.permission === 'granted' && document.hidden) {
+          if (getState().meal === 'Dinner'){
+            const n = new Notification('Let\'s Do Dinner', {
+              body: 'The results are in!',
+              icon: './../images/app_icon.png'
+            });
+          } else if (getState().meal === 'Drinks') {
+            const n = new Notification('Let\'s Do Drinks', {
+              body: 'The results are in!',
+              icon: './../images/app_icon_drinks.png'
+            });
+          }
+        }
       }
 
       dispatch(setFirebaseData(data));
+      //in case someone's coming in from a url
+      dispatch(updateMeal(data.meal));
     });
 
-    //subscribe to user added
-    firebase.database().ref(getInviteUrl(hash) + '/preferences')
-      .on('child_added', function(child) {
-        //get the name, and add it to a local dict of id : name hashes
-        const val = child.val();
-        const id = val.userId;
-        firebase.database().ref(`/users/${id}`).once('value', function(x) {
-          dispatch(updateUserDict({
-            [id]: x.val().name
-          }));
-        });
-      });
-
-    //update ref with my user id
-    firebase.database()
-      .ref(getInviteUrl(hash) + '/invitees')
-      .push(getState().userId);
   }
 }
 
@@ -141,15 +147,11 @@ export function updateMeal(meal) {
 
   return function(dispatch, getState) {
 
-    const cachedVis = getState().visibleUsers;
-    //hack
-    dispatch(reset());
-
     dispatch({
       type: 'UPDATE_MEAL',
       meal
     });
-    dispatch(updateVisible(cachedVis))
+
   }
 }
 
@@ -184,9 +186,8 @@ export function submitPreferencesToFirebase() {
 
     //stash preferences to autofill the next time
     userRef.set({
-      name: getState().name,
       preferences: preferences
-    })
+    });
 
     firebase.database()
       .ref(getInviteUrl(getState().inviteId) + '/preferences')
@@ -194,32 +195,12 @@ export function submitPreferencesToFirebase() {
         [getState().userId]: preferences
       });
 
-      //finally, if notifications are enabled, request permission for app
-      if (getState().notificationsOn){
+    //finally, if notifications are enabled, request permission for app
+    if (getState().notificationsOn) {
 
-        Notification.requestPermission().then(function(permission){
-        });
+      Notification.requestPermission().then(function(permission) {});
 
-      }
-  }
-}
-
-export function requestMatches() {
-  return {
-    type: 'REQUEST_MATCHES'
-  }
-}
-
-export function receiveMatches(data) {
-  return {
-    type: 'RECEIVE_MATCHES',
-    data
-  }
-}
-
-export function matchesFailed() {
-  return {
-    type: 'MATCHES_FAILED',
+    }
   }
 }
 
@@ -249,7 +230,6 @@ export function submitVotesToFirebase() {
             voteObj[placeId] = [userId]
           }
         });
-
         //set new object back into firebase
         submittedVotesRef.set(voteObj);
       });
@@ -260,5 +240,20 @@ export function updateUserDict(dict) {
   return {
     type: 'UPDATE_USER_DICT',
     dict
+  }
+}
+
+export function moveToNextStage (){
+  return function(dispatch, getState) {
+    const stage = getState().firebaseData.stage;
+    let newStage;
+    if (stage === 'preferences') {
+      newStage = 'voting'
+    } else if (stage === 'voting'){
+      newStage ='done'
+    }
+    firebase.database()
+      .ref(getInviteUrl(getState().inviteId))
+      .update({stage : newStage});
   }
 }

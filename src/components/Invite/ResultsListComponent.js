@@ -70,8 +70,9 @@ class ResultsListComponent extends React.Component {
             {i + 1}.&nbsp;
             {l.name}
             </a> </b>
-              <div className="pull-right">{l.price}&nbsp;&nbsp;<RatingComponent rating = {l.rating}/></div>
+            <div className="pull-right lead">{l.price}</div>
           <div>
+          <div><RatingComponent rating = {l.rating}/></div>
             <div><b>{
                 l.categories.map(function(c, i) {
                   if (i === l.categories.length -1) {
@@ -98,22 +99,22 @@ class ResultsListComponent extends React.Component {
     if (this.props.votes.indexOf(l.id) == -1){
       return (
         <div className="result-card__voting-buttons">
+        <button className="btn btn-sm btn btn-secondary-darker" onClick={updateVote}>
+        <i className="fa fa-times"></i> No Thanks
+        </button>
         <button className="btn btn-sm btn-secondary" onClick={updateVote}>
         <i className="fa fa-check"></i> I'd Go Here
-        </button>
-        <button className="btn btn-sm btn-danger" onClick={updateVote}>
-        <i className="fa fa-times"></i> No Thanks
         </button>
         </div>
       )
      } else {
         return (
           <div className="result-card__voting-buttons">
-          <button className="btn btn-sm btn-primary" onClick={updateVote}>
-          <i className="fa fa-check"></i> I'd Go Here
-          </button>
           <button className="btn btn-sm btn-secondary" onClick={updateVote}>
           <i className="fa fa-times"></i> No Thanks
+          </button>
+          <button className="btn btn-sm btn-primary" onClick={updateVote}>
+          <i className="fa fa-check"></i> I'd Go Here
           </button>
           </div>
         )

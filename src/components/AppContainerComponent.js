@@ -2,35 +2,50 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router'
-import { connect } from 'react-redux'
+import {Link} from 'react-router'
+import {connect} from 'react-redux'
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
-    meal : state.meal
+    meal: state.meal,
+    admin: (state.firebaseData.admin === state.userId),
+    inviteUrl: state.firebaseData.inviteUrl
   }
 }
 
 class ContainerComponent extends React.Component {
 
-  render() {
+  constructor() {
+    super();
+    this.renderAdminLink = this.renderAdminLink.bind(this);
+  }
 
+  renderAdminLink() {
+    return (
+      <span className="admin-link">
+        <b>Invite share link:</b>&nbsp;
+         { this.props.inviteUrl }
+      </span>
+    )
+  }
+
+  render() {
     return (
       <div className="container-component">
         <div>
-            <Link to="/" className="home-link">
+          <Link to="/" className="home-link">
             <h1>
-              <i className={this.props.meal === 'Dinner' ?
-                "fa fa-cutlery text-primary" :
-                "fa fa-glass text-primary"
-              }/>
-              &nbsp;&nbsp;{'Let\'s Do ' + this.props.meal}
+              <i className={this.props.meal === 'Dinner'
+                ? "fa fa-cutlery text-primary fa-2x fa-border"
+                : "fa fa-glass text-primary fa-2x fa-border"}/>
             </h1>
           </Link>
         </div>
-         {this.props.children}
-        <footer className="footer">
-      </footer>
+        <div className= 'content-container'> { this.props.children } </div>
+        <footer className="footer" style={{textAlign : 'center'}}>
+        <hr/>
+        { this.props.admin  ? this.renderAdminLink() : '' }
+        </footer>
       </div>
     );
   }
@@ -40,6 +55,4 @@ class ContainerComponent extends React.Component {
 // ContainerComponent.propTypes = {};
 // ContainerComponent.defaultProps = {};
 
-export default connect(
-  mapStateToProps
-)(ContainerComponent);
+export default connect(mapStateToProps)(ContainerComponent);

@@ -13,8 +13,8 @@ function mapStateToProps(state){
     matches : state.firebaseData.matches,
     preferences : state.firebaseData.preferences,
     votes : state.votes,
-    userDict : state.userDict,
-    userId : state.userId
+    userId : state.userId,
+    firebaseData : state.firebaseData
   }
 }
 
@@ -33,7 +33,7 @@ class MatchesContainerComponent extends React.Component {
     this.renderFilterButtons = this.renderFilterButtons.bind(this);
     this.renderSubmitButtonContainer = this.renderSubmitButtonContainer.bind(this);
   }
-  
+
   renderFilterButtons() {
 
     return [location, rating, price].map(function(w){
@@ -97,25 +97,33 @@ class MatchesContainerComponent extends React.Component {
     return  (
       <div className="matchescontainer-component">
           <div className="results-ranking">
-              <div className="btn-group" role="group">
-              {this.renderFilterButtons()}
-            </div>
           </div>
             <div className="results-container">
-              <ResultsList
-                data={recordsToShow}
-                userData={userData}
-                updateVote={this.props.updateVote}
-                votes={this.props.votes}
-                userDict={this.props.userDict}
-                userId={this.props.userId}
-                 />
+              <div className="results-container--left-child">
+                <div
+                className="btn-group btn-group--equal-width btn-group--single-row"
+                role="group"
+                style={{marginBottom: '1rem'}}
+                >
+                  {this.renderFilterButtons()}
+                </div>
+                <ResultsList
+                  data={recordsToShow}
+                  userData={userData}
+                  updateVote={this.props.updateVote}
+                  votes={this.props.votes}
+                  userDict={this.props.firebaseData.nameDict}
+                  userId={this.props.userId}
+                   />
+              </div>
+              <div>
               <ResultsMap
                 data={recordsToShow.slice(0,9)}
                 userData={userData}
                 votes={this.props.votes}
-                userDict={this.props.userDict}
+                userDict={this.props.firebaseData.nameDict}
                  />
+              </div>
           </div>
         { this.renderSubmitButtonContainer() }
     </div>

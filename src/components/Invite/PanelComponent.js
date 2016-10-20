@@ -17,6 +17,11 @@ class PanelComponent extends React.Component {
     this.submitPreferencesToFirebase = this.submitPreferencesToFirebase.bind(this);
 
     this.placeDict = {};
+
+    //sometimes google geosuggest fails to input lat/long
+    this.state = {
+      error : false
+    }
   }
 
   handleDelete(arr, i) {
@@ -46,6 +51,11 @@ class PanelComponent extends React.Component {
 
   onGeoSuggest(direction, data) {
     var locations = this.props.data.locations;
+    if (!data.location || !data.location.lat || !data.location.lng) {
+      this.setState({'error' : 'Something went wrong, please try selecting a location again'})
+    } else {
+      this.setState({'error' : false})
+    }
     locations[direction].latitude = data.location.lat;
     locations[direction].longitude = data.location.lng;
     locations[direction].label = data.label;
@@ -174,11 +184,14 @@ class PanelComponent extends React.Component {
         return d.title;
     });
 
-    var yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine';
-
+    let yelpPlaceholder = (this.props.meal === 'Drinks') ? 'Add a type of bar' : 'Add a cuisine';
     const geoValue = this.props.data.locations.from.label || '';
 
-    debugger
+    let submitClasses = 'btn btn-primary btn-block';
+    //must be a valid location to submit
+    if (!this.props.data.locations.from.latitude){
+      submitClasses += ' disabled';
+    }
 
     return (
         <form className='centered-component'
@@ -244,7 +257,7 @@ class PanelComponent extends React.Component {
                 className="form-check-input"
                 type="checkbox"
                 checked={this.props.notificationsOn ? true : false}
-                onChange={ (e)=> {debugger;this.props.setNotifications(!this.props.notificationsOn)}  }
+                onChange={ (e)=> {this.props.setNotifications(!this.props.notificationsOn)}  }
                 />
                   Notify me when it's time to vote, and when results are in
               </label>
@@ -252,10 +265,11 @@ class PanelComponent extends React.Component {
           </fieldset>
           <br/>
           <button
-          className="btn btn-primary btn-block"
+          className={submitClasses}
           >
           submit my preferences
           </button>
+          {this.state.error ? <span className="text-danger">{this.state.error}</span> : <div></div>}
         </form>
     );
   }

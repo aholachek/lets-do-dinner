@@ -11,14 +11,14 @@ const defaultPreferences =  { price: [
   },
   locations: {
     from: {
-      mode: 'transit',
+      mode: 'driving',
       latitude: null,
       longitude: null,
       //just for autocomplete
       label : null
     },
     to: {
-      mode: 'transit',
+      mode: 'driving',
       latitude: null,
       longitude: null,
       label : null
@@ -30,16 +30,13 @@ const defaultState = {
 //one of Dinner/Drinks
 meal : 'Dinner',
 notificationsOn : true,
-numGuests : 2,
 userId : undefined,
-name : undefined,
 //name-id pairs for other people
 userDict : {},
 preferences : defaultPreferences,
 votes : [],
 firebaseData : {},
-inviteId : undefined,
-inviteUrl : undefined
+inviteId : undefined
 }
 
 export default defaultState

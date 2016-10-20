@@ -9,9 +9,9 @@ import { connect } from 'react-redux'
 import { updateMeal, updateVisible, reset,  createInvitation } from 'actions/index'
 
 function mapStateToProps(state){
+  debugger
   return {
-    inviteUrl : state.inviteUrl,
-    numGuests : state.numGuests
+    inviteUrl : state.firebaseData.inviteUrl
   }
 }
 
@@ -19,21 +19,25 @@ class inviteURLPage extends React.Component {
 
   render() {
 
-   const relativeLink = this.props.inviteUrl.replace(document.location.origin +'#', '');
+   const relativeLink = this.props.inviteUrl ?
+   this.props.inviteUrl.replace(document.location.origin +'/#', '')
+   : '';
 
     return (
-      <div className="invite-url centered-text-container">
-        <div>
-          First, send this link to { this.props.numGuests -1 } {this.props.numGuests > 2 ? 'friends' : 'friend'}:
-          <div>
-          <div style={{margin: '2rem 0'}}>
-            <b>{this.props.inviteUrl}</b>
-          </div>
-          </div>
-        </div>
-        <div>
-          Then <Link to={relativeLink}> enter your preferences to get started.</Link>
-        </div>
+      <div className="invite-url centered-component lead">
+
+      <h2>Success!</h2>
+      <hr/>
+
+        <p>You've created an invitation accessible at the following URL:</p>
+
+        <p> <b>{this.props.inviteUrl}</b></p>
+        <p>
+        First, send the link to up to 4 other friends so they can get started entering their preferences.
+        </p>
+        <p>
+         Next, <b><Link to={relativeLink}> enter your own preferences to get started.</Link></b>
+        </p>
 
       </div>
     );

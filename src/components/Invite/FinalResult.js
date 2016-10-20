@@ -11,10 +11,8 @@ let iconDict = {
 export default class FinalResult extends React.Component {
 
   renderDirections(rec){
-    debugger
     let userId = this.props.userId;
     let mode = this.props.preferences.mode;
-    debugger
     let time = rec.time.origins[userId];
     let modeLetter;
     if (['walking', 'bicycling', 'driving'].indexOf(mode) > -1){
@@ -45,18 +43,18 @@ export default class FinalResult extends React.Component {
       return m.id === this.props.recommendation;
     }, this)[0];
     return (
-      <div className='centered-component' style={{textAlign: 'center'}}>
+      <div className='centered-component' style={{textAlign: 'center', fontSize: '1.2rem'}}>
         <div>
-          <h2 style={{fontSize : '1.5rem', marginBottom: '1rem'}}>You're going to</h2>
+          <h2 style={{fontSize : '1.6rem', marginBottom: '1rem'}} className='plain-header'>You're going to</h2>
         <div>
-          <h3 style={{fontSize: '2rem'}}>
+          <h3 style={{fontSize: '2.2rem'}}>
           <a href={rec.url}>{rec.name}</a>
           </h3>
         </div>
-        <div style={{marginBottom: '2rem'}}>
+        <div style={{marginBottom: '1rem'}}>
           <b>{
               rec.categories.slice(0,2).map(function(c, i) {
-                if (i === 1) {
+                if (i === 1 || rec.categories.length === 1) {
                   return (<span>{c.title}</span>)
                 } else {
                   return (<span>{c.title},&nbsp;</span>)
@@ -73,7 +71,7 @@ export default class FinalResult extends React.Component {
               /> : ''
           }
         </div>
-        <div style={{marginTop : '2rem'}}>
+        <div style={{marginTop : '1rem'}}>
           {rec.price}&nbsp;&nbsp;<RatingComponent rating = {rec.rating}/>
         </div>
         <div>

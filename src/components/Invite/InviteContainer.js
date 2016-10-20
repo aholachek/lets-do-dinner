@@ -13,8 +13,8 @@ function mapStateToProps(state){
   return {
     meal : state.meal,
     visibleUsers : state.visibleUsers,
-    userDict : state.userDict,
-    stage : state.firebaseData.stage
+    stage : state.firebaseData.stage,
+    firebaseData : state.firebaseData
   }
 }
 
@@ -29,11 +29,11 @@ class InviteContainer extends React.Component {
     return (
       <div className="invite-container">
         <Progress
-        userDict={this.props.userDict}
+        userDict={this.props.firebaseData.nameDict}
         stage={this.props.stage}
+        firebaseData={this.props.firebaseData}
         />
           {this.props.children}
-          <hr/>
       </div>
     );
   }

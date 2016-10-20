@@ -6,12 +6,11 @@ import _ from 'lodash';
 import { Link } from 'react-router'
 
 import { connect } from 'react-redux'
-import { updateMeal, updateNumGuests,  createInvitation } from 'actions/index'
+import { updateMeal, createInvitation } from 'actions/index'
 
 function mapStateToProps(state){
   return {
-    meal : state.meal,
-    numGuests : state.numGuests
+    meal : state.meal
   }
 }
 
@@ -20,6 +19,10 @@ class StartPage extends React.Component {
   constructor(){
     super();
     this.renderMealType = this.renderMealType.bind(this);
+    this.renderSubmitButton = this.renderSubmitButton.bind(this);
+    this.state = {
+      loading : false
+    }
   }
 
   renderMealType(){
@@ -33,7 +36,7 @@ class StartPage extends React.Component {
      var that = this;
 
      function onClick(){
-       that.setState({ meal : w});
+       that.props.updateMeal(w);
      }
 
      var cn = (w === this.props.meal) ?
@@ -53,54 +56,41 @@ class StartPage extends React.Component {
 
   }
 
-  renderNumToInvite(){
-  return _.range(1,5).map(function(n){
-
-    var that = this;
-
-     function onClick(){
-       that.props.updateNumGuests(n + 1);
-     }
-
-     var word = n > 1 ? 'people' : 'person';
-
-      if (n === this.props.numGuests -1) {
-        return <button type="button"
-          className="btn btn-secondary-darker"
-          key={n + '-btn'}
-          onClick={onClick}
-          ><b>{n}</b> {word}</button>
-      } else {
-        return <button type="button"
-          className="btn btn-secondary"
-           key={n + '-btn'}
-           onClick={onClick}
-           ><b>{n}</b> {word}</button>
-      }
-  }, this)
+renderSubmitButton () {
+  if (!this.state.loading) {
+    return (<button
+      type="button"
+      onClick={()=>{this.setState({loading : true}); this.props.createInvitation()}}
+      className="btn btn-primary btn-block"
+      style={{marginTop: '1rem', display: 'inline-block'}}
+      >Create invitation
+    </button>)
+  } else {
+    return  (<button
+        type="button"
+        className="btn btn-primary btn-block"
+        style={{marginTop: '1rem', display: 'inline-block'}}
+        ><i className="fa fa-refresh fa-spin fa-fw"/> Creating Invitation...
+      </button>)
+  }
 }
 
   render() {
 
     return (
       <div className="start-page">
-        <form className="start-form">
-          <h2>I'm planning</h2>
+      <p>
+        Pick a place to meet with friends more quickly. <br/>
+        Make it easy for everyone to have a say.
+      </p>
+        <form className="start-form centered-component">
+          <h2>Let's Do {this.props.meal}</h2>
           <div className="btn-group meal-type" role="group">
           { this.renderMealType() }
           </div>
-          <h2>I'm inviting</h2>
-          <div className="btn-group num-to-invite" role="group">
-          { this.renderNumToInvite() }
-          </div>
-            <button
-              type="button"
-              onClick={this.props.createInvitation}
-              className="btn btn-primary btn-block"
-              style={{marginTop: '1rem', display: 'inline-block'}}
-              >Create invitation
-            </button>
+          { this.renderSubmitButton() }
         </form>
+
       </div>
     );
   }
@@ -115,7 +105,6 @@ export default connect(
   mapStateToProps,
   {
     createInvitation : createInvitation,
-    updateMeal : updateMeal,
-    updateNumGuests : updateNumGuests
+    updateMeal : updateMeal
   }
 )(StartPage);

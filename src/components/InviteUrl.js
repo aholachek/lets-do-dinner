@@ -9,9 +9,9 @@ import { connect } from 'react-redux'
 import { updateMeal, updateVisible, reset,  createInvitation } from 'actions/index'
 
 function mapStateToProps(state){
-  debugger
   return {
-    inviteUrl : state.firebaseData.inviteUrl
+    inviteUrl : state.firebaseData.inviteUrl,
+    inviteId : state.inviteid
   }
 }
 
@@ -19,9 +19,7 @@ class inviteURLPage extends React.Component {
 
   render() {
 
-   const relativeLink = this.props.inviteUrl ?
-   this.props.inviteUrl.replace(document.location.origin +'/#', '')
-   : '';
+   const relativeLink = this.props.inviteUrl ? this.props.inviteUrl.split("#")[1] : '';
 
     return (
       <div className="invite-url centered-component lead">

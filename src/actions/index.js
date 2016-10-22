@@ -85,13 +85,23 @@ export function setNotifications(bool) {
   }
 }
 
+export function clearVotes() {
+  return {
+    type: 'CLEAR_VOTES',
+  }
+}
+
+let inviteRef;
+
 export function subscribeToFirebase(hash) {
   return function(dispatch, getState) {
     //set the hash into redux for later firebase actions
     dispatch(setInviteId(hash));
+    //clear votes if they're there from a prior invite
+    dispatch(clearVotes());
 
-    const inviteRef = firebase.database().ref(getInviteUrl(hash));
-    inviteRef.off();
+    if (inviteRef) inviteRef.off();
+    inviteRef = firebase.database().ref(getInviteUrl(hash));
     inviteRef.on('value', function(snapshot) {
       const data = snapshot.val();
       // when matches are added,
@@ -106,12 +116,12 @@ export function subscribeToFirebase(hash) {
           if (getState().meal === 'Dinner'){
             const n = new Notification('Let\'s Do Dinner', {
               body: 'It\'s time to vote!',
-              icon: './../images/app_icon.png'
+              icon: config.img_endpoint + 'app_icon.png'
             });
           } else if (getState().meal === 'Drinks') {
             const n = new Notification('Let\'s Do Drinks', {
               body: 'It\'s time to vote!',
-              icon: './../images/app_icon_drinks.png'
+              icon: config.img_endpoint + 'app_icon_drinks.png'
             });
           }
 
@@ -124,12 +134,12 @@ export function subscribeToFirebase(hash) {
           if (getState().meal === 'Dinner'){
             const n = new Notification('Let\'s Do Dinner', {
               body: 'The results are in!',
-              icon: './../images/app_icon.png'
+              icon: config.img_endpoint + 'app_icon.png'
             });
           } else if (getState().meal === 'Drinks') {
             const n = new Notification('Let\'s Do Drinks', {
               body: 'The results are in!',
-              icon: './../images/app_icon_drinks.png'
+              icon: config.img_endpoint + 'app_icon_drinks.png'
             });
           }
         }
@@ -252,8 +262,33 @@ export function moveToNextStage (){
     } else if (stage === 'voting'){
       newStage ='done'
     }
-    firebase.database()
-      .ref(getInviteUrl(getState().inviteId))
-      .update({stage : newStage});
+
+    function contactFirebase (){
+      firebase.database()
+        .ref(getInviteUrl(getState().inviteId))
+        .update({stage : newStage});
+    }
+    if (config['free_tier']){
+      wakeUpDyno();
+      setTimeout(contactFirebase, 10000);
+    } else {
+      contactFirebase();
+    }
+
   }
+}
+
+function wakeUpDyno () {
+
+  fetch(config.api_endpoint, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((response) => {
+    if (response.status === 200) {
+      return
+    } else {
+      console.error("request failed", response);
+    }
+  });
 }

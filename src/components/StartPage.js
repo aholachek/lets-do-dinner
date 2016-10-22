@@ -80,8 +80,7 @@ renderSubmitButton () {
     return (
       <div className="start-page">
       <p>
-        Invite your friends to help pick a restaurant or bar. <br/>
-        We simplify the process so you can plan to meet up more often.
+        Invite your friends to help pick a restaurant or bar.
       </p>
         <form className="start-form centered-component">
           <h2>Let's Do {this.props.meal}</h2>

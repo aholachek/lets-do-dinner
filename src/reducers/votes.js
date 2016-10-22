@@ -9,6 +9,8 @@ export default function reducer(votes=[], action){
     } else {
       return votes.concat([action.id])
     }
+    case 'CLEAR_VOTES':
+      return [];
     default:
       return votes;
   }

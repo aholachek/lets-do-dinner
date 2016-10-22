@@ -93,7 +93,7 @@ class ResultsMapComponent extends React.Component {
 
       //there is some kind of unknown bug messing with fitbounds very occasionally
       if (!d.coordinates.latitude || !d.coordinates.longitude) {
-        console.error("missing location data for ", d);
+        console.error('missing location data for ', d);
         return;
       }
 

@@ -23,7 +23,6 @@ class ErrorPage extends React.Component {
           <h2><i className="fa fa-exclamation-circle"/> There was an error.</h2>
           <p>You can start over <Link to="/"> here</Link>.</p>
         </div>
-
       </div>
     );
   }

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import _ from 'lodash';
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
@@ -23,8 +22,7 @@ class ContainerComponent extends React.Component {
   renderAdminLink() {
     return (
       <span className="admin-link">
-        <b>Invite share link:</b>&nbsp;
-         { this.props.inviteUrl }
+        <b>Invite share link:</b>&nbsp; {this.props.inviteUrl}
       </span>
     )
   }
@@ -36,15 +34,20 @@ class ContainerComponent extends React.Component {
           <Link to="/" className="home-link">
             <h1>
               <i className={this.props.meal === 'Dinner'
-                ? "fa fa-cutlery text-primary fa-2x fa-border"
-                : "fa fa-glass text-primary fa-2x fa-border"}/>
+                ? 'fa fa-cutlery text-primary fa-2x fa-border'
+              : 'fa fa-glass text-primary fa-2x fa-border'}/>
             </h1>
           </Link>
         </div>
-        <div className= 'content-container'> { this.props.children } </div>
-        <footer className="footer" style={{textAlign : 'center'}}>
-        <hr/>
-        { this.props.admin  ? this.renderAdminLink() : '' }
+        <div className='content-container'>
+          {this.props.children}
+        </div>
+        <footer className="footer" style={{
+          textAlign: 'center'
+        }}>
+          <hr/> {this.props.admin
+            ? this.renderAdminLink()
+          : ''}
         </footer>
       </div>
     );

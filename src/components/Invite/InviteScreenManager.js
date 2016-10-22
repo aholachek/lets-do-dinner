@@ -27,9 +27,9 @@ class InviteScreenManager extends React.Component {
 
   renderLoading() {
     return (
-      <div className="centered-component centered-text-container">
+      <div className="centered-component centered-text">
         <h2><i className="fa fa-refresh fa-spin text-primary"/>
-          &nbsp;Loading...</h2>
+        &nbsp;Loading...</h2>
       </div>
     )
   }
@@ -44,21 +44,21 @@ class InviteScreenManager extends React.Component {
         if (!hasName) {
           return <NameForm submitNameToFirebase={this.props.submitNameToFirebase} name={this.props.firebaseData.nameDict
             ? this.props.firebaseData.nameDict[this.props.userId]
-            : ''} meal={this.props.meal.toLowerCase()}/>
+          : ''} meal={this.props.meal.toLowerCase()}/>
 
         } else if (submittedPreferences) {
           return <WaitingPage message="Currently waiting for more invitees to submit their preferences."
-          admin={this.props.isAdmin} moveToNextStage={this.props.moveToNextStage}
-          stage={this.props.firebaseData.stage}/>
+            admin={this.props.isAdmin} moveToNextStage={this.props.moveToNextStage}
+            stage={this.props.firebaseData.stage}/>
 
         } else {
           return <PreferencesPanel
-          data={this.props.preferences}
-          meal={this.props.meal}
-          updatePreferences={this.props.updatePreferences}
-          submitPreferencesToFirebase={this.props.submitPreferencesToFirebase}
-          notificationsOn={this.props.notificationsOn}
-          setNotifications={this.props.setNotifications}/>
+            data={this.props.preferences}
+            meal={this.props.meal}
+            updatePreferences={this.props.updatePreferences}
+            submitPreferencesToFirebase={this.props.submitPreferencesToFirebase}
+            notificationsOn={this.props.notificationsOn}
+            setNotifications={this.props.setNotifications}/>
         }
 
       case 'voting':
@@ -74,16 +74,16 @@ class InviteScreenManager extends React.Component {
       case 'done':
         if (this.props.firebaseData.finalRecommendation) {
           return <FinalResult
-          recommendation={this.props.firebaseData.finalRecommendation}
-          matches={this.props.firebaseData.matches}
-          userId={this.props.userId}
-          preferences={this.props.preferences}/>
+            recommendation={this.props.firebaseData.finalRecommendation}
+            matches={this.props.firebaseData.matches}
+            userId={this.props.userId}
+            preferences={this.props.preferences}/>
         } else {
           return <WaitingPage
-          message="Tallying votes"
-          admin={false}
-          moveToNextStage={this.props.moveToNextStage}
-          stage={this.props.firebaseData.stage}/>
+            message="Tallying votes"
+            admin={false}
+            moveToNextStage={this.props.moveToNextStage}
+            stage={this.props.firebaseData.stage}/>
         }
       default:
         return this.renderLoading()

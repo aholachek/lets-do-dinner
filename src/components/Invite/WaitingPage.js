@@ -44,7 +44,7 @@ export default class WaitingPage extends React.Component {
     if (this.state.loading){
       return (
         <button className="btn btn-block btn-primary">
-          <i className="fa-refresh fa-spin"/>
+          <i className="fa fa-refresh fa-spin"/>
           Working...
         </button>
       )
@@ -52,7 +52,7 @@ export default class WaitingPage extends React.Component {
       return (
         <button className="btn btn-block btn-primary" onClick={() => {
           this.setState({loading: true});
-          this.props.moveToNextStage
+          this.props.moveToNextStage();
         }}>
           <i className="fa fa-arrow-circle-o-right fa-lg"/>&nbsp;
           { this.props.stage === 'preferences'

@@ -77,15 +77,11 @@ export function subscribeToFirebase(hash) {
     //clear votes if they're there from a prior invite
     dispatch(clearVotes());
 
-    if (inviteRef)
-      inviteRef.off();
+    if (inviteRef) inviteRef.off();
     inviteRef = firebase.database().ref(getInviteUrl(hash));
     inviteRef.on('value', function(snapshot) {
 
       const data = snapshot.val();
-      dispatch(setFirebaseData(data));
-      //in case someone's coming in from a url
-      dispatch(updateMeal(data.meal));
 
       // when matches are added,
       // add them all to votes so they are preselected
@@ -126,6 +122,11 @@ export function subscribeToFirebase(hash) {
           }
         }
       }
+
+      //this must come after everything else
+      dispatch(setFirebaseData(data));
+      //in case someone's coming in from a url
+      dispatch(updateMeal(data.meal));
 
     });
 

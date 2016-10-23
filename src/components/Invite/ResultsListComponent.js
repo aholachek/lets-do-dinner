@@ -119,7 +119,7 @@ class ResultsListComponent extends React.Component {
             No Thanks
           </button>
           <button className="btn btn-sm btn-secondary" onClick={updateVote}>
-            <i className="fa fa-check"/>&nbps;
+            <i className="fa fa-check"/>&nbsp;
             I'd Go Here
           </button>
         </div>

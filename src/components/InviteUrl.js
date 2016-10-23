@@ -22,7 +22,7 @@ class inviteURLPage extends React.Component {
    const relativeLink = this.props.inviteUrl ? this.props.inviteUrl.split("#")[1] : '';
 
     return (
-      <div className="invite-url centered-component lead">
+      <div className="invite-url centered-component">
 
       <h2>Success!</h2>
       <hr/>

@@ -166,6 +166,7 @@ class PanelComponent extends React.Component {
 
   submitPreferencesToFirebase (e){
     e.preventDefault();
+    if (!this.props.data.locations.from.latitude) return false
     this.props.submitPreferencesToFirebase();
   }
 
@@ -195,10 +196,7 @@ class PanelComponent extends React.Component {
 
     return (
         <form className='centered-component'
-          onSubmit={()=>{
-            if (!this.props.data.locations.from.latitude) return false
-            this.submitPreferencesToFirebase();
-          }}>
+          onSubmit={this.submitPreferencesToFirebase}>
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
             <div className="btn-group btn-group--equal-width"

@@ -38,7 +38,7 @@ class inviteURLPage extends React.Component {
         </p>
 
         <hr/>
-        <b>Disclaimer:</b> This app is a work in progress. It will work best if all invitees are reasonably
+        <b>Disclaimer:</b> This app is a work in progress! It will work best if all invitees are reasonably
         close to each other, and located in urban or suburban areas.
       </div>
     );

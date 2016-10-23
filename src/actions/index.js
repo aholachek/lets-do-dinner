@@ -270,7 +270,7 @@ export function moveToNextStage (){
     }
     if (config['free_tier']){
       wakeUpDyno();
-      setTimeout(contactFirebase, 10000);
+      setTimeout(contactFirebase, 2000);
     } else {
       contactFirebase();
     }

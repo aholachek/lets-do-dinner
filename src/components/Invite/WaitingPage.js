@@ -44,7 +44,7 @@ export default class WaitingPage extends React.Component {
     if (this.state.loading){
       return (
         <button className="btn btn-block btn-primary">
-          <i className="fa fa-refresh fa-spin"/>
+          <i className="fa fa-refresh fa-spin"/>&nbsp;
           Working...
         </button>
       )

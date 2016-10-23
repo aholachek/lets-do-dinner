@@ -8,7 +8,8 @@ function mapStateToProps(state) {
   return {
     meal: state.meal,
     admin: (state.firebaseData.admin === state.userId),
-    inviteUrl: state.firebaseData.inviteUrl
+    inviteUrl: state.firebaseData.inviteUrl,
+    stage : state.firebaseData.stage
   }
 }
 
@@ -45,7 +46,7 @@ class ContainerComponent extends React.Component {
         <footer className="footer" style={{
           textAlign: 'center'
         }}>
-          <hr/> {this.props.admin
+          <hr/> {this.props.admin && this.props.stage !== 'done'
             ? this.renderAdminLink()
           : ''}
         </footer>

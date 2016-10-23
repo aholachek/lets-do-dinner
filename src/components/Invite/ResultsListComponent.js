@@ -115,11 +115,11 @@ class ResultsListComponent extends React.Component {
       return (
         <div className="result-card__voting-buttons">
           <button className="btn btn-sm btn btn-secondary-darker" onClick={updateVote}>
-            <i className="fa fa-times"></i>
+            <i className="fa fa-times"/>&nbsp;
             No Thanks
           </button>
           <button className="btn btn-sm btn-secondary" onClick={updateVote}>
-            <i className="fa fa-check"></i>
+            <i className="fa fa-check"/>&nbps;
             I'd Go Here
           </button>
         </div>
@@ -128,11 +128,11 @@ class ResultsListComponent extends React.Component {
       return (
         <div className="result-card__voting-buttons">
           <button className="btn btn-sm btn-secondary" onClick={updateVote}>
-            <i className="fa fa-times"></i>
+            <i className="fa fa-times"/>&nbsp;
             No Thanks
           </button>
           <button className="btn btn-sm btn-primary" onClick={updateVote}>
-            <i className="fa fa-check"></i>
+            <i className="fa fa-check"/>&nbsp;
             I'd Go Here
           </button>
         </div>

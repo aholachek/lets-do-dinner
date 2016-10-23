@@ -91,7 +91,7 @@ class PanelComponent extends React.Component {
       }
       return (
         <button type="button" className={cl}
-        onClick={(e) => {
+          onClick={(e) => {
         if (price.indexOf(num) > -1) {
           price = _.without(price, num);
         } else {
@@ -143,8 +143,8 @@ class PanelComponent extends React.Component {
       }
       return (
         <button type="button"
-         className={cl}
-         onClick = {() => {
+          className={cl}
+          onClick = {() => {
          var location = this.props.data.locations;
          location[direction].mode = p[0];
          this.props.updatePreferences({location: location});
@@ -195,7 +195,10 @@ class PanelComponent extends React.Component {
 
     return (
         <form className='centered-component'
-              onSubmit={this.submitPreferencesToFirebase}>
+          onSubmit={()=>{
+            if (!this.props.data.locations.from.latitude) return false
+            this.submitPreferencesToFirebase();
+          }}>
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
             <div className="btn-group btn-group--equal-width"

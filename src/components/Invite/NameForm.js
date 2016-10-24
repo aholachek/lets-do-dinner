@@ -14,7 +14,7 @@ export default class NameForm extends React.Component {
 
   render() {
     return (
-      <div className="centered-component" style={{marginTop: '5rem'}}>
+      <div className="centered-component" style={{marginTop: '3rem'}}>
         <p className="lead" style={{textAlign : 'center'}}>
         You're about to help decide on the best place to meet up for {this.props.meal} with friends.
         </p>

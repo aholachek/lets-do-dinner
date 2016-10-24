@@ -297,6 +297,7 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .start-form {
+  margin-top: 3rem;
   text-align: center;
 
   h2 {
@@ -322,6 +323,11 @@ footer {
 .btn-secondary-darker {
   @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 18%), darken($btn-secondary-border, 18%));
   z-index: 1;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: lighten($gray-lightest, 1%);
+  border: 1px solid lighten($gray-lightest, 1%);
 }
 
 .home-link {

@@ -23,7 +23,7 @@ class ContainerComponent extends React.Component {
   renderAdminLink() {
     return (
       <span className="admin-link">
-        <b>Invite share link:</b>&nbsp; {this.props.inviteUrl}
+        <b>Invite people by sending them this link:</b>&nbsp; {this.props.inviteUrl}
       </span>
     )
   }

@@ -35,8 +35,12 @@ class ContainerComponent extends React.Component {
           <Link to="/" className="home-link">
             <h1>
               <i className={this.props.meal === 'Dinner'
-                ? 'fa fa-cutlery text-primary fa-2x fa-border'
-              : 'fa fa-glass text-primary fa-2x fa-border'}/>
+                ? 'fa fa-cutlery'
+              : 'fa fa-glass'}/>
+              &nbsp;&nbsp;
+              <span className="hidden-xs-down">
+                Let's Do {this.props.meal}
+              </span>
             </h1>
           </Link>
         </div>

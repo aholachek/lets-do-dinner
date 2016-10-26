@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 
 const stageDict = {
-  'preferences' : 'Enter Preferences',
-  'voting' : 'Vote on Suggestions',
-  'done' : 'Find Out Result'
+  preferences : 'Enter Preferences',
+  voting : 'Vote on Suggestions',
+  done : 'View Results'
 }
 
 export default class Progress extends React.Component {
@@ -19,11 +19,11 @@ export default class Progress extends React.Component {
 
       return (<div className='user-progress-container'>
         { _.keys(p.userDict).map(function(key){
-        const submitted = _.keys(p.firebaseData.preferences).indexOf(key) > -1;
-        let icon = submitted ? <i className="fa fa-check fa-fw"/>:
-        <i className="fa fa-refresh fa-spin fa-fw"/> ;
-        return <div className={submitted ? '' : 'text-muted'}>
-        {p.userDict[key]}:{icon}
+          const submitted = _.keys(p.firebaseData.preferences).indexOf(key) > -1;
+            let icon = submitted ? <i className="fa fa-lg fa-check-square-o text-success"/>:
+          <i className="fa fa-square-o fa-lg burst-animation"/> ;
+            return <div className={submitted ? '' : 'text-muted'}>
+              {p.userDict[key]}&nbsp;{icon}
         </div>
       }, this) } </div>)
 
@@ -33,19 +33,19 @@ export default class Progress extends React.Component {
 
       return (<div className='user-progress-container'>
         { _.keys(this.props.userDict).map(function(key){
-        const submitted = _.flatten(_.values(submittedVotes)).indexOf(key) > -1;
-        let icon = submitted ? <i className="fa fa-check fa-fw"/>:
-        <i className="fa fa-refresh fa-spin fa-fw"/> ;
-        return <div className={submitted ? '' : 'text-muted'}>
-        {this.props.userDict[key]}:{icon}
-        </div>
-      }, this)
-    }</div>)
+          const submitted = _.flatten(_.values(submittedVotes)).indexOf(key) > -1;
+            let icon = submitted ? <i className="fa fa-check-square-o fa-lg text-success"/>:
+          <i className="fa fa-square-o fa-lg burst-animation"/> ;
+            return <div className={submitted ? '' : 'text-muted'}>
+              {this.props.userDict[key]}&nbsp;{icon}
+            </div>
+        }, this)
+        }</div>)
   }
 }
 
   renderStages (){
-    const stage = this.props.stage;
+    let stage = this.props.stage;
     return _.keys(stageDict).map(function(k, i){
       var cl = 'stage';
       if (k === stage) cl+= ' stage--active'
@@ -59,11 +59,7 @@ export default class Progress extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="stage-container">{this.renderStages()}</div>
-      </div>
-    );
+    return   <div className="stage-container">{this.renderStages()}</div>
   }
 }
 

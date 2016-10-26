@@ -38,6 +38,10 @@ mark {
   padding: 0;
 }
 
+.text-lighter {
+  color: $gray;
+}
+
 .centered {
   display: block;
   margin: auto;
@@ -47,9 +51,10 @@ mark {
   font-family: $font-family-sans-serif;
 }
 //used for layout on multiple pages
+
 .centered-component {
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 100%;
 }
 
@@ -71,7 +76,6 @@ body.landing-page-background {
 
 .landing-page-background .home-link {
   color: $gray-lighter;
-  -webkit-font-smoothing: antialiased;
 }
 
 .weight-300 {
@@ -83,12 +87,6 @@ body.landing-page-background {
   @include media-breakpoint-up(sm) {
     display: flex;
   }
-}
-
-.btn-active-secondary {
-  color: $brand-primary;
-  font-weight: bold;
-  background: $gray-lighter;
 }
 
 .container-component {
@@ -202,7 +200,7 @@ div.ReactTags__selected a.ReactTags__remove {
 /* Styles for suggestions */
 div.ReactTags__suggestions {
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   max-height: 250px;
   overflow: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -271,15 +269,16 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .lead {
-    @include media-breakpoint-down(sm) {
-      font-size: 1rem;
-    }
+  @include media-breakpoint-down(sm) {
+    font-size: 1rem;
+  }
 }
 
 .start-page {
   color: $gray-lighter;
   padding: 1rem;
   margin: auto;
+
   h2 {
     font-size: 1.8rem;
   }
@@ -287,9 +286,11 @@ div.ReactTags__suggestions ul li.active {
     padding: 2.5rem;
     font-size: 1.8rem;
     text-align: center;
+
     p {
-      margin: 1rem 0 2rem 0;
+      margin: 1rem 0 2rem;
     }
+
     h2 {
       font-size: 2.8rem;
     }
@@ -321,19 +322,27 @@ footer {
 }
 
 .btn-secondary-darker {
-  @include button-variant(darken($body-color, 20%), darken($btn-secondary-bg, 18%), darken($btn-secondary-border, 18%));
-  z-index: 1;
+  @include button-variant($brand-primary, lighten($brand-primary, 38), lighten($brand-primary, 35));
+  &:hover, &:focus {
+    background: lighten($brand-primary, 40)
+  }
+  z-index: 3;
+  &:hover {
+    z-index: 4;
+  }
 }
 
-.btn-secondary:hover, .btn-secondary:focus {
+.btn-secondary:focus,
+.btn-secondary:hover {
   background-color: lighten($gray-lightest, 1%);
   border: 1px solid lighten($gray-lightest, 1%);
 }
 
 .home-link {
-  color: $body-color;
+  color: lighten($gray-dark, 15%);
   display: block;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem;
+  -webkit-font-smoothing: antialiased;
 }
 
 .home-link h1 {
@@ -382,7 +391,7 @@ footer {
 
 .stage {
   flex-grow: 1;
-  padding: 0.4rem 1.5rem .4rem 0;
+  padding: 0.4rem 1.5rem 0.4rem 0;
   color: $gray-light;
   font-size: 0.9rem;
   display: none;
@@ -390,11 +399,10 @@ footer {
     display: block;
   }
 
-
   & > h2 {
     font-size: 1.3rem;
-    padding-bottom: .4rem;
-    padding-left: .2rem;
+    padding-bottom: 0.4rem;
+    padding-left: 0.2rem;
     font-family: $font-family-sans-serif;
     border-bottom: 2px solid $gray-lightest;
   }
@@ -406,7 +414,7 @@ footer {
 
   & > h2 {
     border-bottom: 2px solid lighten($brand-primary, 5%);
-    font-family : Bevan;
+    font-family: Bevan;
   }
 }
 
@@ -429,12 +437,123 @@ footer {
 }
 
 .btn-group--equal-width.btn-group--single-row {
-    flex-direction: row;
+  flex-direction: row;
 }
 
 .user-progress-container {
   display: flex;
+
   & > div {
     margin: 0 0.2rem;
   }
+}
+@keyframes burst {
+  0% {
+    opacity: 0;
+    transform : scale(.8);
+  }
+
+  50%{
+    opacity: .8;
+  }
+
+  100% {
+    opacity: 0;
+    transform : scale(1);
+  }
+}
+
+.burst-animation {
+  animation: burst 2s infinite;
+}
+
+.circle-bg {
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  padding: 0.4rem;
+  border: 2px solid $body-color;
+  text-align: center;
+  font-family: Bevan;
+  font-size: 1.5rem;
+  margin: 2rem 0;
+  @include media-breakpoint-up(sm) {
+    margin: 0 2rem 0 0;
+  }
+}
+
+
+.result-title {
+  font-weight: bold;
+}
+
+.result-winner {
+  font-size: 1.1rem;
+  margin: 2rem 0;
+  text-align: center;
+
+  .result-card__content {
+    flex-direction: column;
+  }
+}
+
+.result-winner .result-title {
+  font-family: Bevan;
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 1rem;
+}
+
+.result-votes {
+  border-top: 1px solid $gray-lighter;
+  display: flex;
+
+  & > div {
+    padding: 0.5rem;
+  }
+
+  & > div:first-of-type {
+    background-color: $gray-lightest;
+  }
+}
+
+.result-card__img {
+  margin-right: 1rem;
+  width: 90px;
+  height: 90px;
+}
+
+.result-winner .result-card__img, .result-winner .winner-hide {
+  display: none;
+}
+
+.winner-img {
+  display: none;
+}
+
+.result-winner .winner-img {
+  display: block;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.result-price {
+  display :inline-block;
+  margin: 0 1rem;
+}
+
+.centered-flex {
+  display : flex;
+  justify-content: center;
+}
+
+.flex {
+  display:flex;
+}
+
+.url-to-copy {
+  padding: .4rem .5rem;
+  max-width: 325px;
+  overflow-x: auto;
+  border: 1px solid $gray-lighter;
 }

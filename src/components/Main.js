@@ -27,10 +27,8 @@ class AppComponent extends React.Component {
       <Router history={hashHistory} onChange={this.onRouteChange}>
         <Route path='/' component={AppContainer}>
           <IndexRoute component={StartPage}></IndexRoute>
-          <Route path='/get-invite-url' component={InviteUrl}/>
-          <Route path='/invite/**' component={InviteContainer}>
-            <IndexRoute component={InviteScreenManager}/>
-          </Route>
+          <Route path='/get-invite-url/**' component={InviteUrl}/>
+          <Route path='/invite/**' component={InviteContainer}/>
           <Route path='/error' component={ErrorPage}/>
         </Route>
       </Router>

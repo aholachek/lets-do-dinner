@@ -3,23 +3,46 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { Link } from 'react-router'
+import {Link} from 'react-router'
+import ClipboardButton from 'react-clipboard.js';
 
-import { connect } from 'react-redux'
-import { updateMeal, updateVisible, reset,  createInvitation } from 'actions/index'
+import {connect} from 'react-redux'
+import {
+    updateMeal,
+    updateVisible,
+    reset,
+    createInvitation,
+    setFirebaseData,
+    setInviteId
+ } from 'actions/index'
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
-    inviteUrl : state.firebaseData.inviteUrl,
-    inviteId : state.inviteid
-  }
+     inviteUrl: state.firebaseData.inviteUrl,
+     inviteId: state.inviteid,
+     meal: state.meal
+   }
 }
 
 class inviteURLPage extends React.Component {
 
+  componentDidMount(){
+    if (!this.props.inviteUrl){
+      let inviteId = this.props.params.splat;
+      this.props.setInviteId(inviteId);
+    }
+  }
+
   render() {
 
-   const relativeLink = this.props.inviteUrl ? this.props.inviteUrl.split("#")[1] : '';
+    const relativeLink = this.props.inviteUrl
+      ? this.props.inviteUrl.split("#")[1]
+      : '';
+
+    const emailSubject = encodeURIComponent(`Want to get together for ${this.props.meal.toLowerCase()}?`);
+    const emailBody = encodeURIComponent(`\nHey, I've created an invite on the app Let's Do Dinner to help us automate the process of finding a place to meet.
+   \nJust click this link:\n\n${this.props.inviteUrl}\n\nand follow the instructions.
+   \nSee you soon hopefully!`);
 
     return (
       <div className="invite-url centered-component">
@@ -27,19 +50,44 @@ class inviteURLPage extends React.Component {
         <h2>Success!</h2>
         <hr/>
 
-        <p>You've created an invitation accessible at the following URL:</p>
+        <div className="responsive-flex" style={{margin: '3rem 0'}}>
+          <div className="circle-bg">1</div>
+          <div>
+            <div>
+              Send this invite link to up to 4 other friends:
+              <div className="responsive-flex" style={{margin: '1rem 0'}}>
+                <div className="url-to-copy">
+                  {this.props.inviteUrl}
+                </div>
+                <div>
+                  <ClipboardButton
+                    className="btn btn-secondary-darker"
+                    data-clipboard-text={this.props.inviteUrl}
+                  >
+                    <i className="fa fa-clipboard"/>&nbsp;copy
+                  </ClipboardButton>
+                </div>
+              </div>
+            </div>
+            <div>
+              <a target="_blank" href={`https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`}>
+                <i className="fa fa-envelope"/>&nbsp; Open a pre-filled invitation in Gmail
+              </a>
+            </div>
+          </div>
+        </div>
 
-        <p> <b>{this.props.inviteUrl}</b></p>
-        <p>
-          First, send the link to up to 4 other friends so they can get started entering their preferences.
-        </p>
-        <p>
-          Next, <b><Link to={relativeLink}> enter your own preferences to get started.</Link></b>
-        </p>
+        <div className="responsive-flex">
+          <div className="circle-bg">2</div>
+          <div>
+            <Link to={relativeLink}
+              className="btn btn-primary"
+              style={{marginTop: '.45rem'}}
+            >
+              <i className="fa fa-lg fa-arrow-circle-o-right"/>&nbsp;Get started sharing my preferences</Link>
+          </div>
+        </div>
 
-        <hr/>
-        <b>Disclaimer:</b> This app is a work in progress! It will work best if all invitees are reasonably
-        close to each other, and located in urban or suburban areas.
       </div>
     );
   }
@@ -49,10 +97,8 @@ class inviteURLPage extends React.Component {
 // inviteURLPage.propTypes = {};
 // inviteURLPage.defaultProps = {};
 
-export default connect(
-  mapStateToProps,
-  {
-    createInvitation : createInvitation,
-    updateMeal : updateMeal
-    }
-)(inviteURLPage);
+export default connect(mapStateToProps, {
+  createInvitation: createInvitation,
+  updateMeal: updateMeal,
+  setInviteId : setInviteId
+})(inviteURLPage);

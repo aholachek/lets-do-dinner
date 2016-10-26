@@ -4,18 +4,25 @@ import firebase from './initializeFirebase'
 import shortid from 'shortid'
 import getDefaultDataStructure from 'data/defaultFirebaseData'
 import notifications from 'html5-desktop-notifications';
+import _ from 'lodash';
 
 const database = firebase.database();
 
-function getInviteUrl(hash) {
+function getInvitePath(hash) {
   return 'invites/' + hash;
+}
+
+function createInviteURL(id){
+  return document.location.origin +
+  document.location.pathname +
+  '#/invite/' + id
 }
 
 export function createInvitation() {
 
   return function(dispatch, getState) {
     var inviteId = shortid.generate();
-    var inviteUrl = document.location.origin + document.location.pathname + '#/invite/' + inviteId;
+    var inviteUrl = createInviteURL(inviteId);
 
     var data = getDefaultDataStructure();
     data.meal = getState().meal;
@@ -24,11 +31,10 @@ export function createInvitation() {
     data.inviteUrl = inviteUrl;
     data.createdAt = new Date().toUTCString();
 
-    firebase.database().ref(getInviteUrl(inviteId)).set(data).then(function() {
-      hashHistory.push('/get-invite-url');
+    firebase.database().ref(getInvitePath(inviteId)).set(data).then(function() {
+      hashHistory.push('/get-invite-url/' + inviteId);
     });
 
-    //hack
     dispatch(setFirebaseData({inviteUrl: inviteUrl}));
   }
 }
@@ -38,7 +44,11 @@ export function setUserId(id) {
 }
 
 export function setInviteId(id) {
-  return {type: 'SET_INVITE_ID', id}
+  //keep things consistent
+  return function(dispatch){
+    dispatch({type: 'SET_INVITE_ID', id});
+    dispatch(setFirebaseData({inviteUrl: createInviteURL(id)}));
+  }
 }
 
 export function setFirebaseData(data) {
@@ -53,7 +63,7 @@ export function submitNameToFirebase(name) {
     userRef.update({name: name});
 
     //for now, just reproducing this data, maybe later allow override
-    firebase.database().ref(getInviteUrl(getState().inviteId) + '/nameDict').update({
+    firebase.database().ref(getInvitePath(getState().inviteId) + '/nameDict').update({
       [getState().userId]: name
     });
 
@@ -78,7 +88,7 @@ export function subscribeToFirebase(hash) {
     dispatch(clearVotes());
 
     if (inviteRef) inviteRef.off();
-    inviteRef = firebase.database().ref(getInviteUrl(hash));
+    inviteRef = firebase.database().ref(getInvitePath(hash));
     inviteRef.on('value', function(snapshot) {
 
       const data = snapshot.val();
@@ -160,14 +170,14 @@ export function submitPreferencesToFirebase() {
     const userPath = 'users/' + getState().userId + '/';
     const userRef = firebase.database().ref(userPath);
 
-    let preferences = transformPreferences(getState().preferences);
+    let preferences = transformPreferences(_.cloneDeep(getState().preferences));
     //convenience so later can use firebase's child_added
     preferences.userId = getState().userId;
 
     //stash preferences to autofill the next time
     userRef.set({preferences: preferences});
 
-    firebase.database().ref(getInviteUrl(getState().inviteId) + '/preferences').update({
+    firebase.database().ref(getInvitePath(getState().inviteId) + '/preferences').update({
       [getState().userId]: preferences
     });
 
@@ -186,7 +196,7 @@ export function updateVote(id) {
 
 export function submitVotesToFirebase() {
   return function(dispatch, getState) {
-    const submittedVotesRef = firebase.database().ref(`${getInviteUrl(getState().inviteId)}/submittedVotes`);
+    const submittedVotesRef = firebase.database().ref(`${getInvitePath(getState().inviteId)}/submittedVotes`);
 
     submittedVotesRef.once('value').then(function(snapshot) {
       const voteObj = snapshot.val() || {};
@@ -222,7 +232,7 @@ export function moveToNextStage() {
     }
 
     function contactFirebase() {
-      firebase.database().ref(getInviteUrl(getState().inviteId)).update({stage: newStage});
+      firebase.database().ref(getInvitePath(getState().inviteId)).update({stage: newStage});
     }
     if (config['free_tier']) {
       wakeUpDyno();

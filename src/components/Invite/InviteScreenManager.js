@@ -6,11 +6,17 @@ import NameForm from './NameForm'
 import PreferencesPanel from './PanelComponent'
 import WaitingPage from './WaitingPage'
 import ResultsContainer from './ResultsContainer'
-import FinalResult from './FinalResult'
+import LeaderBoard from './LeaderBoard'
 
 import {connect} from 'react-redux'
 
-import {updatePreferences, submitNameToFirebase, submitPreferencesToFirebase, setNotifications, moveToNextStage} from 'actions/index'
+import {
+  updatePreferences,
+  submitNameToFirebase,
+  submitPreferencesToFirebase,
+  setNotifications,
+  moveToNextStage
+   } from 'actions/index'
 
 function mapStateToProps(state) {
   return {
@@ -35,21 +41,27 @@ class InviteScreenManager extends React.Component {
   }
 
   render() {
-    //preferences,voting,done
-    switch (this.props.firebaseData.stage) {
+    //preferences,voting
+    switch (this.props.stage) {
       case 'preferences':
         const submittedPreferences = _.keys(this.props.firebaseData.preferences).indexOf(this.props.userId) > -1;
         const hasName = this.props.firebaseData.nameDict && this.props.firebaseData.nameDict[this.props.userId];
 
         if (!hasName) {
-          return <NameForm submitNameToFirebase={this.props.submitNameToFirebase} name={this.props.firebaseData.nameDict
-            ? this.props.firebaseData.nameDict[this.props.userId]
-          : ''} meal={this.props.meal.toLowerCase()}/>
+          return <NameForm
+            submitNameToFirebase={this.props.submitNameToFirebase}
+            name={this.props.firebaseData.nameDict
+              ? this.props.firebaseData.nameDict[this.props.userId]
+            : ''}
+            meal={this.props.meal.toLowerCase()}
+            isAdmin={this.props.isAdmin}/>
 
         } else if (submittedPreferences) {
-          return <WaitingPage message="Currently waiting for more invitees to submit their preferences."
-            admin={this.props.isAdmin} moveToNextStage={this.props.moveToNextStage}
-            stage={this.props.firebaseData.stage}/>
+          return <WaitingPage
+            message="Currently waiting for more invitees to submit their preferences."
+            admin={this.props.isAdmin}
+            moveToNextStage={this.props.moveToNextStage}
+            stage={this.props.stage}/>
 
         } else {
           return <PreferencesPanel
@@ -62,29 +74,14 @@ class InviteScreenManager extends React.Component {
         }
 
       case 'voting':
-        const submittedVotes = this.props.firebaseData.submittedVotes;
-        if (_.flatten(_.values(submittedVotes)).indexOf(this.props.userId) > -1) {
-          return <WaitingPage message="Currently waiting for more invitees to submit their votes." admin={this.props.isAdmin} moveToNextStage={this.props.moveToNextStage} stage={this.props.firebaseData.stage}/>
-        } else if (!this.props.firebaseData.matches) {
+         if (!this.props.firebaseData.matches) {
           return this.renderLoading();
         } else {
+          //user has to vote
           return <ResultsContainer/>
         }
-
-      case 'done':
-        if (this.props.firebaseData.finalRecommendation) {
-          return <FinalResult
-            recommendation={this.props.firebaseData.finalRecommendation}
-            matches={this.props.firebaseData.matches}
-            userId={this.props.userId}
-            preferences={this.props.preferences}/>
-        } else {
-          return <WaitingPage
-            message="Tallying votes"
-            admin={false}
-            moveToNextStage={this.props.moveToNextStage}
-            stage={this.props.firebaseData.stage}/>
-        }
+     case 'done':
+      return <LeaderBoard/>
       default:
         return this.renderLoading()
     }

@@ -49,11 +49,11 @@ class MatchesContainerComponent extends React.Component {
      return (<button
        type="button"
        className={cn}
-        key={w + '-btn'}
-        onClick={onClick} >
-        {w === this.state.sort ? <i className="fa fa-sort"/> : ''}
-        &nbsp;{w}
-      </button>)
+       key={w + '-btn'}
+       onClick={onClick} >
+       {w === this.state.sort ? <i className="fa fa-sort"/> : ''}
+       &nbsp;{w}
+     </button>)
 
     }, this);
 
@@ -63,12 +63,12 @@ class MatchesContainerComponent extends React.Component {
     if (this.props.votes.length) {
       return (
           <div className="select-button-container">
-          <button className="btn btn-primary centered"
-          onClick={this.props.submitVotesToFirebase}
-          >
-          <i className="fa fa-paper-plane-o"/>
-          &nbsp;submit my picks
-          </button>
+            <button className="btn btn-primary centered"
+              onClick={this.props.submitVotesToFirebase}
+            >
+              <i className="fa fa-paper-plane-o"/>
+              &nbsp;submit my picks
+            </button>
           </div>
       )
     } else {
@@ -96,37 +96,37 @@ class MatchesContainerComponent extends React.Component {
 
     return  (
       <div className="matchescontainer-component">
-          <div className="results-ranking">
+        <div className="results-ranking">
+        </div>
+        <div className="results-container">
+          <div className="results-container--left-child">
+            <div
+              className="btn-group btn-group--equal-width btn-group--single-row"
+              role="group"
+              style={{marginBottom: '1rem'}}
+            >
+              {this.renderFilterButtons()}
+            </div>
+            <ResultsList
+              data={recordsToShow}
+              userData={userData}
+              updateVote={this.props.updateVote}
+              votes={this.props.votes}
+              userDict={this.props.firebaseData.nameDict}
+              userId={this.props.userId}
+            />
           </div>
-            <div className="results-container">
-              <div className="results-container--left-child">
-                <div
-                className="btn-group btn-group--equal-width btn-group--single-row"
-                role="group"
-                style={{marginBottom: '1rem'}}
-                >
-                  {this.renderFilterButtons()}
-                </div>
-                <ResultsList
-                  data={recordsToShow}
-                  userData={userData}
-                  updateVote={this.props.updateVote}
-                  votes={this.props.votes}
-                  userDict={this.props.firebaseData.nameDict}
-                  userId={this.props.userId}
-                   />
-              </div>
-              <div>
-              <ResultsMap
-                data={recordsToShow.slice(0,9)}
-                userData={userData}
-                votes={this.props.votes}
-                userDict={this.props.firebaseData.nameDict}
-                 />
-              </div>
+          <div>
+            <ResultsMap
+              data={recordsToShow.slice(0,9)}
+              userData={userData}
+              votes={this.props.votes}
+              userDict={this.props.firebaseData.nameDict}
+            />
           </div>
+        </div>
         { this.renderSubmitButtonContainer() }
-    </div>
+      </div>
     );
   }
 }

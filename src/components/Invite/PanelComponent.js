@@ -200,67 +200,66 @@ class PanelComponent extends React.Component {
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>
             <div className="btn-group btn-group--equal-width"
-                 role="group"
-                 aria-label="Pick mode of transport">
+              role="group"
+              aria-label="Pick mode of transport">
               {this.renderPriceOptions()}
             </div>
           </fieldset>
           <fieldset className="cuisine-yes">
             <legend>
               {this.props.meal === 'Drinks' ? 'I\'m thirsty for:' : 'I\'m hungry for:'}
-              &nbsp;<span className="weight-300 pull-right text-muted">optional</span>
             </legend>
-              <ReactTags
-                tags={this.props.data.cuisine.yes}
-                suggestions={yelpNames}
-                minQueryLength={1}
-                handleDelete={this.handleDelete.bind(this, 'yes')}
-                handleAddition={this.handleAddition.bind(this, 'yes')}
-                placeholder={yelpPlaceholder}
-                inputTop={true}
-                showSuggestionsOnFocus={true}
-                ref={ (d)=> this.cuisineYes = d }
-                />
+            <ReactTags
+              tags={this.props.data.cuisine.yes}
+              suggestions={yelpNames}
+              minQueryLength={1}
+              handleDelete={this.handleDelete.bind(this, 'yes')}
+              handleAddition={this.handleAddition.bind(this, 'yes')}
+              placeholder={yelpPlaceholder}
+              inputTop={true}
+              showSuggestionsOnFocus={true}
+              ref={ (d)=> this.cuisineYes = d }
+            />
           </fieldset>
           <fieldset className="cuisine-no">
-            <legend>I don't want: <span className="weight-300 pull-right text-muted">optional</span></legend>
-              <ReactTags
-                tags={this.props.data.cuisine.no}
-                suggestions={yelpNames}
-                minQueryLength={1}
-                handleDelete={this.handleDelete.bind(this, 'no')}
-                handleAddition={this.handleAddition.bind(this, 'no')}
-                placeholder={yelpPlaceholder}
-                inputTop={true}
-                showSuggestionsOnFocus={true}
-                />
+            <legend>I don't want:</legend>
+            <ReactTags
+              tags={this.props.data.cuisine.no}
+              suggestions={yelpNames}
+              minQueryLength={1}
+              handleDelete={this.handleDelete.bind(this, 'no')}
+              handleAddition={this.handleAddition.bind(this, 'no')}
+              placeholder={yelpPlaceholder}
+              inputTop={true}
+              showSuggestionsOnFocus={true}
+            />
           </fieldset>
           <fieldset>
-            <legend>I'm coming from:</legend>
-              <Geosuggest
-                country='us'
-                placeholder='Select an address'
-                onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
-                initialValue={geoValue}
-                />
+            <legend>I'm coming from: <span className="pull-right text-primary weight-300">required</span></legend>
+            <Geosuggest
+              country='us'
+              placeholder='Select an address'
+              onSuggestSelect={this.onGeoSuggest.bind(this, 'from')}
+              initialValue={geoValue}
+            />
             <div className='form-check'>
-            <div className="btn-group btn-group--equal-width"
-                 role="group"
-                 aria-label="Pick mode of transport">
-              { this.renderTransportOptions('from') }
-            </div>
+              <div className="btn-group btn-group--equal-width"
+                role="group"
+                aria-label="Pick mode of transport">
+                { this.renderTransportOptions('from') }
+              </div>
             </div>
           </fieldset>
           <fieldset>
-          <div className="form-check">
+            <div className="form-check">
               <label className="form-check-label">
                 <input
-                className="form-check-input"
-                type="checkbox"
-                checked={this.props.notificationsOn ? true : false}
-                onChange={ (e)=> {this.props.setNotifications(!this.props.notificationsOn)}  }
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={this.props.notificationsOn ? true : false}
+                  onChange={ (e)=> {this.props.setNotifications(!this.props.notificationsOn)}  }
                 />
-                  Notify me when it's time to vote, and when results are in
+                Notify me when it's time to vote.
               </label>
           </div>
           </fieldset>

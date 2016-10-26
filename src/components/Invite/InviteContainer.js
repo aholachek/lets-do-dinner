@@ -3,6 +3,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Progress from './Progress'
+import InviteScreenManager from './InviteScreenManager'
 
 import { Link } from 'react-router'
 
@@ -14,7 +15,8 @@ function mapStateToProps(state){
     meal : state.meal,
     visibleUsers : state.visibleUsers,
     stage : state.firebaseData.stage,
-    firebaseData : state.firebaseData
+    firebaseData : state.firebaseData,
+    userId : state.userId
   }
 }
 
@@ -26,14 +28,23 @@ class InviteContainer extends React.Component {
   }
 
   render() {
+    let stage = this.props.stage;
+    const submittedVotes = this.props.firebaseData.submittedVotes;
+    //user has submitted votes
+    if (_.flatten(_.values(submittedVotes)).indexOf(this.props.userId) > -1) {
+      stage = 'done'
+    }
+
     return (
       <div className="invite-container">
-        <Progress
-        userDict={this.props.firebaseData.nameDict}
-        stage={this.props.stage}
-        firebaseData={this.props.firebaseData}
-        />
-          {this.props.children}
+        {(stage === 'preferences' || stage ==='voting') &&
+          <Progress
+            userDict={this.props.firebaseData.nameDict}
+            stage={stage}
+            firebaseData={this.props.firebaseData}
+          />
+        }
+        <InviteScreenManager stage={stage}/>
       </div>
     );
   }

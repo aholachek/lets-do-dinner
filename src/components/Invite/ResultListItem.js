@@ -69,7 +69,7 @@ export default class ResultListItem extends React.Component {
             if (i === this.props.submittedVotes.length -1) {
               return <span>{v}</span>
             } else {
-              return <span>{v},</span>
+              return <span>{v},&nbsp;</span>
             }
           }, this)}
         </div>

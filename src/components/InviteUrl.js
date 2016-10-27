@@ -17,7 +17,12 @@ import {
 } from 'actions/index'
 
 function mapStateToProps(state) {
-  return {inviteUrl: state.firebaseData.inviteUrl, inviteId: state.inviteid, meal: state.meal}
+  return {
+    inviteUrl: state.firebaseData.inviteUrl,
+    inviteId: state.inviteid,
+    meal: state.meal,
+    dueAt : state.firebaseData.dueAt
+    }
 }
 
 class inviteURLPage extends React.Component {
@@ -35,10 +40,20 @@ class inviteURLPage extends React.Component {
       ? this.props.inviteUrl.split("#")[1]
       : '';
 
-    const emailSubject = encodeURIComponent(`Want to get together for ${this.props.meal.toLowerCase()}?`);
-    const emailBody = encodeURIComponent(`\nHey, I've created an invite on the app Let's Do Dinner to help us automate the process of finding a place to meet.
-   \nJust go here:\n\n${this.props.inviteUrl}\n\nand follow the instructions.
-   \nSee you soon hopefully!`);
+    let timeinMS;
+    let hrs;
+    let emailSubject;
+    let emailBody;
+
+    if (this.props.dueAt){
+      timeinMS = new Date(this.props.dueAt) - new Date();
+      hrs = Math.ceil(timeinMS / (1000 * 60 * 60));
+      emailSubject = encodeURIComponent(`Want to get together for ${this.props.meal.toLowerCase()}?`);
+      emailBody = encodeURIComponent(`\nHey, I've created an invite on the app Let's Do Dinner to help us automate the process of finding a place to meet.
+     \nPlease respond within ${hrs} hours to make sure your preferences get taken into account!
+     \nJust go here:\n\n${this.props.inviteUrl}\n\nand follow the instructions.
+     \nSee you soon!`);
+    }
 
     return (
       <div className="invite-url centered-component" style={{maxWidth : '400px'}}>
@@ -55,11 +70,14 @@ class inviteURLPage extends React.Component {
               Send this invite link to up to 4 other friends:
               <CopyInviteLink inviteUrl={this.props.inviteUrl}/>
             </div>
-            <div>
-              <a target="_blank" href={`https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`}>
-                <i className="fa fa-envelope"/>&nbsp; Open a pre-filled invitation in Gmail
-              </a>
-            </div>
+            {
+              emailSubject ?  <div>
+                <a target="_blank" href={`https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`}>
+                  <i className="fa fa-envelope"/>&nbsp; Open a pre-filled invitation in Gmail
+                </a>
+              </div> : ''
+            }
+
           </div>
         </div>
 

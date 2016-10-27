@@ -16,15 +16,18 @@ export default class WaitingPage extends React.Component {
         <div style={{
           margin: '2rem 0 1rem 0'
         }}>
-          <hr/>
-          <p>
-            <i className="fa fa-exclamation-circle"/>
-            &nbsp;
-            As the creator of this invitation, <b>you choose when to move it to the next stage.</b>&nbsp;
-            Once you move to the voting stage, <b>no one else will be able to enter preferences.</b>
-          </p>
-          <p>Otherwise, check back later to see who has responded.</p>
-            <br/> {this.renderSubmitButton()}
+
+          <div className="card centered-text" style={{padding: '1rem'}}>
+            <div>
+              <b><i className="fa fa-warning"/>&nbsp;Admin Override</b>
+            </div>
+            <p>
+              No one else will be able to enter preferences!
+            </p>
+            {this.renderSubmitButton()}
+            <br/>
+
+          </div>
           </div>
           )
     } else {
@@ -38,19 +41,18 @@ export default class WaitingPage extends React.Component {
   renderSubmitButton() {
     if (this.state.loading) {
       return (
-        <button className="btn btn-block btn-primary">
+        <button className="btn btn-primary btn-block">
           <i className="fa fa-refresh fa-spin"/>&nbsp; Working...
         </button>
       )
     } else {
-      let cl = 'btn btn-block btn-primary';
+      let cl = 'btn btn-primary btn-block';
       return (
         <button className={cl} onClick={() => {
           this.setState({loading: true});
           this.props.moveToNextStage();
         }}>
-          <i className="fa fa-arrow-circle-o-right fa-lg"/>&nbsp;
-          Move to voting stage
+          Move to voting stage early
         </button>
       )
     }
@@ -59,9 +61,11 @@ export default class WaitingPage extends React.Component {
   render() {
     return (
       <div className='centered-component' style={{
-        marginTop: '2rem'
+        marginTop: '5rem'
       }}>
-        <h2>Waiting for responses...</h2>
+        <h2>Waiting for replies...</h2>
+        <p style={{padding: '1rem 0'}}>
+        Voting will start when the preference deadline is reached.</p>
         {this.renderAdminMessage()}
       </div>
     );

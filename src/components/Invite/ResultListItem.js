@@ -33,12 +33,13 @@ export default class ResultListItem extends React.Component {
       let googleURL = `http://maps.google.com?saddr=${from}&daddr=${to}&dirflg=${modeLetter}`;
 
       return <div>
-        <i className={iconDict[mode]}/>&nbsp;{Math.ceil(this.props.time / 60)}&nbsp;minutes
-        &nbsp;<a href={googleURL} target="_blank">
-          (get directions)
+        <b><i className={iconDict[mode]}/>&nbsp;{Math.ceil(this.props.time / 60)}&nbsp;minutes
+        </b><br/>
+        <a href={googleURL} target="_blank">
+          (directions)
         </a>
-      </div>
-  }
+        </div>
+        }
 
   renderVotingButtons() {
 
@@ -119,11 +120,9 @@ export default class ResultListItem extends React.Component {
           }}>
             <div className="result-title">
               <a href={this.props.data.url} target="_blank" >
-                { this.renderTitle()}
+                { this.renderTitle()}&nbsp;<i className="fa fa-yelp"/>
               </a>
-              <a href={this.props.data.url} target="_blank" className="pull-right winner-hide" >
-                <i className="fa fa-yelp"/> Yelp
-              </a>
+              <div className="result-directions">{this.renderDirections()}</div>
             </div>
             <div className="winner-img">
               {this.props.data.image_url
@@ -133,8 +132,7 @@ export default class ResultListItem extends React.Component {
             </div>
             <RatingComponent rating={this.props.data.rating}/>
             <div className="result-price">{this.props.data.price}</div>
-
-              <div>
+            <div>
               <span className="text-lighter">{this.props.data.categories.map(function(c, i) {
                 if (i === this.props.data.categories.length - 1) {
                   return (
@@ -148,7 +146,6 @@ export default class ResultListItem extends React.Component {
               }, this)
               } </span>
             </div>
-            {this.renderDirections()}
           </div>
         </div>
         {this.props.updateVote && this.renderVotingButtons()}

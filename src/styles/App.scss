@@ -54,15 +54,49 @@ mark {
 
 .centered-component {
   max-width: 500px;
-  margin: 1rem auto;
+  margin: 2rem auto 1rem auto;
   width: 100%;
 }
 
-.content-container {
-  min-height: calc(100vh - 200px);
-  overflow: hidden;
+
+.invite-container {
+  @extend .responsive-flex;
+  min-height: 100vh;
 }
 
+.invite-container main {
+  flex-grow: 1;
+}
+
+
+.sidebar {
+  padding: 1.5rem;
+  background: #fdfdfd;
+  @include media-breakpoint-up(md) {
+    width: 27%;
+    border-right:  1px solid lighten($gray-lighter, 2%);
+  }
+}
+
+.sidebar >div {
+  margin-bottom: 3rem;
+}
+
+.sidebar>div:first-of-type{
+  margin-top: 1.5rem;
+}
+
+.sidebar-title {
+  color: $gray-light;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  font-size: 1.3rem;
+}
+
+.countdown-container >div:last-of-type {
+  text-align: center;
+}
 .centered-text {
   text-align: center;
 }
@@ -84,15 +118,13 @@ body.landing-page-background {
 
 .responsive-flex {
   display: block;
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     display: flex;
   }
 }
 
 .container-component {
-  max-width: 1100px;
   margin: auto;
-  padding: 1rem;
   position: relative;
 }
 
@@ -231,36 +263,21 @@ div.ReactTags__suggestions ul li.active {
   cursor: pointer;
 }
 
-.results-container {
-  @extend .responsive-flex;
-}
-
-.results-container > * {
-  @include media-breakpoint-up(md) {
-    width: 50%;
-  }
-}
-
-.results-container--left-child {
-  @include media-breakpoint-up(md) {
-    margin-right: 1rem;
-  }
-}
 
 .resultsmap-component .map {
-  height: 534px;
+  height: 270px;
   width: 100%;
 }
 
 .resultslist-component {
-  max-height: 500px;
-  overflow: auto;
   padding: 0;
   list-style-type: none;
+  margin: .5rem 2.5rem;
+  margin-bottom: 7rem;
 }
 
 .resultslist-component > li {
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
 }
 
 .map-tooltip__header {
@@ -283,8 +300,8 @@ div.ReactTags__suggestions ul li.active {
     font-size: 1.8rem;
   }
   @include media-breakpoint-up(sm) {
-    padding: 2.5rem;
-    font-size: 1.8rem;
+    padding: 6rem 0 0 0;
+    font-size: 1.6rem;
     text-align: center;
 
     p {
@@ -317,16 +334,15 @@ div.ReactTags__suggestions ul li.active {
   width: 100%;
 }
 
-footer {
-  text-align: right;
-}
-
 .btn-secondary-darker {
   @include button-variant($brand-primary, lighten($brand-primary, 38), lighten($brand-primary, 35));
-  &:hover, &:focus {
-    background: lighten($brand-primary, 40)
+
+  &:focus,
+  &:hover {
+    background: lighten($brand-primary, 40);
   }
   z-index: 3;
+
   &:hover {
     z-index: 4;
   }
@@ -338,16 +354,14 @@ footer {
   border: 1px solid lighten($gray-lightest, 1%);
 }
 
+
 .home-link {
-  color: lighten($gray-dark, 15%);
   display: block;
-  margin: 0 0 1.5rem;
-  -webkit-font-smoothing: antialiased;
+  padding: 0 0 .4rem 0;
 }
 
 .home-link h1 {
-  font-size: 1.1rem;
-  margin: 0;
+  font-size: 1.4rem;
 }
 
 .results-ranking {
@@ -386,25 +400,25 @@ footer {
 
 .stage-container {
   display: flex;
-  margin-bottom: 1rem;
 }
 
 .stage {
-  flex-grow: 1;
-  padding: 0.4rem 1.5rem 0.4rem 0;
   color: $gray-light;
   font-size: 0.9rem;
   display: none;
+  text-align: center;
+  width: 100%;
   @include media-breakpoint-up(sm) {
     display: block;
+    width: 50%;
   }
 
   & > h2 {
     font-size: 1.3rem;
-    padding-bottom: 0.4rem;
-    padding-left: 0.2rem;
+    padding:  1.5rem 0 1rem .2rem;
     font-family: $font-family-sans-serif;
-    border-bottom: 2px solid $gray-lightest;
+    border-bottom: 3px solid $gray-lightest;
+    margin: 0;
   }
 }
 
@@ -413,7 +427,7 @@ footer {
   display: block;
 
   & > h2 {
-    border-bottom: 2px solid lighten($brand-primary, 5%);
+    border-bottom: 3px solid lighten($brand-primary, 5%);
     font-family: Bevan;
   }
 }
@@ -450,16 +464,16 @@ footer {
 @keyframes burst {
   0% {
     opacity: 0;
-    transform : scale(.8);
+    transform: scale(.9);
   }
 
-  50%{
-    opacity: .8;
+  50% {
+    opacity: 0.6;
   }
 
   100% {
     opacity: 0;
-    transform : scale(1);
+    transform: scale(1);
   }
 }
 
@@ -482,7 +496,6 @@ footer {
   }
 }
 
-
 .result-title {
   font-weight: bold;
 }
@@ -497,12 +510,23 @@ footer {
   }
 }
 
-.result-winner .result-title {
+.result-winner .result-title > a{
   font-family: Bevan;
   font-size: 1.8rem;
   text-align: center;
   margin: 1rem;
 }
+
+.result-directions {
+  float: right;
+  text-align: right;
+}
+
+.result-winner .result-directions{
+  float: none;
+  text-align: center;
+}
+
 
 .result-votes {
   border-top: 1px solid $gray-lighter;
@@ -523,7 +547,8 @@ footer {
   height: 90px;
 }
 
-.result-winner .result-card__img, .result-winner .winner-hide {
+.result-winner .result-card__img,
+.result-winner .winner-hide {
   display: none;
 }
 
@@ -538,22 +563,35 @@ footer {
 }
 
 .result-price {
-  display :inline-block;
+  display: inline-block;
   margin: 0 1rem;
 }
 
 .centered-flex {
-  display : flex;
+  display: flex;
   justify-content: center;
 }
 
 .flex {
-  display:flex;
+  display: flex;
 }
 
 .url-to-copy {
-  padding: .4rem .5rem;
+  padding: 0.4rem 0.5rem;
   max-width: 325px;
   overflow-x: auto;
   border: 1px solid $gray-lighter;
+  white-space: nowrap;
+  background: #fff;
+}
+
+footer {
+  background: #f9f9f9;
+  padding: 2rem;
+  margin: 1rem -2.5rem -2.5rem;
+  display: flex;
+}
+
+.table th, .table td {
+  border-top: none;
 }

@@ -5,6 +5,8 @@ import shortid from 'shortid'
 import getDefaultDataStructure from 'data/defaultFirebaseData'
 import notifications from 'html5-desktop-notifications';
 import _ from 'lodash';
+import moment from 'moment';
+
 
 const database = firebase.database();
 
@@ -18,7 +20,7 @@ function createInviteURL(id){
   '#/invite/' + id
 }
 
-export function createInvitation() {
+export function createInvitation(hours) {
 
   return function(dispatch, getState) {
     var inviteId = shortid.generate();
@@ -29,13 +31,17 @@ export function createInvitation() {
     data.inviteId = inviteId;
     data.admin = getState().userId;
     data.inviteUrl = inviteUrl;
-    data.createdAt = new Date().toUTCString();
+    data.createdAt = new Date();
+    data.dueAt = moment(data.createdAt).add(hours,'h').toDate().toUTCString();
+    data.createdAt = data.createdAt.toUTCString();
+
+    //get these things in place for the admin earlier than everyone else
+      dispatch(setFirebaseData({inviteUrl: inviteUrl, dueAt : data.dueAt}));
 
     firebase.database().ref(getInvitePath(inviteId)).set(data).then(function() {
       hashHistory.push('/get-invite-url/' + inviteId);
     });
 
-    dispatch(setFirebaseData({inviteUrl: inviteUrl}));
   }
 }
 
@@ -110,23 +116,6 @@ export function subscribeToFirebase(hash) {
           } else if (getState().meal === 'Drinks') {
             const n = new Notification('Let\'s Do Drinks', {
               body: 'It\'s time to vote!',
-              icon: config.img_endpoint + 'app_icon_drinks.png'
-            });
-          }
-        }
-      }
-
-      if (!getState().firebaseData.finalRecommendation && data.finalRecommendation) {
-        //when final result is added, notify user if notifications are enabled
-        if (Notification.permission === 'granted' && document.hidden) {
-          if (getState().meal === 'Dinner') {
-            const n = new Notification('Let\'s Do Dinner', {
-              body: 'The results are in!',
-              icon: config.img_endpoint + 'app_icon.png'
-            });
-          } else if (getState().meal === 'Drinks') {
-            const n = new Notification('Let\'s Do Drinks', {
-              body: 'The results are in!',
               icon: config.img_endpoint + 'app_icon_drinks.png'
             });
           }

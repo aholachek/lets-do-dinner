@@ -33,7 +33,7 @@ class InviteScreenManager extends React.Component {
 
   renderLoading() {
     return (
-      <div className="centered-component centered-text">
+      <div className="centered-component centered-text" style={{marginTop: '5rem'}}>
         <h2><i className="fa fa-refresh fa-spin text-primary"/>
         &nbsp;Loading...</h2>
       </div>

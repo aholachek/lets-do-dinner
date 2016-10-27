@@ -4,6 +4,7 @@ import React from 'react';
 import _ from 'lodash';
 import Progress from './Progress'
 import InviteScreenManager from './InviteScreenManager'
+import Sidebar from './Sidebar'
 
 import { Link } from 'react-router'
 
@@ -37,14 +38,16 @@ class InviteContainer extends React.Component {
 
     return (
       <div className="invite-container">
-        {(stage === 'preferences' || stage ==='voting') &&
-          <Progress
-            userDict={this.props.firebaseData.nameDict}
-            stage={stage}
-            firebaseData={this.props.firebaseData}
-          />
-        }
-        <InviteScreenManager stage={stage}/>
+        <Sidebar/>
+        <main>
+          {(stage === 'preferences' || stage ==='voting') &&
+            <Progress
+              stage={stage}
+              firebaseData={this.props.firebaseData}
+            />
+          }
+          <InviteScreenManager stage={stage}/>
+        </main>
       </div>
     );
   }

@@ -7,17 +7,14 @@ import notifications from 'html5-desktop-notifications';
 import _ from 'lodash';
 import moment from 'moment';
 
-
 const database = firebase.database();
 
 function getInvitePath(hash) {
   return 'invites/' + hash;
 }
 
-function createInviteURL(id){
-  return document.location.origin +
-  document.location.pathname +
-  '#/invite/' + id
+function createInviteURL(id) {
+  return document.location.origin + document.location.pathname + '#/invite/' + id
 }
 
 export function createInvitation(hours) {
@@ -32,13 +29,12 @@ export function createInvitation(hours) {
     data.admin = getState().userId;
     data.inviteUrl = inviteUrl;
     data.createdAt = new Date();
-    data.dueAt = moment(data.createdAt).add(hours,'h').toDate().toUTCString();
+    data.dueAt = moment(data.createdAt).add(hours, 'h').toDate().toUTCString();
     data.createdAt = data.createdAt.toUTCString();
 
-    //get these things in place for the admin earlier than everyone else
-      dispatch(setFirebaseData({inviteUrl: inviteUrl, dueAt : data.dueAt}));
-
     firebase.database().ref(getInvitePath(inviteId)).set(data).then(function() {
+      //get these things in place for the admin earlier than everyone else
+      dispatch(setFirebaseData({inviteUrl: inviteUrl, dueAt: data.dueAt}));
       hashHistory.push('/get-invite-url/' + inviteId);
     });
 
@@ -51,7 +47,7 @@ export function setUserId(id) {
 
 export function setInviteId(id) {
   //keep things consistent
-  return function(dispatch){
+  return function(dispatch) {
     dispatch({type: 'SET_INVITE_ID', id});
     dispatch(setFirebaseData({inviteUrl: createInviteURL(id)}));
   }
@@ -93,11 +89,12 @@ export function subscribeToFirebase(hash) {
     //clear votes if they're there from a prior invite
     dispatch(clearVotes());
 
-    if (inviteRef) inviteRef.off();
+    if (inviteRef){ inviteRef.off() }
     inviteRef = firebase.database().ref(getInvitePath(hash));
     inviteRef.on('value', function(snapshot) {
 
       const data = snapshot.val();
+      if (!data){ return }
 
       // when matches are added,
       // add them all to votes so they are preselected
@@ -133,10 +130,7 @@ export function subscribeToFirebase(hash) {
 }
 
 export function updateMeal(meal) {
-  return {
-    type: 'UPDATE_MEAL',
-    meal
- }
+  return {type: 'UPDATE_MEAL', meal}
 }
 
 export function reset() {

@@ -21,6 +21,11 @@ class Sidebar extends React.Component {
   constructor() {
     super();
     this.renderAdminLink = this.renderAdminLink.bind(this);
+    this.renderSidebarToggleButton = this.renderSidebarToggleButton.bind(this);
+    //for small screens
+    this.state = {
+      sidebarOpen : false
+    }
   }
 
   renderOtherUsers() {
@@ -85,7 +90,7 @@ class Sidebar extends React.Component {
   }
 
   renderCountdownClock() {
-    if (this.props.firebaseData.dueAt) {
+    if (this.props.firebaseData.dueAt && this.props.stage === 'preferences') {
       let seconds = Math.floor((new Date(this.props.firebaseData.dueAt) - new Date()) / 1000);
       return <div className="countdown-container" key='countdown-clock'>
         <div className="sidebar-title">
@@ -116,22 +121,41 @@ class Sidebar extends React.Component {
     )
   }
 
+  renderSidebarToggleButton(){
+    return (
+      <button
+        className="btn btn-primary toggle-sidebar-btn"
+        onClick={()=> this.setState({sidebarOpen : !this.state.sidebarOpen})}
+      >
+        {this.state.sidebarOpen ? 'Hide Invite Info' : 'Show Invite Info'}
+      </button>
+    )
+  }
+
   render() {
+    let sidebarContentCN = 'sidebar-content';
+    //this only affects smaller screens
+    if (this.state.sidebarOpen) sidebarContentCN += ' sidebar-content--open';
     return (
       <div className="sidebar">
-        <Link to="/" className="home-link">
-          <h1>
-            <i className={this.props.meal === 'Dinner'
-              ? 'fa fa-cutlery'
-            : 'fa fa-glass'}/>
-            &nbsp;&nbsp; Let's Do {this.props.meal}
-          </h1>
-        </Link>
-        {this.renderOtherUsers()}
-        {this.renderCountdownClock()}
-        {this.props.admin && this.props.stage !== 'done'
-          ? this.renderAdminLink()
+        <div className="sidebar-header">
+          <Link to="/" className="home-link">
+            <h1>
+              <i className={this.props.meal === 'Dinner'
+                ? 'fa fa-cutlery'
+              : 'fa fa-glass'}/>
+              &nbsp;&nbsp; Let's Do {this.props.meal}
+            </h1>
+          </Link>
+          {this.renderSidebarToggleButton()}
+        </div>
+        <div className={sidebarContentCN}>
+          {this.renderOtherUsers()}
+          {this.renderCountdownClock()}
+          {this.props.admin && this.props.stage !== 'done'
+            ? this.renderAdminLink()
           : ''}
+        </div>
       </div>
     );
   }

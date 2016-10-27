@@ -24,7 +24,7 @@ export default class NameForm extends React.Component {
         <form onSubmit={this.setName}>
           <div className="input-group">
             <label>
-              <b>First, enter your name</b>
+              <b>First, enter your name:</b>
               <input type="text"
                 minLength="1"
                 maxLength="20"

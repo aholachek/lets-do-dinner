@@ -41,13 +41,13 @@ class inviteURLPage extends React.Component {
    \nSee you soon hopefully!`);
 
     return (
-      <div className="invite-url centered-component">
+      <div className="invite-url centered-component" style={{maxWidth : '400px'}}>
 
         <h2>Success!</h2>
         <hr/>
 
-        <div className="responsive-flex" style={{
-          margin: '3rem 0'
+        <div style={{
+          margin: '1rem 0'
         }}>
           <div className="circle-bg">1</div>
           <div>
@@ -63,15 +63,12 @@ class inviteURLPage extends React.Component {
           </div>
         </div>
 
-        <div className="responsive-flex">
+        <div>
           <div className="circle-bg">2</div>
           <div style={{
             width: '100%'
           }}>
-            <Link to={relativeLink} className="btn btn-primary" style={{
-              marginTop: '.45rem',
-              width: '366px'
-            }}>
+            <Link to={relativeLink} className="btn btn-primary btn-block">
               <i className="fa fa-lg fa-arrow-circle-o-right"/>&nbsp;Get started sharing my preferences</Link>
           </div>
         </div>

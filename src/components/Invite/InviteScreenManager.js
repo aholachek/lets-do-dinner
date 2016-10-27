@@ -58,7 +58,7 @@ class InviteScreenManager extends React.Component {
 
         } else if (submittedPreferences) {
           return <WaitingPage
-            message="Currently waiting for more invitees to submit their preferences."
+            message="You will receive a notification when it's time to vote."
             admin={this.props.isAdmin}
             moveToNextStage={this.props.moveToNextStage}
             stage={this.props.stage}/>

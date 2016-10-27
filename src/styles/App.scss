@@ -54,10 +54,9 @@ mark {
 
 .centered-component {
   max-width: 500px;
-  margin: 2rem auto 1rem auto;
+  margin: 2rem auto 1rem;
   width: 100%;
 }
-
 
 .invite-container {
   @extend .responsive-flex;
@@ -66,24 +65,57 @@ mark {
 
 .invite-container main {
   flex-grow: 1;
+  @include media-breakpoint-down(sm) {
+    margin: 0 1rem;
+  }
 }
-
+$sidebarColor: #fdfdfd;
 
 .sidebar {
   padding: 1.5rem;
-  background: #fdfdfd;
+  background: $sidebarColor;
   @include media-breakpoint-up(md) {
     width: 27%;
-    border-right:  1px solid lighten($gray-lighter, 2%);
+    border-right: 1px solid darken($sidebarColor, 10%);
   }
 }
 
-.sidebar >div {
+.sidebar-content {
+  margin-top: 1rem;
+}
+
+.sidebar-content > div {
   margin-bottom: 3rem;
 }
 
-.sidebar>div:first-of-type{
-  margin-top: 1.5rem;
+.toggle-sidebar-btn {
+  display: none;
+}
+@include media-breakpoint-down(sm) {
+  .sidebar {
+    border-bottom: 1px solid darken($sidebarColor, 10%);
+  }
+
+  .toggle-sidebar-btn {
+    display: block;
+  }
+
+  .sidebar-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translate(-100%, 7rem);
+    transition: transform 0.5s;
+    z-index: 5;
+    background: $sidebarColor;
+    border-bottom: 1px solid darken($sidebarColor, 10%);
+    padding: 1.5rem;
+  }
+
+  .sidebar-content--open {
+    transform: translate(0, 7rem);
+  }
 }
 
 .sidebar-title {
@@ -94,9 +126,10 @@ mark {
   font-size: 1.3rem;
 }
 
-.countdown-container >div:last-of-type {
+.countdown-container > div:last-of-type {
   text-align: center;
 }
+
 .centered-text {
   text-align: center;
 }
@@ -263,7 +296,6 @@ div.ReactTags__suggestions ul li.active {
   cursor: pointer;
 }
 
-
 .resultsmap-component .map {
   height: 270px;
   width: 100%;
@@ -272,12 +304,11 @@ div.ReactTags__suggestions ul li.active {
 .resultslist-component {
   padding: 0;
   list-style-type: none;
-  margin: .5rem 2.5rem;
-  margin-bottom: 7rem;
+  margin: 0.5rem 2.5rem 7rem;
 }
 
 .resultslist-component > li {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .map-tooltip__header {
@@ -300,7 +331,7 @@ div.ReactTags__suggestions ul li.active {
     font-size: 1.8rem;
   }
   @include media-breakpoint-up(sm) {
-    padding: 6rem 0 0 0;
+    padding: 6rem 0 0;
     font-size: 1.6rem;
     text-align: center;
 
@@ -354,14 +385,16 @@ div.ReactTags__suggestions ul li.active {
   border: 1px solid lighten($gray-lightest, 1%);
 }
 
-
 .home-link {
   display: block;
-  padding: 0 0 .4rem 0;
+  padding: 0 0 0.4rem;
 }
 
 .home-link h1 {
   font-size: 1.4rem;
+  @include media-breakpoint-up(md) {
+    font-size: 2vw;
+  }
 }
 
 .results-ranking {
@@ -415,7 +448,7 @@ div.ReactTags__suggestions ul li.active {
 
   & > h2 {
     font-size: 1.3rem;
-    padding:  1.5rem 0 1rem .2rem;
+    padding: 1.5rem 0 1rem 0.2rem;
     font-family: $font-family-sans-serif;
     border-bottom: 3px solid $gray-lightest;
     margin: 0;
@@ -490,10 +523,7 @@ div.ReactTags__suggestions ul li.active {
   text-align: center;
   font-family: Bevan;
   font-size: 1.5rem;
-  margin: 2rem 0;
-  @include media-breakpoint-up(sm) {
-    margin: 0 2rem 0 0;
-  }
+  margin: 0 auto 1rem;
 }
 
 .result-title {
@@ -510,7 +540,7 @@ div.ReactTags__suggestions ul li.active {
   }
 }
 
-.result-winner .result-title > a{
+.result-winner .result-title > a {
   font-family: Bevan;
   font-size: 1.8rem;
   text-align: center;
@@ -522,11 +552,10 @@ div.ReactTags__suggestions ul li.active {
   text-align: right;
 }
 
-.result-winner .result-directions{
+.result-winner .result-directions {
   float: none;
   text-align: center;
 }
-
 
 .result-votes {
   border-top: 1px solid $gray-lighter;
@@ -578,11 +607,12 @@ div.ReactTags__suggestions ul li.active {
 
 .url-to-copy {
   padding: 0.4rem 0.5rem;
-  max-width: 325px;
   overflow-x: auto;
+  width: 100%;
   border: 1px solid $gray-lighter;
   white-space: nowrap;
   background: #fff;
+  text-align: center;
 }
 
 footer {
@@ -592,6 +622,7 @@ footer {
   display: flex;
 }
 
-.table th, .table td {
+.table td,
+.table th {
   border-top: none;
 }

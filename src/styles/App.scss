@@ -630,3 +630,7 @@ footer {
 .table th {
   border-top: none;
 }
+
+.table thead th {
+    border-bottom: 2px solid $body-color;
+}

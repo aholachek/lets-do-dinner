@@ -47,10 +47,11 @@ class inviteURLPage extends React.Component {
 
     if (this.props.dueAt){
       timeinMS = new Date(this.props.dueAt) - new Date();
-      hrs = Math.ceil(timeinMS / (1000 * 60 * 60));
+      hrs = timeinMS / (1000 * 60 * 60);
+      mins = hrs
       emailSubject = encodeURIComponent(`Want to get together for ${this.props.meal.toLowerCase()}?`);
       emailBody = encodeURIComponent(`\nHey, I've created an invite on the app Let's Do Dinner to help us automate the process of finding a place to meet.
-     \nPlease respond within ${hrs} hours to make sure your preferences get taken into account!
+     \nPlease respond within ${Math.floor(hrs)} hours and ${Math.floor(hrs % 1 * 60)} minutes to make sure your preferences get taken into account!
      \nJust go here:\n\n${this.props.inviteUrl}\n\nand follow the instructions.
      \nSee you soon!`);
     }
@@ -72,7 +73,8 @@ class inviteURLPage extends React.Component {
             </div>
             {
               emailSubject ?  <div>
-                <a target="_blank" href={`https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`}>
+                <a                                                                                                     target="_blank"
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`}>
                   <i className="fa fa-envelope"/>&nbsp; Open a pre-filled invitation in Gmail
                 </a>
               </div> : ''

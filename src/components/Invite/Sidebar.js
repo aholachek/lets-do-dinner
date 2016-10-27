@@ -36,7 +36,7 @@ class Sidebar extends React.Component {
           <div className="sidebar-title">
             Invitees
           </div>
-          <i>no invitees have responded yet!</i>
+          <i>Waiting for responses...</i>
         </div>
       )
     }

@@ -49,12 +49,16 @@ export function setInviteId(id) {
   //keep things consistent
   return function(dispatch) {
     dispatch({type: 'SET_INVITE_ID', id});
-    dispatch(setFirebaseData({inviteUrl: createInviteURL(id)}));
+    dispatch(updateFirebaseData({inviteUrl: createInviteURL(id)}));
   }
 }
 
 export function setFirebaseData(data) {
   return {type: 'SET_FIREBASE_DATA', data}
+}
+
+export function updateFirebaseData(data) {
+  return {type: 'UPDATE_FIREBASE_DATA', data}
 }
 
 export function submitNameToFirebase(name) {

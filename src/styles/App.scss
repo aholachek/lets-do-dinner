@@ -143,7 +143,7 @@ html, body, #app {
 
 .landing-page-background {
   height: 100%;
-  background-image: radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
+  background-image: radial-gradient(fade-out(black, .5), fade-out(black, .1)), url('./../images/restaurant.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -335,6 +335,10 @@ div.ReactTags__suggestions ul li.active {
   padding: 1rem;
   margin: auto;
 
+  p {
+    color: $gray-lighter;
+  }
+
   h2 {
     font-size: 1.8rem;
   }
@@ -345,7 +349,6 @@ div.ReactTags__suggestions ul li.active {
 
     p {
       margin: 1rem 0 2rem;
-      color: $gray-lighter;
     }
 
     h2 {
@@ -355,7 +358,7 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .start-form {
-  margin-top: 3rem;
+  margin-top: 2rem;
   text-align: center;
   background: #fff;
   padding: 2rem;
@@ -618,10 +621,10 @@ div.ReactTags__suggestions ul li.active {
   padding: 0.4rem 0.5rem;
   overflow-x: auto;
   width: 100%;
-  border: 1px solid $gray-lighter;
   white-space: nowrap;
   background: #fff;
   text-align: center;
+  background: $gray-lighter;
 }
 
 footer {

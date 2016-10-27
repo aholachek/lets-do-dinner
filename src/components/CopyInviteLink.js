@@ -11,7 +11,7 @@ export default class InviteLink extends React.Component {
         </div>
         <div>
           <ClipboardButton
-            className="btn btn-primary btn-block btn-sm"
+            className="btn btn-secondary-darker btn-block"
             data-clipboard-text={this.props.inviteUrl}
           >
             <i className="fa fa-clipboard"/>

@@ -69,20 +69,23 @@ mark {
     margin: 0 1rem;
   }
 }
-$sidebarColor: #fdfdfd;
+$sidebarColor: #fff;
 
 .sidebar {
   padding: 1.5rem;
   background: $sidebarColor;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.83),rgba(255, 255, 255, 0.85)), url('./../images/restaurant.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   @include media-breakpoint-up(md) {
     width: 27%;
-    border-right: 1px solid darken($sidebarColor, 10%);
+    background-position: right;
+    background-attachment: local;
   }
 }
 
-.sidebar-content {
-  margin-top: 1rem;
-}
 
 .sidebar-content > div {
   margin-bottom: 3rem;
@@ -91,16 +94,17 @@ $sidebarColor: #fdfdfd;
 .toggle-sidebar-btn {
   display: none;
 }
-@include media-breakpoint-down(sm) {
-  .sidebar {
-    border-bottom: 1px solid darken($sidebarColor, 10%);
-  }
 
+.sidebar-content {
+  margin-top: 1rem;
+}
+@include media-breakpoint-down(sm) {
   .toggle-sidebar-btn {
     display: block;
   }
 
   .sidebar-content {
+    margin-top: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -109,7 +113,7 @@ $sidebarColor: #fdfdfd;
     transition: transform 0.5s;
     z-index: 5;
     background: $sidebarColor;
-    border-bottom: 1px solid darken($sidebarColor, 10%);
+    border-bottom: 1px solid darken($sidebarColor, 25%);
     padding: 1.5rem;
   }
 
@@ -119,7 +123,7 @@ $sidebarColor: #fdfdfd;
 }
 
 .sidebar-title {
-  color: $gray-light;
+  color: $gray;
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
@@ -501,7 +505,7 @@ div.ReactTags__suggestions ul li.active {
   }
 
   50% {
-    opacity: 0.6;
+    opacity: 0.9;
   }
 
   100% {

@@ -53,7 +53,7 @@ export default class ResultListItem extends React.Component {
       )
     } else {
       return (
-        <button className="btn btn-sm btn-primary btn-block" onClick={updateVote}>
+        <button className="btn btn-sm btn-secondary-darker btn-block" onClick={updateVote}>
           <i className="fa fa-check-square-o"/>&nbsp; I'd Go Here
         </button>
       )

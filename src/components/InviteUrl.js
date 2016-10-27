@@ -42,16 +42,16 @@ class inviteURLPage extends React.Component {
 
     let timeinMS;
     let hrs;
+    let mins;
     let emailSubject;
     let emailBody;
 
     if (this.props.dueAt){
       timeinMS = new Date(this.props.dueAt) - new Date();
       hrs = timeinMS / (1000 * 60 * 60);
-      mins = hrs
       emailSubject = encodeURIComponent(`Want to get together for ${this.props.meal.toLowerCase()}?`);
       emailBody = encodeURIComponent(`\nHey, I've created an invite on the app Let's Do Dinner to help us automate the process of finding a place to meet.
-     \nPlease respond within ${Math.floor(hrs)} hours and ${Math.floor(hrs % 1 * 60)} minutes to make sure your preferences get taken into account!
+     \nPlease respond within ${Math.floor(hrs)} hour(s) and ${Math.floor(hrs % 1 * 60)} minutes to make sure your preferences get taken into account!
      \nJust go here:\n\n${this.props.inviteUrl}\n\nand follow the instructions.
      \nSee you soon!`);
     }

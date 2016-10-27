@@ -62,21 +62,29 @@ class Sidebar extends React.Component {
             {nameDictKeys.map(function(key) {
               let preferencesIcon;
               const submittedPreferences = _.keys(this.props.firebaseData.preferences).indexOf(key) > -1;
-              preferencesIcon = submittedPreferences
-                ? <i className="fa fa-lg fa-check-square-o text-primary "/>
-              : <i className="fa fa-square-o fa-lg burst-animation"/>;
+              if (submittedPreferences){
+                preferencesIcon = <i className="fa fa-lg fa-check-square-o text-primary "/>
+              } else if (this.props.stage ==='preferences'){
+                preferencesIcon = <i className="fa fa-square-o fa-lg burst-animation"/>;
+              } else {
+                preferencesIcon = '';
+              }
 
               let votingIcon;
               const submittedVotes = _.flatten(_.values(this.props.firebaseData.submittedVotes)).indexOf(key) > -1;
-              votingIcon = submittedVotes
-                ? <i className="fa fa-check-square-o fa-lg text-primary"/>
-              : <i className="fa fa-square-o fa-lg burst-animation"/>;
-
+              if (submittedVotes){
+                votingIcon = <i className="fa fa-check-square-o fa-lg text-primary"/>;
+              } else if (this.props.stage === 'voting'){
+                votingIcon = <i className="fa fa-square-o fa-lg burst-animation"/>
+              } else {
+                votingIcon = '';
+              }
+              
               return (
                 <tr>
                   <td>{this.props.firebaseData.nameDict[key]}</td>
                   <td>{preferencesIcon}</td>
-                  <td>{(submittedPreferences && (this.props.stage === 'voting')) ? votingIcon : ''}</td>
+                  <td>{votingIcon}</td>
                 </tr>
               )
             }, this)

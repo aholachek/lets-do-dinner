@@ -66,7 +66,7 @@ class LeaderBoard extends React.Component {
   render() {
     var sortedMatches = sortMatches(this.props.matches, this.props.submittedVotes);
     return (
-      <div className="centered-component">
+      <div className="centered-component" style={{marginTop: '1.5rem'}}>
         <h2>Ranked Recommendations</h2>
         <div className="lead" style={{margin: '0 0 .5rem 0'}}>
           This list will update as more people vote.
@@ -74,7 +74,6 @@ class LeaderBoard extends React.Component {
         <div>
           It's sorted by total votes and total travel time.
         </div>
-        <hr/>
 
         <div>
           {this.renderWinner(sortedMatches[0])}

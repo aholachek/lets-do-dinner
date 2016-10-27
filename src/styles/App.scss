@@ -54,7 +54,7 @@ mark {
 
 .centered-component {
   max-width: 500px;
-  margin: 2rem auto 1rem;
+  margin: 0 auto;
   width: 100%;
 }
 
@@ -74,7 +74,7 @@ $sidebarColor: #fff;
 .sidebar {
   padding: 1.5rem;
   background: $sidebarColor;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.83),rgba(255, 255, 255, 0.85)), url('./../images/restaurant.jpg');
+  background-image: radial-gradient(rgba(255, 255, 255, 0.85),rgba(255, 255, 255, 0.9)), url('./../images/restaurant.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -82,7 +82,6 @@ $sidebarColor: #fff;
   @include media-breakpoint-up(md) {
     width: 27%;
     background-position: right;
-    background-attachment: local;
   }
 }
 
@@ -138,11 +137,17 @@ $sidebarColor: #fff;
   text-align: center;
 }
 
-body.landing-page-background {
+html, body, #app {
+  height: 100%;
+}
+
+.landing-page-background {
+  height: 100%;
   background-image: radial-gradient(fade-out(black, .4), fade-out(black, .05)), url('./../images/restaurant.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  padding-top: 15vh;
 }
 
 .landing-page-background .home-link {
@@ -166,8 +171,8 @@ body.landing-page-background {
 }
 
 .invite-url {
-  margin-top: 10vh;
-  overflow-x: auto;
+  background: #fff;
+  padding: 2rem;
 }
 
 .price-container label {
@@ -327,7 +332,6 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .start-page {
-  color: $gray-lighter;
   padding: 1rem;
   margin: auto;
 
@@ -335,12 +339,13 @@ div.ReactTags__suggestions ul li.active {
     font-size: 1.8rem;
   }
   @include media-breakpoint-up(sm) {
-    padding: 6rem 0 0;
+    padding: 1rem 0 0;
     font-size: 1.6rem;
     text-align: center;
 
     p {
       margin: 1rem 0 2rem;
+      color: $gray-lighter;
     }
 
     h2 {
@@ -352,11 +357,11 @@ div.ReactTags__suggestions ul li.active {
 .start-form {
   margin-top: 3rem;
   text-align: center;
+  background: #fff;
+  padding: 2rem;
 
   h2 {
-    color: $gray-lighter;
     margin-bottom: 2rem;
-    -webkit-font-smoothing: antialiased;
   }
 }
 
@@ -546,7 +551,7 @@ div.ReactTags__suggestions ul li.active {
 
 .result-winner .result-title > a {
   font-family: Bevan;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   text-align: center;
   margin: 1rem;
 }

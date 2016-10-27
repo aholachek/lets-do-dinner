@@ -14,6 +14,13 @@ function mapStateToProps(state){
   }
 }
 
+let iconDict = {
+  Dinner : 'fa fa-cutlery',
+  Drinks : 'fa fa-glass',
+  Brunch : 'fa fa-coffee'
+}
+
+
 class StartPage extends React.Component {
 
   constructor(){
@@ -27,11 +34,6 @@ class StartPage extends React.Component {
   }
 
   renderMealType(){
-    var iconDict = {
-      Dinner : 'fa fa-cutlery',
-      Drinks : 'fa fa-glass',
-      Brunch : 'fa fa-coffee'
-    }
 
    return  [ 'Dinner', 'Drinks'].map(function(w){
      var that = this;
@@ -87,7 +89,7 @@ renderSubmitButton () {
           Invite your friends to help pick a restaurant or bar.
         </p>
         <form className="start-form centered-component">
-          <h2>Let's Do {this.props.meal}</h2>
+          <h2><i className={iconDict[this.props.meal]}/>&nbsp;Let's Do {this.props.meal}</h2>
           <div className="btn-group meal-type" role="group">
             { this.renderMealType() }
           </div>

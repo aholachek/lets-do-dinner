@@ -19,6 +19,8 @@ export default class ResultListItem extends React.Component {
 
   //only show directions for current user
   renderDirections() {
+      //might be visiting the link when its already in voting stage
+      if (!this.props.userData || !this.props.userData.locations.from) return;
       //preferences and location
       let d = this.props.userData;
       let mode = d.locations.from.mode;

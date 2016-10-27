@@ -12,21 +12,16 @@ import InviteUrl from './InviteUrl'
 import InviteScreenManager from './Invite/InviteScreenManager'
 import InviteContainer from './Invite/InviteContainer'
 
-hashHistory.listen(location => {
-  if (location.pathname === '/') {
-    document.body.classList.add('landing-page-background');
-  } else {
-    document.body.classList.remove('landing-page-background');
-  }
-});
 
 class AppComponent extends React.Component {
 
   render() {
     return (
       <Router history={hashHistory} onChange={this.onRouteChange}>
-        <Route path='/' component={StartPage}/>
-        <Route path='/get-invite-url/**' component={InviteUrl}/>
+        <Route path="/" component={AppContainer}>
+          <IndexRoute component={StartPage}/>
+          <Route path='/get-invite-url/**' component={InviteUrl}/>
+        </Route>
         <Route path='/invite/**' component={InviteContainer}/>
         <Route path='/error' component={ErrorPage}/>
       </Router>

@@ -195,7 +195,7 @@ class PanelComponent extends React.Component {
     }
 
     return (
-        <form className='centered-component'
+        <form className='centered-component' style={{marginTop : '3rem'}}
           onSubmit={this.submitPreferencesToFirebase}>
           <fieldset>
             <legend style={{display:'inline'}}>Price:&nbsp;&nbsp;</legend>

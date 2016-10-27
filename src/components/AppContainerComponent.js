@@ -22,44 +22,11 @@ class ContainerComponent extends React.Component {
 
   constructor() {
     super();
-    this.renderAdminLink = this.renderAdminLink.bind(this);
-  }
-
-  renderAdminLink() {
-    return (
-      <div className="admin-link">
-        <div style={{fontWeight: 'bold'}}>Invite Share Link</div>
-        <CopyInviteLink inviteUrl={this.props.inviteUrl}/>
-      </div>
-    )
-  }
-
-  renderCountdownClock () {
-    if (this.props.dueAt){
-      let seconds = (new Date(this.props.dueAt) - new Date())/1000;
-      return <div className="countdown-container">
-        <div style={{fontWeight: 'bold'}}>Time Left to Reply</div>
-        &nbsp;&nbsp;
-        <div>
-          <ReactCountdownClock
-            seconds={seconds}
-            color='#3919bb'
-            size={130}
-            weight={5}
-            showMilliseconds={false}
-            font={'Open sans'}
-          />
-        </div>
-      </div>
-    } else {
-      return ''
-    }
-
   }
 
   render() {
     return (
-      <div className="content-container">
+      <div className="landing-page-background">
         {this.props.children}
       </div>
     );

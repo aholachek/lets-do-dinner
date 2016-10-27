@@ -96,7 +96,6 @@ export function subscribeToFirebase(hash) {
     if (inviteRef){ inviteRef.off() }
     inviteRef = firebase.database().ref(getInvitePath(hash));
     inviteRef.on('value', function(snapshot) {
-
       const data = snapshot.val();
       if (!data){ return }
 

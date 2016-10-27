@@ -41,22 +41,25 @@ class InviteScreenManager extends React.Component {
   }
 
   render() {
+    const hasName = this.props.firebaseData.nameDict && this.props.firebaseData.nameDict[this.props.userId];
+
+    if (!hasName) {
+      return <NameForm
+        submitNameToFirebase={this.props.submitNameToFirebase}
+        name={this.props.firebaseData.nameDict
+          ? this.props.firebaseData.nameDict[this.props.userId]
+        : ''}
+        meal={this.props.meal.toLowerCase()}
+        isAdmin={this.props.isAdmin}/>
+
+    }
+
     //preferences,voting
     switch (this.props.stage) {
       case 'preferences':
         const submittedPreferences = _.keys(this.props.firebaseData.preferences).indexOf(this.props.userId) > -1;
-        const hasName = this.props.firebaseData.nameDict && this.props.firebaseData.nameDict[this.props.userId];
 
-        if (!hasName) {
-          return <NameForm
-            submitNameToFirebase={this.props.submitNameToFirebase}
-            name={this.props.firebaseData.nameDict
-              ? this.props.firebaseData.nameDict[this.props.userId]
-            : ''}
-            meal={this.props.meal.toLowerCase()}
-            isAdmin={this.props.isAdmin}/>
-
-        } else if (submittedPreferences) {
+         if (submittedPreferences) {
           return <WaitingPage
             message="You will receive a notification when it's time to vote."
             admin={this.props.isAdmin}

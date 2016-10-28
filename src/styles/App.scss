@@ -72,22 +72,20 @@ mark {
 $sidebarColor: #fff;
 
 .sidebar {
-  padding: 1.5rem;
+  padding: 1rem;
   background: $sidebarColor;
-  background-image: radial-gradient(#dedede,hsla(0, 0%, 85%, 0.86)), url('./../images/restaurant.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+
   @include media-breakpoint-up(md) {
     width: 27%;
-    background-position: right;
+    border-right: 1px solid darken($sidebarColor, 10)
   }
 }
 
 
 .sidebar-content > div {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  padding: .5rem;
+  background : rgba(255, 255, 255, 0.5);
 }
 
 .toggle-sidebar-btn {
@@ -378,17 +376,8 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .btn-secondary-darker {
-  @include button-variant($brand-primary, lighten($brand-primary, 38), lighten($brand-primary, 35));
+  @include button-variant($gray-lighter, $body-color, $body-color);
 
-  &:focus,
-  &:hover {
-    background: lighten($brand-primary, 40);
-  }
-  z-index: 3;
-
-  &:hover {
-    z-index: 4;
-  }
 }
 
 .btn-secondary:focus,
@@ -472,7 +461,7 @@ div.ReactTags__suggestions ul li.active {
   display: block;
 
   & > h2 {
-    border-bottom: 3px solid lighten($brand-primary, 5%);
+    border-bottom: 3px solid $body-color;
     font-family: Bevan;
   }
 }
@@ -624,7 +613,7 @@ div.ReactTags__suggestions ul li.active {
   white-space: nowrap;
   background: #fff;
   text-align: center;
-  background: $gray-lighter;
+  border: 1px solid $gray-lighter;
 }
 
 footer {

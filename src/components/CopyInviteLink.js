@@ -15,7 +15,7 @@ export default class InviteLink extends React.Component {
             data-clipboard-text={this.props.inviteUrl}
           >
             <i className="fa fa-clipboard"/>
-            &nbsp;click to copy invite link
+            &nbsp;click to copy link
           </ClipboardButton>
         </div>
       </div>

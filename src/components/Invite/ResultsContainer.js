@@ -43,7 +43,7 @@ class MatchesContainerComponent extends React.Component {
       }.bind(this);
 
       var cn = (w === this.state.sort) ?
-       "btn btn-secondary-darker" :
+       "btn btn-primary" :
        "btn btn-secondary";
 
      return (<button

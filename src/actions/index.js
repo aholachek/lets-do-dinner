@@ -90,8 +90,8 @@ export function subscribeToFirebase(hash) {
   return function(dispatch, getState) {
     //set the hash into redux for later firebase actions
     dispatch(setInviteId(hash));
+    dispatch(resetPreferences());
     //clear votes if they're there from a prior invite
-    dispatch(clearVotes());
 
     if (inviteRef){ inviteRef.off() }
     inviteRef = firebase.database().ref(getInvitePath(hash));
@@ -136,12 +136,11 @@ export function updateMeal(meal) {
   return {type: 'UPDATE_MEAL', meal}
 }
 
-export function reset() {
-  return {type: 'RESET'}
-}
-
 export function updatePreferences(data) {
   return {type: 'UPDATE_PREFERENCES', data}
+}
+export function resetPreferences() {
+  return {type: 'RESET_PREFERENCES'}
 }
 
 function transformPreferences(preferences) {

@@ -1,6 +1,5 @@
-import _ from 'lodash'
 
-const defaultPreferences =  { price: [
+export const defaultPreferences =  { price: [
     1, 2
   ],
   cuisine: {

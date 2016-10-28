@@ -217,7 +217,6 @@ class PanelComponent extends React.Component {
               handleAddition={this.handleAddition.bind(this, 'yes')}
               placeholder={yelpPlaceholder}
               inputTop={true}
-              showSuggestionsOnFocus={true}
               ref={ (d)=> this.cuisineYes = d }
             />
           </fieldset>
@@ -231,7 +230,6 @@ class PanelComponent extends React.Component {
               handleAddition={this.handleAddition.bind(this, 'no')}
               placeholder={yelpPlaceholder}
               inputTop={true}
-              showSuggestionsOnFocus={true}
             />
           </fieldset>
           <fieldset>

@@ -377,7 +377,7 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .btn-secondary-darker {
-  @include button-variant($brand-primary, lighten($brand-primary, 30), lighten($brand-primary, 30));
+  @include button-variant($brand-primary, lighten($brand-primary, 35), lighten($brand-primary, 35));
 
 }
 

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 export default class NameForm extends React.Component {
 
@@ -44,4 +44,8 @@ export default class NameForm extends React.Component {
 }
 
 NameForm.propTypes = {
+  isAdmin : React.PropTypes.bool.isRequired,
+  submitNameToFirebase : React.PropTypes.func.isRequired,
+  name : React.PropTypes.string,
+  meal : React.PropTypes.string.isRequired
 };

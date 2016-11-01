@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import _ from 'lodash';
 
 const stageDict = {
   preferences : 'Enter Preferences',
@@ -18,7 +19,7 @@ export default class Progress extends React.Component {
 
   renderStages (){
     let stage = this.props.stage;
-    return _.keys(stageDict).map(function(k, i){
+    return _.keys(stageDict).map(function(k){
       var cl = 'stage';
       if (k === stage) cl+= ' stage--active'
       return (
@@ -35,4 +36,5 @@ export default class Progress extends React.Component {
 }
 
 Progress.propTypes = {
+  stage : React.PropTypes.string.isRequired
 };

@@ -91,6 +91,20 @@ class InviteScreenManager extends React.Component {
   }
 }
 
+InviteScreenManager.propTypes = {
+  preferences: React.PropTypes.object.isRequired,
+  meal: React.PropTypes.string.isRequired,
+  firebaseData: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.string.isRequired,
+  notificationsOn: React.PropTypes.bool.isRequired,
+  isAdmin: React.PropTypes.bool.isRequired,
+  submitNameToFirebase: React.PropTypes.func.isRequired,
+  updatePreferences: React.PropTypes.func.isRequired,
+  submitPreferencesToFirebase: React.PropTypes.func.isRequired,
+  setNotifications: React.PropTypes.func.isRequired,
+  moveToNextStage: React.PropTypes.func.isRequired
+};
+
 export default connect(mapStateToProps, {
   submitNameToFirebase: submitNameToFirebase,
   updatePreferences: updatePreferences,

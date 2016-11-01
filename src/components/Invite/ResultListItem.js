@@ -1,6 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import RatingComponent from './RatingComponent';
-
 
 let iconDict = {
   transit: 'fa fa-fw fa-subway',
@@ -157,4 +156,14 @@ export default class ResultListItem extends React.Component {
   }
 }
 
-ResultListItem.propTypes = {};
+ResultListItem.propTypes = {
+  userData : React.PropTypes.object.isRequired,
+  data : React.PropTypes.object.isRequired,
+  index : React.PropTypes.number.isRequired,
+  time : React.PropTypes.number.isRequired,
+  collapsed : React.PropTypes.bool.isRequired,
+  winner : React.PropTypes.bool,
+  shouldRenderVotes : React.PropTypes.bool,
+  updateVote : React.PropTypes.func,
+  submittedVotes : React.PropTypes.array
+};

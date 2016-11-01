@@ -6,11 +6,8 @@ import _ from 'lodash';
 // assuming 5 max stars
 function renderStars(rating) {
   var wholeStars = Math.floor(rating);
-  var stars = _.range(wholeStars).map(function(num) {
-    return (
-      <i className="fa fa-star "></i>
-    )
-  });
+  var stars = _.range(wholeStars)
+  .map(()=> { <i className="fa fa-star "/>})
 
   if (rating.toString().indexOf('.5') > -1) {
     stars.push(
@@ -33,10 +30,9 @@ let RatingComponent = (props) => (
   </span>
 );
 
-RatingComponent.displayName = 'RatingComponent';
 
-// Uncomment properties you need
-// RatingComponent.propTypes = {};
-// RatingComponent.defaultProps = {};
+RatingComponent.propTypes = {
+  rating : React.PropTypes.number.isRequired
+};
 
 export default RatingComponent;

@@ -127,6 +127,15 @@ class MatchesContainerComponent extends React.Component {
   }
 }
 
+MatchesContainerComponent.propTypes = {
+  matches : React.PropTypes.array.isRequired,
+  preferences : React.PropTypes.object.isRequired,
+  votes : React.PropTypes.array.isRequired,
+  userId : React.PropTypes.string.isRequired,
+  firebaseData : React.PropTypes.object.isRequired,
+  updateVote : React.PropTypes.func.isRequired,
+  submitVotesToFirebase : React.PropTypes.func.isRequired
+}
 
 export default connect(
   mapStateToProps,

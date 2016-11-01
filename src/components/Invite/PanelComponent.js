@@ -33,14 +33,16 @@ class PanelComponent extends React.Component {
   }
 
   handleAddition(arr, val) {
-    var id = _.findWhere(YelpCategories, {title: val}).alias;
-    var cuisine = this.props.data.cuisine;
-    cuisine[arr] = cuisine[arr].concat([
-      {
-        id: id,
-        text: val
-      }
-    ]);
+    let id = _.findWhere(YelpCategories, {title: val}).alias;
+    let cuisine = this.props.data.cuisine;
+    if ( !_.findWhere(cuisine[arr], { id : id}) ){
+      cuisine[arr] = cuisine[arr].concat([
+        {
+          id: id,
+          text: val
+        }
+      ]);
+    }
     //remove from no if added to yes and vice versa
     var otherArr = arr === 'yes' ? 'no' : 'yes';
     cuisine[otherArr] = cuisine[otherArr].filter((c)=>{
@@ -91,7 +93,7 @@ class PanelComponent extends React.Component {
       }
       return (
         <button type="button" className={cl}
-          onClick={(e) => {
+          onClick={() => {
         if (price.indexOf(num) > -1) {
           price = _.without(price, num);
         } else {
@@ -103,20 +105,7 @@ class PanelComponent extends React.Component {
           {'$'.repeat(num)}
         </button>
       )
-      return <label key={'price-indicator-' + num}>
-        <input type='checkbox'
-          name='price'
-          value={num}
-          checked={(price.indexOf(num) > -1)}
-          onChange={(e) => {
-          if (e.target.checked) {
-            price.push(num);
-          } else {
-            price = _.without(price, num);
-          }
-          this.props.updatePreferences({price: _.uniq(price)});
-        }}/>&nbsp;{'$'.repeat(num)}</label>
-    });
+    })
   }
 
   renderTransportOptions(direction) {
@@ -217,6 +206,7 @@ class PanelComponent extends React.Component {
               handleAddition={this.handleAddition.bind(this, 'yes')}
               placeholder={yelpPlaceholder}
               inputTop={true}
+              allowDeleteFromEmptyInput={false}
               ref={ (d)=> this.cuisineYes = d }
             />
           </fieldset>
@@ -230,6 +220,7 @@ class PanelComponent extends React.Component {
               handleAddition={this.handleAddition.bind(this, 'no')}
               placeholder={yelpPlaceholder}
               inputTop={true}
+              allowDeleteFromEmptyInput={false}
             />
           </fieldset>
           <fieldset>
@@ -255,7 +246,7 @@ class PanelComponent extends React.Component {
                   className="form-check-input"
                   type="checkbox"
                   checked={this.props.notificationsOn ? true : false}
-                  onChange={ (e)=> {this.props.setNotifications(!this.props.notificationsOn)}  }
+                  onChange={ ()=> {this.props.setNotifications(!this.props.notificationsOn)}  }
                 />
                 Notify me when it's time to vote.
               </label>
@@ -274,8 +265,13 @@ class PanelComponent extends React.Component {
 }
 
 
-// Uncomment properties you need
-// PanelComponent.propTypes = {};
-// PanelComponent.defaultProps = {};
+PanelComponent.propTypes = {
+  data : React.PropTypes.object.isRequired,
+  updatePreferences : React.PropTypes.func.isRequired,
+  meal : React.PropTypes.string.isRequired,
+  setNotifications : React.PropTypes.func.isRequired,
+  notificationsOn : React.PropTypes.bool.isRequired,
+  submitPreferencesToFirebase : React.PropTypes.func.isRequired
+};
 
 export default PanelComponent;

@@ -1,11 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Link} from 'react-router'
 import {connect} from 'react-redux'
-import ReactCountdownClock from 'react-countdown-clock'
-import moment from 'moment'
-import CopyInviteLink from './CopyInviteLink';
 
 function mapStateToProps(state) {
   return {
@@ -33,8 +29,5 @@ class ContainerComponent extends React.Component {
   }
 }
 
-// Uncomment properties you need
-// ContainerComponent.propTypes = {};
-// ContainerComponent.defaultProps = {};
 
 export default connect(mapStateToProps)(ContainerComponent);

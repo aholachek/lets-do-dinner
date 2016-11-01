@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 export default class WaitingPage extends React.Component {
 
@@ -72,4 +72,8 @@ export default class WaitingPage extends React.Component {
   }
 }
 
-WaitingPage.propTypes = {};
+WaitingPage.propTypes = {
+  admin : React.PropTypes.bool.isRequired,
+  message : React.PropTypes.string.isRequired,
+  moveToNextStage : React.PropTypes.func.isRequired
+};

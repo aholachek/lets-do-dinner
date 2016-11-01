@@ -1,25 +1,15 @@
-'use strict';
-
 import React from 'react';
-import _ from 'lodash';
-
 import {Link} from 'react-router'
 import CopyInviteLink from './CopyInviteLink';
 
 import {connect} from 'react-redux'
 import {
-  updateMeal,
-  updateVisible,
-  reset,
-  createInvitation,
-  setFirebaseData,
   setInviteId
 } from 'actions/index'
 
 function mapStateToProps(state) {
   return {
     inviteUrl: state.firebaseData.inviteUrl,
-    inviteId: state.inviteid,
     meal: state.meal,
     dueAt : state.firebaseData.dueAt
     }
@@ -42,7 +32,6 @@ class inviteURLPage extends React.Component {
 
     let timeinMS;
     let hrs;
-    let mins;
     let emailSubject;
     let emailBody;
 
@@ -98,12 +87,14 @@ class inviteURLPage extends React.Component {
   }
 }
 
-// Uncomment properties you need
-// inviteURLPage.propTypes = {};
-// inviteURLPage.defaultProps = {};
+inviteURLPage.propTypes = {
+  inviteUrl : React.PropTypes.string.isRequired,
+  setInviteId : React.PropTypes.func.isRequired,
+  meal : React.PropTypes.string.isRequired,
+  params : React.PropTypes.object.isRequired,
+  dueAt : React.PropTypes.string.isRequired
+};
 
 export default connect(mapStateToProps, {
-  createInvitation: createInvitation,
-  updateMeal: updateMeal,
   setInviteId: setInviteId
 })(inviteURLPage);

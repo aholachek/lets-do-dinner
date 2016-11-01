@@ -1,10 +1,6 @@
 'use strict';
 
 import React from 'react';
-import _ from 'lodash';
-
-import { Link } from 'react-router'
-
 import { connect } from 'react-redux'
 import { updateMeal, createInvitation } from 'actions/index'
 
@@ -18,8 +14,7 @@ let iconDict = {
   Dinner : 'fa fa-cutlery',
   Drinks : 'fa fa-glass',
   Brunch : 'fa fa-coffee'
-}
-
+};
 
 class StartPage extends React.Component {
 
@@ -114,10 +109,11 @@ renderSubmitButton () {
   }
 }
 
-
-// Uncomment properties you need
-// StartPage.propTypes = {};
-// StartPage.defaultProps = {};
+StartPage.propTypes = {
+  createInvitation : React.PropTypes.func.isRequired,
+  updateMeal : React.PropTypes.func.isRequired,
+  meal : React.PropTypes.string.isRequired
+};
 
 export default connect(
   mapStateToProps,

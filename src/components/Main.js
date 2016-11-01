@@ -5,13 +5,8 @@ import React from 'react'
 
 import AppContainer from './AppContainerComponent'
 import StartPage from './StartPage'
-import ErrorPage from './ErrorPage'
-
 import InviteUrl from './InviteUrl'
-
-import InviteScreenManager from './Invite/InviteScreenManager'
 import InviteContainer from './Invite/InviteContainer'
-
 
 class AppComponent extends React.Component {
 
@@ -23,12 +18,9 @@ class AppComponent extends React.Component {
           <Route path='/get-invite-url/**' component={InviteUrl}/>
         </Route>
         <Route path='/invite/**' component={InviteContainer}/>
-        <Route path='/error' component={ErrorPage}/>
       </Router>
     )
   }
 }
-
-AppComponent.defaultProps = {};
 
 export default AppComponent;

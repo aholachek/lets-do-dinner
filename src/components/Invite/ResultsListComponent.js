@@ -45,8 +45,12 @@ class ResultsListComponent extends React.Component {
     }
 }
 
-// Uncomment properties you need
-// ResultsListComponent.propTypes = {};
-// ResultsListComponent.defaultProps = {};
+ResultsListComponent.propTypes = {
+  userData : React.PropTypes.array.isRequired,
+  userId : React.PropTypes.string.isRequired,
+  votes : React.PropTypes.array.isRequired,
+  updateVote : React.PropTypes.func.isRequired,
+  data : React.PropTypes.array.isRequired
+};
 
 export default ResultsListComponent;

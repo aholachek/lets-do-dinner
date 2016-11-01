@@ -257,7 +257,7 @@ div.ReactTags__tagInput input {
 }
 /* Styles for selected tags */
 div.ReactTags__selected span.ReactTags__tag {
-  font-size: 12px;
+  font-size: .9rem;
   display: inline-block;
   padding: 5px;
   margin: 0 5px 5px 0;
@@ -377,7 +377,7 @@ div.ReactTags__suggestions ul li.active {
 }
 
 .btn-secondary-darker {
-  @include button-variant($gray-lighter, $body-color, $body-color);
+  @include button-variant($brand-primary, lighten($brand-primary, 30), lighten($brand-primary, 30));
 
 }
 

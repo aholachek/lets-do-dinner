@@ -1,6 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import ClipboardButton from 'react-clipboard.js';
-
 
 export default class InviteLink extends React.Component {
   render() {
@@ -24,4 +23,5 @@ export default class InviteLink extends React.Component {
 }
 
 InviteLink.propTypes = {
+  inviteUrl : React.PropTypes.string.isRequired
 };

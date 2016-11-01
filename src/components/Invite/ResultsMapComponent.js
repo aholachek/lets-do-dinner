@@ -22,11 +22,11 @@ function EstablishmentTooltip(props, userDict) {
       <span className="map-tooltip__header">{props.name}</span>
     </div>
     <div>{_.map(props.time.origins, function(v, k) {
-        return <div>
-          <b>{userDict[k]}</b>:&nbsp;&nbsp;
-          <i className={iconDict[v.mode]}/>
-          &nbsp;&nbsp;
-          <b>{Math.ceil(v / 60)}</b>&nbsp; minutes</div>
+      return <div>
+        <b>{userDict[k]}</b>:&nbsp;&nbsp;
+        <i className={iconDict[v.mode]}/>
+        &nbsp;&nbsp;
+        <b>{Math.ceil(v / 60)}</b>&nbsp; minutes</div>
       })}</div>
   </div>;
 }
@@ -149,8 +149,10 @@ class ResultsMapComponent extends React.Component {
   }
 }
 
-// Uncomment properties you need
-// ResultsMapComponent.propTypes = {};
-// ResultsMapComponent.defaultProps = {};
+ResultsMapComponent.propTypes = {
+  votes : React.PropTypes.array.isRequired,
+  time : React.PropTypes.object.isRequired,
+  userData : React.PropTypes.array.isRequired
+};
 
 export default ResultsMapComponent;

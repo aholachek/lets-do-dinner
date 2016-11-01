@@ -1,9 +1,8 @@
-import React, {PropTypes} from 'react';
-
+import React from 'react';
 import {connect} from 'react-redux';
 import CountdownTimer from './CountdownWrapper';
-import moment from 'moment'
 import {Link} from 'react-router';
+import _ from 'lodash'
 
 import CopyInviteLink from '../CopyInviteLink';
 
@@ -79,7 +78,7 @@ class Sidebar extends React.Component {
               } else {
                 votingIcon = '';
               }
-              
+
               return (
                 <tr>
                   <td>{this.props.firebaseData.nameDict[key]}</td>
@@ -169,6 +168,11 @@ class Sidebar extends React.Component {
   }
 }
 
-Sidebar.propTypes = {};
+Sidebar.propTypes = {
+  firebaseData : React.PropTypes.object.isRequired,
+  stage : React.PropTypes.string.isRequired,
+  meal : React.PropTypes.string.isRequired,
+  admin : React.PropTypes.bool.isRequired
+};
 
 export default connect(mapStateToProps)(Sidebar);

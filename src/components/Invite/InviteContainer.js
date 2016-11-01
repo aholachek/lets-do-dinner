@@ -6,15 +6,11 @@ import Progress from './Progress'
 import InviteScreenManager from './InviteScreenManager'
 import Sidebar from './Sidebar'
 
-import { Link } from 'react-router'
-
 import { connect } from 'react-redux'
 import { subscribeToFirebase } from 'actions/index'
 
 function mapStateToProps(state){
   return {
-    meal : state.meal,
-    visibleUsers : state.visibleUsers,
     stage : state.firebaseData.stage,
     firebaseData : state.firebaseData,
     userId : state.userId
@@ -33,7 +29,7 @@ class InviteContainer extends React.Component {
     const submittedVotes = this.props.firebaseData.submittedVotes;
     //user has submitted votes
     if (_.flatten(_.values(submittedVotes)).indexOf(this.props.userId) > -1) {
-      stage = 'done'
+      stage = 'done';
     }
 
     return (
@@ -54,9 +50,13 @@ class InviteContainer extends React.Component {
 }
 
 
-// Uncomment properties you need
-// InviteContainer.propTypes = {};
-// InviteContainer.defaultProps = {};
+InviteContainer.propTypes = {
+  firebaseData : React.PropTypes.object.isRequired,
+  userId : React.PropTypes.string.isRequired,
+  subscribeToFirebase : React.PropTypes.func.isRequired,
+  params : React.PropTypes.object.isRequired,
+  stage : React.PropTypes.string
+};
 
 export default connect(
   mapStateToProps,
